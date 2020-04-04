@@ -1,0 +1,6 @@
+{
+  "api": {
+    "staticendpoint": "assets.carstenrod.in",
+    "staticbucketname": "gsapp-review-data"
+  }
+}

@@ -1,0 +1,4 @@
+.now
+.DS_Store
+node_modules/
+.next/
