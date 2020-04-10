@@ -13,18 +13,36 @@ export default (req, res) => {
     
   const objectsStream = minioClient.extensions.listObjectsV2WithMetadata(bucketname, '', true,'');
   let media = [];
+  let projects = new Set();
 
+  // process each object
   objectsStream.on('data', function(obj) {
-    console.log(obj);
-    const { name } = obj;
-    const type = obj.metadata['content-type'][0];
-    media.push({ name, type });
+    // console.log(obj);
+    const { name } = obj; // get the name
+
+    const nameRegex = /([\w]+)\/([\d\w\s]+)\_([\d\w]+)\/([\d]+)\_([\w\d\s\-]+)\.([\w\d]+)/g;
+    const matches = [...name.matchAll(nameRegex)];
+    if (matches[0]) {
+      const [orig, collection, title, authors, index, caption, extension, ...rest] = matches[0];
+      const type = obj.metadata['content-type'][0];
+      projects.add(title);
+      media.push({ project: title, authors, index: Number(index), caption, type, extension});
+    }
   })
   objectsStream.on('end', () => {
-    res.status(200).json({"projects": media});
+    let body = {
+      "projects": [...projects].map( (proj, i) => {
+        return {
+          "title": proj,
+          "media": media.filter( (m, i) => m.project === proj )
+        }
+      })
+    }
+    console.log(body);
+    res.status(200).json(body);
   })
   objectsStream.on('error', function(e) {
-    console.log(e)
+    // console.log(e)
     res.status(204);
   })
 };
