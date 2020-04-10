@@ -4,16 +4,16 @@ var Minio = require('minio');
 // lists all projects in the source repository
 export default (req, res) => {
   const querytitle = req.query.title;
-  console.log(querytitle);
+  //console.log(querytitle);
 
-  const bucketname = config.api.staticbucketname;
   const minioClient = new Minio.Client({
     endPoint: config.api.staticendpoint,
-    useSSL: false
-    // no creds required if public-read
+    useSSL: true,
+    accessKey: 'AS5NPCNW3QGDTIBH42QB',
+    secretKey: '5gSUdkRgCDyEkPrx8HTjvGI4Z4/3QOneOZtDRlEGnXU'
   });
     
-  const objectsStream = minioClient.extensions.listObjectsV2WithMetadata(bucketname, 'projects/' + querytitle , true,'');
+  const objectsStream = minioClient.listObjectsV2(config.api.staticbucketname, 'projects/' + querytitle , true,'');
   let project = {
     "title": querytitle,
     "video": {},
@@ -33,19 +33,19 @@ export default (req, res) => {
       // console.log(obj);
       const [orig, collection, title, authors, index, caption, extension, ...rest] = matches[0];
       const url = `http://${config.api.staticendpoint}/${config.api.staticbucketname}/${encodeURI(obj.name)}`;
-      const type = obj.metadata['content-type'][0];
-      switch (type) {
-        case 'video/mp4':
-          project.video = { url, authors, index: Number(index), caption, type, extension };
+      const key = obj.etag;
+      //const type = obj.metadata['content-type'][0];
+      switch (extension) {
+        case 'mp4':
+          project.video = { key, url, authors, index: Number(index), caption, extension };
           break;
-        case 'image/jpeg':
-        case 'image/png':
-          project.images.push({ url, authors, index: Number(index), caption, type, extension });
+        case 'jpg':
+        case 'png':
+          project.images.push({ key, url, authors, index: Number(index), caption, extension });
           break;
-        case 'text/plain':
-        case 'text/markdown':
-        case 'application/octet-stream':
-          project.text = { url, authors, index: Number(index), caption, type, extension }
+        case 'txt':
+        case 'md':
+          project.text = { key, url, authors, index: Number(index), caption, extension }
           break;
       };
     }

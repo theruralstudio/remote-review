@@ -22,7 +22,7 @@ export default function Archive() {
       <h2>Projects</h2>
       <ul>
         {projects.map(project => (
-          <li key={project.title}>
+          <li key={project.key}>
             <Link href="/project/[id]" as={`/project/${project.title}`}>
               <a>{project.title}</a>
             </Link>

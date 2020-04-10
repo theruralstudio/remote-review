@@ -1,6 +1,6 @@
 {
   "api": {
-    "staticendpoint": "assets.carstenrod.in",
-    "staticbucketname": "gsapp-review-data"
+    "staticendpoint": "nyc3.digitaloceanspaces.com",
+    "staticbucketname": "studio-herreros-content-test"
   }
 }
