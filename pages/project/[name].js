@@ -1,32 +1,55 @@
-import { useRouter, Router } from 'next/router';
+import { useRouter } from 'next/router';
 import Layout from '../../layouts/Layout';
-import fetch from 'isomorphic-unfetch';
-import ReactPlayer from 'react-player'
+import ReactPlayer from 'react-player';
+import Markdown from 'react-markdown';
+import useSWR from 'swr';
 
+function fetcher(url) {
+  return fetch(url).then(r => r.json());
+}
 
+export default function Project() {
+  const { query } = useRouter();
+  const { data, error } = useSWR(`/api/project?title=${encodeURI(query.name)}`, fetcher);
 
-const Project = props => (
-  <Layout>
-    <h1>{props.url.query.name}</h1>
-    <p>This will render a single project</p>
-    <h3>Contents</h3>
-    <ul>
-      {props.contents.map(item => (
-        <li key={item.sha}>
-          <p>{item.name}</p>
-        </li>
-      ))}
-    </ul>
-    <ReactPlayer url='https://www.youtube.com/watch?v=ysz5S6PUM-U' playing />
-  </Layout>
-);
+  const project = data;
 
-Project.getInitialProps = async function (context) {
-  const { name } = context.query;
-  const res = await fetch(`https://api.github.com/repos/carstoid/gsapp-review-data/contents/${name}`);
-  const contents = await res.json();
+  if (!data) {
+    return (
+      <div>
+        <p>Loading...</p>
+      </div>
+    );
+  } else if (error) {
+    return (
+      <div>
+        <p>Error Loading the Project...</p>
+      </div>
+    );
+  } else {
+    return (
+      <Layout>
+        <h1>{project.title}</h1>
 
-  return { contents };
-};
+        <h3>Video</h3>
+        <ReactPlayer url={project.video.url} playing />
+        <p>{project.video.caption}</p>
 
-export default Project;
+        <h3>Images</h3>
+        <ul>
+          {project.images.map(img=> (
+            <li key={img.url}>
+              <img src={img.url}></img>
+              <p>{img.caption}</p>
+            </li>
+          ))}
+        </ul>
+
+        <h3>Text</h3>
+        <Markdown source={project.text.body} />
+        <div>{project.text.body}</div>
+
+      </Layout>
+    );
+  }
+}

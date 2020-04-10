@@ -15,6 +15,12 @@ const Nav = () => (
     <Link href="/archive">
       <a style={linkStyle}>Archive</a>
     </Link>
+    <Link href="/twitch">
+      <a style={linkStyle}>Twitch</a>
+    </Link>
+    <Link href="/youtube">
+      <a style={linkStyle}>YouTube Live</a>
+    </Link>
   </div>
 );
 
