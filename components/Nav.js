@@ -1,26 +1,34 @@
 import Link from 'next/link';
 
-const linkStyle = {
-  marginRight: 15
-};
-
 const Nav = () => (
-  <div>
+  <div className="wrapper">
     <Link href="/">
-      <a style={linkStyle}>Home</a>
+      <a>Home</a>
     </Link>
     <Link href="/entry">
-      <a style={linkStyle}>Entry</a>
+      <a>Entry</a>
     </Link>
     <Link href="/archive">
-      <a style={linkStyle}>Archive</a>
+      <a>Archive</a>
     </Link>
-    <Link href="/twitch">
-      <a style={linkStyle}>Twitch</a>
+    <Link href="/chat">
+      <a>Chat</a>
     </Link>
-    <Link href="/youtube">
-      <a style={linkStyle}>YouTube Live</a>
+    <Link href="/stream">
+      <a>Stream</a>
     </Link>
+    <style jsx>{`
+      .wrapper {
+        border-bottom: 1px solid black;
+      }
+      a {
+        color: black;
+        text-decoration: none;
+        font-weight: bold;
+        display: inline-block;
+        padding: 1em;
+      }
+    `}</style>
   </div>
 );
 

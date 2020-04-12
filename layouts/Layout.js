@@ -1,27 +1,38 @@
 import { useRouter } from 'next/router';
 import Nav from '../components/Nav';
-import Chat from '../components/Chat';
-
-const layoutStyle = {
-  margin: 20,
-  padding: 20,
-  border: '1px solid #DDD'
-};
 
 export default function Layout(props) {
   const router = useRouter();
 
   return (
-    <div style={layoutStyle}>
-      <Nav />
-      {props.children}
-      <p>Your userkey is {router.query.userkey}</p>
-      <p>Your access code is {router.query.accesscode}</p>
-      <Chat />
+    <div id="full-page">
+      <div id="frame-outer">
+        <Nav />
+        {props.children}
+      </div>
+      <style jsx>{`
+        #full-page {
+          display: flex;
+          flex-direction: column;
+          height: 100vh;
+          width: 100vw;
+        }
+
+        #frame-outer {
+          display: flex;
+          flex-direction: column;
+          flex-grow: 1;
+          margin: 20px;
+          border: 2px solid black;
+        }
+      `}</style>
       <style jsx global>{`
         html, body {
           font-family: 'Arial';
+          margin: 0px;
+          padding: 0px;
         }
+
         .markdown {
           font-family: 'Arial';
         }
@@ -42,7 +53,6 @@ export default function Layout(props) {
         }
       `}</style>
     </div>
-
   );
 }
 
