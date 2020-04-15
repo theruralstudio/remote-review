@@ -11,12 +11,12 @@ export default function Index() {
 
   return (
     <div>
-      <Layout>
+      <div>
         <p>This component will display a landing page.</p>
         {/* <h2>a quote</h2>
         <div className="quote">{quote}</div>
         {author && <span className="author">- {author}</span>} */}
-      </Layout>
+      </div>
       <style jsx>{`
         p,
         a {

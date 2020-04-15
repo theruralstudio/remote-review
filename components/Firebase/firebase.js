@@ -23,6 +23,12 @@ class Firebase {
   // *** Messages API ***
 
   messages = () => this.db.ref('messages');
+
+  // *** Users API ***
+
+  users = () => this.db.ref('users');
+
+
 }
 
 export default Firebase;

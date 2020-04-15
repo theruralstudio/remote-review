@@ -6,11 +6,6 @@ import LiveVideo from '../components/LiveVideo';
 
 export default function Stream() {
   return (
-    <div>
-      <Layout>
-        <LiveVideo url={'https://www.twitch.tv/ontariobirdcam'}/>
-        {/* <LiveVideo url={'https://www.youtube.com/watch?v=5qap5aO4i9A'}/> */}
-      </Layout>
-    </div>
+    <LiveVideo url={'https://www.youtube.com/watch?v=l6LKRZn5AYM'}/>
   );
 }

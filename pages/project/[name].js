@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router';
-import Layout from '../../layouts/Layout';
 import ReactPlayer from 'react-player';
 import Markdown from 'react-markdown';
 import useSWR from 'swr';
@@ -16,19 +15,19 @@ export default function Project() {
 
   if (!data) {
     return (
-      <div>
+      <div id="project-container">
         <p>Loading...</p>
       </div>
     );
   } else if (error) {
     return (
-      <div>
+      <div id="project-container">
         <p>Error Loading the Project...</p>
       </div>
     );
   } else {
     return (
-      <Layout>
+      <div id="project-container">
         <h1>{project.title}</h1>
 
         <h3>Video</h3>
@@ -48,8 +47,12 @@ export default function Project() {
         <h3>Text</h3>
         <Markdown source={project.text.body} />
         <div>{project.text.body}</div>
-
-      </Layout>
+          <style  jsx>{`
+            #project-container {
+              padding: 1em;
+            }
+          `}</style>
+      </div>
     );
   }
 }

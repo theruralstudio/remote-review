@@ -1,12 +1,18 @@
-// import App from 'next/app'
+import App from 'next/app'
 import Firebase, { FirebaseContext } from '../components/Firebase';
+import Layout from '../layouts/Layout';
 
-function App({ Component, pageProps }) {
-  return (
-    <FirebaseContext.Provider value={new Firebase()}>
-      <Component {...pageProps} />
-    </FirebaseContext.Provider>
-  )
+class MyApp extends App {
+  render() {
+    const { Component, pageProps } = this.props
+    return (
+      <FirebaseContext.Provider value={new Firebase()}>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </FirebaseContext.Provider>
+    )
+  }
 }
 
 // Only uncomment this method if you have blocking data requirements for
@@ -21,4 +27,4 @@ function App({ Component, pageProps }) {
 //   return { ...appProps }
 // }
 
-export default App
+export default MyApp

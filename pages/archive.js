@@ -1,7 +1,5 @@
-import Layout from '../layouts/Layout';
 import Link from 'next/link';
 import useSWR from 'swr';
-//import { useRouter } from 'next/router';
 import ReactPlayer from 'react-player';
 
 function fetcher(url) {
@@ -16,9 +14,8 @@ export default function Archive() {
   if (!data) projects = [{}];
   if (error) projects = [{}];
 
-  return (  
-    <Layout>
-      <p>This component will display the archived projects and reference material.</p>
+  return (
+    <div id='archive-list'>
       <h2>Projects</h2>
       <ul>
         {projects.map(project => (
@@ -29,6 +26,28 @@ export default function Archive() {
           </li>
         ))}
       </ul>
-    </Layout>
+      <style jsx>{`
+        #archive-list {
+          margin: 1em;
+        }
+
+        ul {
+          list-style: none;
+          margin-left: 0;
+          padding-left: 0;
+        }
+
+        li {
+          padding-top: 1em;
+          padding-bottom: 1em;
+          border-bottom: 1px solid #b0b0b0;
+        }
+
+        a {
+          font-size: 1.5em;
+          color: blue;
+        }
+      `}</style>
+    </div>
   );
 };

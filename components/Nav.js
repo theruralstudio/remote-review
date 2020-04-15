@@ -5,9 +5,6 @@ const Nav = () => (
     <Link href="/">
       <a>Home</a>
     </Link>
-    <Link href="/entry">
-      <a>Entry</a>
-    </Link>
     <Link href="/archive">
       <a>Archive</a>
     </Link>
@@ -17,9 +14,12 @@ const Nav = () => (
     <Link href="/stream">
       <a>Stream</a>
     </Link>
+    <Link href="/register">
+      <a>Register</a>
+    </Link>
     <style jsx>{`
       .wrapper {
-        border-bottom: 1px solid black;
+        border-bottom: 2px solid black;
       }
       a {
         color: black;

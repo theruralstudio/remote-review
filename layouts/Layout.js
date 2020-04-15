@@ -2,6 +2,8 @@ import { useRouter } from 'next/router';
 import Nav from '../components/Nav';
 
 export default function Layout(props) {
+
+  
   const router = useRouter();
 
   return (
@@ -16,6 +18,7 @@ export default function Layout(props) {
           flex-direction: column;
           height: 100vh;
           width: 100vw;
+          overflow: hidden;
         }
 
         #frame-outer {
@@ -24,6 +27,7 @@ export default function Layout(props) {
           flex-grow: 1;
           margin: 20px;
           border: 2px solid black;
+          overflow: hidden;
         }
       `}</style>
       <style jsx global>{`
