@@ -1,6 +1,7 @@
 import App from 'next/app'
 import Firebase, { FirebaseContext, withFirebase } from '../components/Firebase';
 import Layout from '../layouts/Layout';
+import Nav from '../components/Nav';
 
 class MyApp extends App {
   constructor(props) {
@@ -28,7 +29,12 @@ class MyApp extends App {
     const { Component, pageProps } = this.props
     return (
       <FirebaseContext.Provider value={new Firebase()}>
-        <Layout numUsers={this.state.numUsers} currentUser={this.state.currentUser}>
+        <Layout 
+          numUsers={this.state.numUsers} 
+          currentUser={this.state.currentUser}
+          Right={ <Nav numUsers={this.state.numUsers} currentUser={this.state.currentUser}/>
+        }
+          >
           <Component 
             {...pageProps}
             handleUpdate={this.handleUpdate}
