@@ -22,7 +22,7 @@ class MyApp extends App {
   };
 
   componentWillUnmount() {
-    this.props.firebase.messages().off();
+    //this.props.firebase.messages().off();
   };
 
   render() {
