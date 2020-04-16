@@ -3,14 +3,14 @@ import Nav from '../components/Nav';
 
 export default function Layout(props) {
 
-  
   const router = useRouter();
 
   return (
     <div id="full-page">
       <div id="frame-outer">
-        <Nav />
+        <Nav numUsers={props.numUsers} currentUser={props.currentUser}/>
         {props.children}
+
       </div>
       <style jsx>{`
         #full-page {
@@ -28,32 +28,6 @@ export default function Layout(props) {
           margin: 20px;
           border: 2px solid black;
           overflow: hidden;
-        }
-      `}</style>
-      <style jsx global>{`
-        html, body {
-          font-family: 'Arial';
-          margin: 0px;
-          padding: 0px;
-        }
-
-        .markdown {
-          font-family: 'Arial';
-        }
-
-        .markdown a {
-          text-decoration: none;
-          color: blue;
-        }
-
-        .markdown a:hover {
-          opacity: 0.6;
-        }
-
-        .markdown h3 {
-          margin: 0;
-          padding: 0;
-          text-transform: uppercase;
         }
       `}</style>
     </div>

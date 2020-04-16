@@ -2,8 +2,9 @@ import ChatPanel from '../components/ChatPanel';
 
 // chat happens here
 
-export default function Chat() {
-  return (
-    <ChatPanel />
-  );
-}
+const Chat = (props) => (
+  <ChatPanel currentUser={props.currentUser}/>
+)
+
+export default Chat;
+

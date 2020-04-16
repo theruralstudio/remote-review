@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import  { FirebaseContext, withFirebase } from './Firebase';
+import tinycolor from 'tinycolor2';
 
 
 class RegisterPanel extends Component {
@@ -9,10 +10,6 @@ class RegisterPanel extends Component {
     this.state = {
       name: '',
       entrycode: '',
-      activeuser: {
-        name: '',
-        style: ''
-      }
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -23,7 +20,6 @@ class RegisterPanel extends Component {
     const name = target.name;
     const value = target.value;
 
-    // console.log(e.target)
     this.setState({
       [name]: value
     });
@@ -32,31 +28,49 @@ class RegisterPanel extends Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    // register user if the key matches 
+    // register user in db if the key matches 
     if (process.env.loginKeys.includes(this.state.entrycode)) {
+      
+      // randomly create
+      const bg = tinycolor.random();
+      const fg = bg.complement();
+
+      const style = {
+        color: fg.toHexString(),
+        background: bg.toHexString(),
+        border: `1px solid ${fg.toHexString()}`,
+      };
+
       this.props.firebase.users().push({
         name: this.state.name,
-        style: "TBD"
+        style: style
       });
+
+      console.log(e.target);
+
+      // pass state back up
+      this.props.handleUpdate({
+        currentUser: {
+          name: this.state.name,
+          style: style
+        }
+      });
+
     } else {
       // console.log("couldn't sign you in");
     };
-        
-    // set active user in state
-    const style = {
-      color: 'red',
-      'font-family': '"Times New Roman", Times, serif'
-    }
+
+
 
     // then clear state/ add active user
-    this.setState({
-      name: '',
-      entrycode: '',
-      activeuser: {
-        name: this.state.name,
-        style: style
-      }
-    })
+    // this.setState({
+    //   name: '',
+    //   entrycode: '',
+    //   activeuser: {
+    //     name: this.state.name,
+    //     style: style
+    //   }
+    // })
   };
 
   componentDidMount() {

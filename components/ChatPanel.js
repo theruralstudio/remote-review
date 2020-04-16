@@ -19,9 +19,10 @@ class ChatPanel extends Component {
     this.setState({messageToSend: msg});
   }
 
-  sendMessage(event) {
+  sendMessage(e) {
     this.props.firebase.messages().push({
-      user: "UnknownUser",
+      user: this.props.currentUser.name,
+      style: this.props.currentUser.style,
       body: this.state.messageToSend,
     });
     this.setState({messageToSend: ''}); // clear the input
@@ -34,6 +35,7 @@ class ChatPanel extends Component {
       const msgList = Object.keys(msgObj).map(key => ({
         uuid: key,
         user: msgObj[key].user,
+        style: msgObj[key].style,
         body: msgObj[key].body,
       }));
       this.setState({
@@ -43,12 +45,18 @@ class ChatPanel extends Component {
     });
   };
 
+  componentWillUnmount() {
+    // remove user
+    //this.props.firebase.users().child(``)
+
+  };
+
   render() {
     return (
       <div id="chatWrapper">
         <div id="chatMessages">
           {this.state.messages.map(m => (
-            <div key={m.uuid} className="chatMessage">
+            <div key={m.uuid} className={ (m.user == this.props.currentUser.name ) ? 'chatMessage right' : 'chatMessage'  } style={m.style}>
               <div className="chatMessageUserName">{m.user}</div>
               {m.body}
             </div>
@@ -63,6 +71,8 @@ class ChatPanel extends Component {
         <p>Your access code is </p> */}
         <style jsx>{`
           #chatWrapper {
+            height: 100%;
+            width: 100%;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -83,8 +93,11 @@ class ChatPanel extends Component {
             display: block;
             margin: 1em;
             padding: 0.5em;
-            background: orange;
-            max-width: 60%;
+            max-width: 60vw;
+          }
+
+          .right {
+            align-self: flex-end;
           }
 
           .chatMessageUserName {

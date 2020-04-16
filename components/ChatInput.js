@@ -12,36 +12,60 @@ class ChatInput extends Component {
   }
 
   handleSubmit(e) {
-    this.props.sendMessage();
+    this.props.sendMessage(e);
     e.preventDefault();
   }
 
   render() {
     return (
       <div>
-        <form id="chat-input" onSubmit={this.handleSubmit}>
-          <input className="text-input"
+        <form id="chat-form" onSubmit={this.handleSubmit}>
+          <input id="text-input"
             type="text" 
             value={this.props.value}
             onChange={this.handleChange}
+            autoFocus
+            placeholder="Type to chat..."
           />
-          <input type="submit" value="Send" />
+          <input id="send-button" type="submit" value="Send" />
         </form>
         <style jsx>{`
-          #chat-input {
+          #chat-form {
             display: flex;
-            background: white;
+            margin: 1em;
             justify-content: space-between;
-            border-top: 1px solid black;
           }
 
-          input {
-            margin: 0.5em;
+          #text-input {
+            padding: 0.75em;
+            padding-left: 1em;
+            outline: 0;
+            border: 2px solid black;
+            border-right: none;
+            border-radius: 2em 0em 0em 2em;
+            -webkit-appearance: none;
+            appearance: none;
+            flex-grow: 2;
           }
 
-          .text-input {
-            width: 100
+          input:focus {
+            outline: 0 solid transparent;
           }
+
+          #send-button {
+            display: block;
+            background: lime;
+            border: 2px solid black;
+            font-weight: bold;
+            padding-right: 1em;
+            border-radius: 0em 2em 2em 0em;
+          }
+
+          #send-button:active {
+            background: black;
+            color: white;
+          }
+
         `}</style>
       </div>
     )

@@ -1,15 +1,36 @@
 import ReactPlayer from 'react-player';
+import ChatPanel from './ChatPanel';
 
 const LiveVideo = props => (
-  <div>
-    <ReactPlayer className='player-wrapper' url={props.url} width='100%' height='100%' playing />
+  <div id="video-wrapper">
+    <ReactPlayer 
+      id="video-player" 
+      className='player-wrapper' 
+      url={props.url} 
+      width='100%' 
+      height='100%' 
+      playing 
+    />
+    <div className="overlay">
+      <ChatPanel  currentUser={props.currentUser}/>
+    </div>
     <style jsx>{`
-      div {
+      #video-wrapper {
         background: black;
         flex-grow: 2;
         display: flex;
         justify-content: center;
         align-items: center;
+        position: relative;
+      }
+
+      #video-player {
+      }
+
+      .overlay {
+        width: 100%;
+        height: 100%;        
+        position: absolute;
       }
     `}</style>
   </div>

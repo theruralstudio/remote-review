@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-const Nav = () => (
+const Nav = (props) => (
   <div className="wrapper">
     <Link href="/">
       <a>Home</a>
@@ -17,6 +17,8 @@ const Nav = () => (
     <Link href="/register">
       <a>Register</a>
     </Link>
+    <span>{props.numUsers} logged in</span>
+    <span style={props.currentUser.style}>Hello, {props.currentUser.name}</span>
     <style jsx>{`
       .wrapper {
         border-bottom: 2px solid black;

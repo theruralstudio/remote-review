@@ -15,7 +15,10 @@ class Register extends Component {
 
   render() {
     return (
-      <RegisterPanel />
+      <RegisterPanel 
+        handleUpdate={this.props.handleUpdate}
+        currentUser={this.props.currentUser}
+      />
     );
   }
 }

@@ -1,15 +1,66 @@
 import App from 'next/app'
-import Firebase, { FirebaseContext } from '../components/Firebase';
+import Firebase, { FirebaseContext, withFirebase } from '../components/Firebase';
 import Layout from '../layouts/Layout';
 
 class MyApp extends App {
+  constructor(props) {
+    super(props);
+    this.state = {
+      numUsers: 8,
+      currentUser: {
+        name: '',
+        style: {},
+      }
+    }
+
+    this.handleUpdate = this.handleUpdate.bind(this);
+  };
+
+  handleUpdate(o) {
+    this.setState(o);
+  };
+
+  componentWillUnmount() {
+    this.props.firebase.messages().off();
+  };
+
   render() {
     const { Component, pageProps } = this.props
     return (
       <FirebaseContext.Provider value={new Firebase()}>
-        <Layout>
-          <Component {...pageProps} />
+        <Layout numUsers={this.state.numUsers} currentUser={this.state.currentUser}>
+          <Component 
+            {...pageProps}
+            handleUpdate={this.handleUpdate}
+            currentUser={this.state.currentUser}
+          />
         </Layout>
+        <style jsx global>{`
+        html, body {
+          font-family: 'Arial';
+          margin: 0px;
+          padding: 0px;
+        }
+
+        .markdown {
+          font-family: 'Arial';
+        }
+
+        .markdown a {
+          text-decoration: none;
+          color: blue;
+        }
+
+        .markdown a:hover {
+          opacity: 0.6;
+        }
+
+        .markdown h3 {
+          margin: 0;
+          padding: 0;
+          text-transform: uppercase;
+        }
+      `}</style>
       </FirebaseContext.Provider>
     )
   }
@@ -27,4 +78,4 @@ class MyApp extends App {
 //   return { ...appProps }
 // }
 
-export default MyApp
+export default withFirebase(MyApp)
