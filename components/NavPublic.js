@@ -2,11 +2,8 @@ import Link from 'next/link';
 
 const Nav = (props) => (
   <div className="wrapper">
-    <Link href="/">
-      <a>Home</a>
-    </Link>
-    <Link href="/archive">
-      <a>Archive</a>
+    <Link href="/register">
+      <a>Register</a>
     </Link>
     <Link href="/chat">
       <a>Chat</a>
@@ -14,20 +11,18 @@ const Nav = (props) => (
     <Link href="/stream">
       <a>Stream</a>
     </Link>
-    <Link href="/register">
-      <a>Register</a>
+    <Link href="/table">
+      <a>Table</a>
     </Link>
-    <span>{props.numUsers} logged in</span>
-    <span style={props.currentUser.style}>Hello, {props.currentUser.name}</span>
     <style jsx>{`
       .wrapper {
-        border-bottom: 2px solid black;
+        display: flex;
+        justify-content: space-between;
       }
       a {
-        color: black;
-        text-decoration: none;
+        color: blue;
+        text-decoration: underline;
         font-weight: bold;
-        display: inline-block;
         padding: 1em;
       }
     `}</style>

@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
-import Nav from '../components/Nav';
+import NavPublic from '../components/NavPublic';
+import NavPersonal from '../components/NavPersonal';
 
 export default function Layout(props) {
 
@@ -9,13 +10,25 @@ export default function Layout(props) {
     <div id="full-page">
       <div id="frame-outer">
         <div id="frame-left">
-          {props.Right}
+          <NavPersonal currentUser={props.currentUser}/>
+          {props.children}
         </div>
         <div id="frame-right">
-          {props.children}
+          <NavPublic />
+          <div id="user-count">{props.numUsers} are here</div>
+          {props.Right}
         </div>
       </div>
       <style jsx>{`
+        #user-count {
+          color: white;
+          background: blue;
+          margin: 0.5em;
+          padding: 0.5em;
+          align-self: flex-start;
+          border-radius: 1em;
+        }
+
         #full-page {
           display: flex;
           flex-direction: column;
@@ -36,13 +49,18 @@ export default function Layout(props) {
         }
 
         #frame-left {
+          display: flex;
+          flex-direction: column;
           border: 2px solid red;
-          flex-grow: 1;
+          min-width: 33vw;
         }
 
         #frame-right {
-          border: 2px solid blue;
           flex-grow: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          border: 2px solid blue;
           position: relative;
           top: 1em;
           left: -1em;

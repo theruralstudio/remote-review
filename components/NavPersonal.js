@@ -8,20 +8,10 @@ const NavPersonal = (props) => (
     <Link href="/archive">
       <a>Archive</a>
     </Link>
-    <Link href="/chat">
-      <a>Chat</a>
-    </Link>
-    <Link href="/stream">
-      <a>Stream</a>
-    </Link>
-    <Link href="/register">
-      <a>Register</a>
-    </Link>
-    <span>{props.numUsers} logged in</span>
     <span style={props.currentUser.style}>Hello, {props.currentUser.name}</span>
     <style jsx>{`
       .wrapper {
-        border-bottom: 2px solid black;
+
       }
       a {
         color: black;

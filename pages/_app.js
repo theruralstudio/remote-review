@@ -1,13 +1,17 @@
 import App from 'next/app'
 import Firebase, { FirebaseContext, withFirebase } from '../components/Firebase';
 import Layout from '../layouts/Layout';
-import Nav from '../components/Nav';
+import NavPersonal from '../components/NavPersonal';
+import ChatPanel from '../components/ChatPanel';
+import RegisterPanel from '../components/RegisterPanel';
+import LiveVideo from '../components/LiveVideo';
+import TablePanel from '../components/TablePanel';
 
 class MyApp extends App {
   constructor(props) {
     super(props);
     this.state = {
-      numUsers: 8,
+      numUsers: 2,
       currentUser: {
         name: '',
         style: {},
@@ -32,11 +36,16 @@ class MyApp extends App {
         <Layout 
           numUsers={this.state.numUsers} 
           currentUser={this.state.currentUser}
-          Right={ <Nav numUsers={this.state.numUsers} currentUser={this.state.currentUser}/>
-        }
+          Right={ 
+            // <ChatPanel currentUser={this.state.currentUser}/>
+            // <RegisterPanel currentUser={this.state.currentUser}/>
+            <TablePanel />
+            // <LiveVideo currentUser={this.state.currentUser} />
+          }
           >
           <Component 
             {...pageProps}
+            numUsers={this.state.numUsers}
             handleUpdate={this.handleUpdate}
             currentUser={this.state.currentUser}
           />
