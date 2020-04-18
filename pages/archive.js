@@ -18,8 +18,8 @@ export default function Archive() {
     <div id='archive-list'>
       <h2>Projects</h2>
       <ul>
-        {projects.map(project => (
-          <li key={project.key}>
+        {projects.map((project, i) => (
+          <li key={i}>
             <Link href="/project/[id]" as={`/project/${project.title}`}>
               <a>{project.title}</a>
             </Link>

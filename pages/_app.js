@@ -3,12 +3,18 @@ import React, { useState } from 'react';
 import Firebase, { FirebaseContext, withFirebase } from '../components/Firebase';
 import { useRouter } from 'next/router';
 import Layout from '../layouts/Layout';
+import dynamic from 'next/dynamic';
+
 
 import NavPersonal from '../components/NavPersonal';
 import ChatPanel from '../components/ChatPanel';
 import RegisterPanel from '../components/RegisterPanel';
 import LiveVideo from '../components/LiveVideo';
-import TablePanel from '../components/TablePanel';
+
+const TablePanelNoSSR = dynamic(
+  () => import('../components/TablePanel'),
+  { ssr: false }
+)
 
 function MyApp(props) {
   const { Component, pageProps } = props;
@@ -37,7 +43,7 @@ function MyApp(props) {
         return <LiveVideo url={streamUrl} currentUser={user} />;
       case "table":
       default:
-        return <TablePanel currentUser={user} />;
+        return <TablePanelNoSSR currentUser={user} />;
     };
   }
 

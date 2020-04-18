@@ -16,7 +16,10 @@ export default function Layout(props) {
         <div id="frame-right">
           <NavPublic setView={props.setView}/>
           <div id="user-count">{props.numUsers} are here</div>
-          {props.Right}
+          <div id="public-content-frame">
+            {props.Right}
+          </div>
+
         </div>
       </div>
       <style jsx>{`
@@ -65,6 +68,10 @@ export default function Layout(props) {
           top: 1em;
           left: -1em;
           background: white;
+        }
+
+        #public-content-frame {
+          flex-grow: 1;
         }
 
       `}</style>
