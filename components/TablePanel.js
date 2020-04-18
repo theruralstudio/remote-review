@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Canvas } from 'react-three-fiber'
 import Box from './Three/box'
+import ImagePlane from './Three/imageplane'
+import BackgroundPlane from './Three/backgroundplane'
 
 // test for react-three-fiber
 
@@ -15,13 +17,15 @@ class TablePanel extends Component {
   }
 
   render() {
+    
     return (
       <div id="three-wrapper">
         <Canvas>
-          <ambientLight />
-          <pointLight position={[10, 10, 10]} />
-          <Box position={[-1.2, 0, 0]} />
-          <Box position={[1.2, 0, 0]} />
+          {/* <ambientLight intensity={0.5}/> */}
+          <directionalLight position={[1, -1, 5]} lookAt={[0, 0, 0]} castShadow/>
+          <Box position={[0, 0, -3]} castShadow/>
+          <ImagePlane position={[-1.2, 1, 0]} castShadow/>
+          <BackgroundPlane position={[0, 0, -5]} receiveShadow/>
         </Canvas>
         <style jsx>{`
           #three-wrapper { 
