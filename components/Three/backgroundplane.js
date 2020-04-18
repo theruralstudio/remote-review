@@ -14,7 +14,7 @@ function BackgroundPlane(props) {
   
   return (
     <mesh
-      {...props}
+
       ref={mesh}
       scale={[1, 1, 1]}
       onClick={e => setActive(!active)}

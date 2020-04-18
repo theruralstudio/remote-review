@@ -46,31 +46,21 @@ class RegisterPanel extends Component {
         style: style
       });
 
-      console.log(e.target);
-
       // pass state back up
-      this.props.handleUpdate({
-        currentUser: {
-          name: this.state.name,
-          style: style
-        }
+      this.props.setUser({
+        name: this.state.name,
+        style: style
       });
 
     } else {
       // console.log("couldn't sign you in");
     };
 
-
-
     // then clear state/ add active user
-    // this.setState({
-    //   name: '',
-    //   entrycode: '',
-    //   activeuser: {
-    //     name: this.state.name,
-    //     style: style
-    //   }
-    // })
+    this.setState({
+      name: '',
+      entrycode: '',
+    })
   };
 
   componentDidMount() {

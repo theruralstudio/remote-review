@@ -2,16 +2,16 @@ import Link from 'next/link';
 
 const Nav = (props) => (
   <div className="wrapper">
-    <Link href="/register">
+    <Link href={{ query: {view: 'register'}}}>
       <a>Register</a>
     </Link>
-    <Link href="/chat">
+    <Link href={{ query: {view: 'chat'}}}>
       <a>Chat</a>
     </Link>
-    <Link href="/stream">
+    <Link href={{ query: {view: 'stream'}}}>
       <a>Stream</a>
     </Link>
-    <Link href="/table">
+    <Link href={{ query: {view: 'table'}}}>
       <a>Table</a>
     </Link>
     <style jsx>{`

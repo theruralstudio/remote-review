@@ -2,16 +2,13 @@ import Link from 'next/link';
 
 const NavPersonal = (props) => (
   <div className="wrapper">
-    <Link href="/">
-      <a>Home</a>
-    </Link>
-    <Link href="/archive">
-      <a>Archive</a>
-    </Link>
-    <span style={props.currentUser.style}>Hello, {props.currentUser.name}</span>
+    {/* links here? */}
+      <span style={props.currentUser.style}>
+        Hello, {props.currentUser.name}
+      </span>
     <style jsx>{`
       .wrapper {
-
+        padding: 1em;
       }
       a {
         color: black;

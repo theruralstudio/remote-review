@@ -14,7 +14,7 @@ export default function Layout(props) {
           {props.children}
         </div>
         <div id="frame-right">
-          <NavPublic />
+          <NavPublic setView={props.setView}/>
           <div id="user-count">{props.numUsers} are here</div>
           {props.Right}
         </div>
@@ -51,7 +51,7 @@ export default function Layout(props) {
         #frame-left {
           display: flex;
           flex-direction: column;
-          border: 2px solid red;
+          border: 2px solid black;
           min-width: 33vw;
         }
 
