@@ -31,9 +31,10 @@ class RegisterPanel extends Component {
     // register user in db if the key matches 
     if (process.env.loginKeys.includes(this.state.entrycode)) {
       
-      // randomly create
-      const bg = tinycolor.random();
-      const fg = bg.complement();
+      // randomly create color pair
+      const rand = Math.random() * 360;
+      const fg = tinycolor({h: rand, s: 1, l: 0.25});
+      const bg = tinycolor({h: rand, s: 1, l: 0.75});
 
       const style = {
         color: fg.toHexString(),
