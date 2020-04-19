@@ -11,6 +11,8 @@ import ChatPanel from '../components/ChatPanel';
 import RegisterPanel from '../components/RegisterPanel';
 import LiveVideo from '../components/LiveVideo';
 
+import "slick-carousel/slick/slick.css";
+
 const TablePanelNoSSR = dynamic(
   () => import('../components/TablePanel'),
   { ssr: false }

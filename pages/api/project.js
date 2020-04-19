@@ -1,4 +1,5 @@
 import config from '../../config.json';
+import fetch from 'isomorphic-unfetch';
 var Minio = require('minio');
 
 // lists all projects in the source repository
@@ -9,8 +10,8 @@ export default (req, res) => {
   const minioClient = new Minio.Client({
     endPoint: config.api.staticendpoint,
     useSSL: true,
-    accessKey: 'AS5NPCNW3QGDTIBH42QB',
-    secretKey: '5gSUdkRgCDyEkPrx8HTjvGI4Z4/3QOneOZtDRlEGnXU'
+    accessKey: process.env.bucketPublicKey,
+    secretKey: process.env.bucketSecretKey
   });
     
   const objectsStream = minioClient.listObjectsV2(config.api.staticbucketname, 'projects/' + querytitle , true,'');
@@ -51,7 +52,16 @@ export default (req, res) => {
     }
   })
   objectsStream.on('end', () => {
-    res.status(200).json(project);
+    if (project.text.url) {
+      fetch(project.text.url).then( (r) => {
+        r.text().then((s)=>{
+          project.text.body = s;
+          res.status(200).json(project);
+        })
+      })
+    } else {
+      res.status(200).json(project);
+    }
   })
   objectsStream.on('error', function(e) {
     // console.log(e)

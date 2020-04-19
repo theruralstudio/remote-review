@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useRef } from 'react'
 import { useSprings, useSpring, animated } from 'react-spring'
 import { useGesture, useDrag } from 'react-use-gesture'
 import { FirebaseContext } from '../utils/firebase'
@@ -15,6 +15,8 @@ const cards = [
 ]
 
 function TablePanel(props) {
+  const safeFrame = useRef(null);
+
   const [active, setActive] = useState(true);
   const [hovered, setHovered] = useState(true);
 
@@ -52,12 +54,13 @@ function TablePanel(props) {
   // gesture controls for images on table
   const [{x, y}, setPosition] = useState({x: 0, y: 0});
   const bind = useGesture({
-    onDrag: ({ down, offset: [x, y], xy: [px, py]}) => {setPosition({x, y}); updateImage('-M5FGo__4ZQB_5aJvv89', {px, py})},
+    onDrag: ({ down, offset: [x, y], xy: [px, py]}) => {setPosition({x, y}); updateImage('-M5FGo__4ZQB_5aJvv89', {px, py}); console.log(safeFrame);},
     onMouseDown: () => console.log('')
   })
  
   return (
     <div id="table-wrapper">
+      <div id="table-safe-frame" ref={safeFrame}></div>
       {cards.map((img) => (
           <animated.div {...bind()} 
             style={{
@@ -78,6 +81,21 @@ function TablePanel(props) {
           align-items: center;
           justify-content: center;
           overflow: hidden;
+          position: relative;
+        }
+
+        #table-safe-frame {
+          display:block;
+          height: auto;
+          bottom:0;
+          top:0;
+          left:0;
+          right:0;
+          margin: 2em;
+          position: absolute;
+          border: 1px dotted lime;
+          pointer-events: none;
+          z-index: 100;
         }
       `}</style>
     </div>

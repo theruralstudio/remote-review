@@ -7,8 +7,8 @@ export default (req, res) => {
   const minioClient = new Minio.Client({
     endPoint: config.api.staticendpoint,
     useSSL: true,
-    accessKey: 'AS5NPCNW3QGDTIBH42QB',
-    secretKey: '5gSUdkRgCDyEkPrx8HTjvGI4Z4/3QOneOZtDRlEGnXU'
+    accessKey: process.env.bucketPublicKey,
+    secretKey: process.env.bucketSecretKey
   });
     
   const objectsStream = minioClient.listObjectsV2(config.api.staticbucketname, '', true, '');

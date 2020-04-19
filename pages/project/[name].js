@@ -2,6 +2,9 @@ import { useRouter } from 'next/router';
 import ReactPlayer from 'react-player';
 import Markdown from 'react-markdown';
 import useSWR from 'swr';
+import Slider from "react-slick";
+import Link from 'next/link';
+
 
 function fetcher(url) {
   return fetch(url).then(r => r.json());
@@ -10,6 +13,14 @@ function fetcher(url) {
 export default function Project() {
   const { query } = useRouter();
   const { data, error } = useSWR(`/api/project?title=${encodeURI(query.name)}`, fetcher);
+
+  const carouselSettings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1
+  }
 
   const project = data;
 
@@ -28,29 +39,56 @@ export default function Project() {
   } else {
     return (
       <div id="project-container">
+
+        <Link href="/archive">
+          <a>Back</a>
+        </Link>        
         <h1>{project.title}</h1>
 
-        <h3>Video</h3>
-        <ReactPlayer url={project.video.url} playing />
-        <p>{project.video.caption}</p>
-
-        <h3>Images</h3>
-        <ul>
+        <Slider {...carouselSettings}>
+          <div>
+            <ReactPlayer className="slider-video" url={project.video.url} playing />
+            <p>{project.video.caption}</p>
+          </div>
           {project.images.map(img=> (
-            <li key={img.url}>
-              <img src={img.url}></img>
+            <div key={img.url}>
+              <img className="slider-img" src={img.url}></img>
               <p>{img.caption}</p>
-            </li>
+            </div>
           ))}
-        </ul>
+        </Slider>
 
-        <h3>Text</h3>
-        <Markdown source={project.text.body} />
+        <div id="text-frame">
+          <Markdown source={project.text.body} />
+        </div>
+
         <div>{project.text.body}</div>
           <style  jsx>{`
-            #project-container {
+            .slick-slider .slick-initialized {
+              width: 100%;
+              max-height: 40vh;
+              background: black;
+            }
+
+            .slider-img, .slider-video {
+              max-height: 50vh;
+            }
+
+            h1, h2, h3 {
+              padding: 0.5em;
+            }
+
+            #text-frame {
               padding: 1em;
             }
+            
+            #project-container {
+              padding: 0px;
+              overflow: hidden;
+            }
+
+
+
           `}</style>
       </div>
     );

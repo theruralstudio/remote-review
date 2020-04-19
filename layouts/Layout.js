@@ -73,6 +73,7 @@ export default function Layout(props) {
         #public-content-frame {
           flex-grow: 1;
           overflow: hidden;
+          position: relative;
         }
 
       `}</style>
