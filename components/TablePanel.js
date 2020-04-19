@@ -25,12 +25,35 @@ function TablePanel(props) {
   
   // firebase
   const firebase = useContext(FirebaseContext)
-  const ref = firebase.database().ref('messages')
+  const ref = firebase.database().ref('images')
   const [snapshots, loading, error] = useList(ref)
+
+  // add an image to the list, maybe do this from project panel instead?
+  const addImage = () => {
+    ref.push({
+      url: cards[0]
+    })
+  }
+
+  // remove an image
+  const removeImage = (id) => {
+    firebase.database().ref(`images/${id}`).remove()
+  }
+
+  // update an image's position
+  const updateImage = (id, pos) => {
+    const ref = firebase.database().ref(`images/${id}`)
+    const updatebody = {
+      position: pos
+    }
+    ref.update(updatebody)
+  }
+
+  // gesture controls for images on table
   const [{x, y}, setPosition] = useState({x: 0, y: 0});
   const bind = useGesture({
-    onDrag: ({ down, offset: [x, y] }) => setPosition({x, y}),
-    onMouseDown: () => console.log('mouse down')
+    onDrag: ({ down, offset: [x, y], xy: [px, py]}) => {setPosition({x, y}); updateImage('-M5FGo__4ZQB_5aJvv89', {px, py})},
+    onMouseDown: () => console.log('')
   })
  
   return (
