@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import  { FirebaseContext, withFirebase } from './Firebase';
+// import  { FirebaseContext, withFirebase } from './Firebase';
+import { FirebaseContext } from '../utils/firebase'
 import ChatInput from './ChatInput';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -111,4 +112,4 @@ class ChatPanel extends Component {
   }
 }
 
-export default withFirebase(ChatPanel);
+export default ChatPanel;

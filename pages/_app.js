@@ -1,14 +1,14 @@
 import App from 'next/app'
-import React, { useState } from 'react';
-import Firebase, { FirebaseContext, withFirebase } from '../components/Firebase';
+import React, { useState, useEffect } from 'react';
+// import Firebase, { FirebaseContext, withFirebase } from '../components/Firebase';
+import FirebaseProvider from '../utils/firebase';
 import { useRouter } from 'next/router';
 import Layout from '../layouts/Layout';
 import dynamic from 'next/dynamic';
 
-
 import NavPersonal from '../components/NavPersonal';
-import ChatPanel from '../components/ChatPanel';
-import RegisterPanel from '../components/RegisterPanel';
+// import ChatPanel from '../components/ChatPanel';
+// import RegisterPanel from '../components/RegisterPanel';
 import LiveVideo from '../components/LiveVideo';
 
 const TablePanelNoSSR = dynamic(
@@ -24,7 +24,16 @@ function MyApp(props) {
   const [userCount, setUserCount] = useState(2);
   const [view, setView] = useState('register');
   const [streamUrl, setStreamUrl] = useState('https://www.youtube.com/watch?v=mG9_Ey_zr6U');
+  
+  // get chat messages from firebase
+  // const [initializing, messages] = useMessages();
+  useEffect(() => {
+    // do stuff to update data or other sideeffecfts
 
+  });
+
+
+  //
   const handleUpdate = o => {
     this.setState(o);
   };
@@ -36,9 +45,9 @@ function MyApp(props) {
   const viewSwitch = p => {
     switch(p) {
       case "chat":
-        return <ChatPanel currentUser={user} />;
+        // return <ChatPanel currentUser={user} />;
       case "register":
-        return <RegisterPanel currentUser={user} setUser={setUser} />;
+        // return <RegisterPanel currentUser={user} setUser={setUser} />;
       case "stream":
         return <LiveVideo url={streamUrl} currentUser={user} />;
       case "table":
@@ -47,8 +56,11 @@ function MyApp(props) {
     };
   }
 
+  // app body, wrapped with FirebaseProvider
+  // so databases etc are available everywhere in react
+
   return (
-    <FirebaseContext.Provider value={new Firebase()}>
+    <FirebaseProvider>
       <Layout 
         numUsers={userCount} 
         currentUser={user}
@@ -88,7 +100,7 @@ function MyApp(props) {
         text-transform: uppercase;
       }
     `}</style>
-    </FirebaseContext.Provider>
+    </FirebaseProvider>
   )
 }
 
@@ -104,4 +116,4 @@ function MyApp(props) {
 //   return { ...appProps }
 // }
 
-export default withFirebase(MyApp)
+export default MyApp

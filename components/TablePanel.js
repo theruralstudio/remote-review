@@ -1,6 +1,9 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useSprings, useSpring, animated } from 'react-spring'
 import { useGesture, useDrag } from 'react-use-gesture'
+import { FirebaseContext } from '../utils/firebase'
+import 'firebase/database'
+import { useList } from 'react-firebase-hooks/database'
 
 const cards = [
   'https://upload.wikimedia.org/wikipedia/en/f/f5/RWS_Tarot_08_Strength.jpg',
@@ -14,12 +17,16 @@ const cards = [
 function TablePanel(props) {
   const [active, setActive] = useState(true);
   const [hovered, setHovered] = useState(true);
+
   const animationProps = useSpring({opacity: 1, from: {opacity: 0}}) // basic animation props
   const staticProps = {width: '100px', height: '100px', background: 'black'} // static styles
-  
   // dragging example w react-use-gesture
   //const [{ x, y }, setPosition] = useSpring(() => ({ x: 0, y: 0 }))
-
+  
+  // firebase
+  const firebase = useContext(FirebaseContext)
+  const ref = firebase.database().ref('messages')
+  const [snapshots, loading, error] = useList(ref)
   const [{x, y}, setPosition] = useState({x: 0, y: 0});
   const bind = useGesture({
     onDrag: ({ down, offset: [x, y] }) => setPosition({x, y}),
