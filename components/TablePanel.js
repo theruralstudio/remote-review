@@ -3,16 +3,7 @@ import { useSprings, useSpring, animated } from 'react-spring'
 import { useGesture, useDrag } from 'react-use-gesture'
 import { FirebaseContext } from '../utils/firebase'
 import 'firebase/database'
-import { useList } from 'react-firebase-hooks/database'
-
-const cards = [
-  'https://upload.wikimedia.org/wikipedia/en/f/f5/RWS_Tarot_08_Strength.jpg',
-  'https://upload.wikimedia.org/wikipedia/en/5/53/RWS_Tarot_16_Tower.jpg',
-  'https://upload.wikimedia.org/wikipedia/en/9/9b/RWS_Tarot_07_Chariot.jpg',
-  'https://upload.wikimedia.org/wikipedia/en/d/db/RWS_Tarot_06_Lovers.jpg',
-  'https://upload.wikimedia.org/wikipedia/en/thumb/8/88/RWS_Tarot_02_High_Priestess.jpg/690px-RWS_Tarot_02_High_Priestess.jpg',
-  'https://upload.wikimedia.org/wikipedia/en/d/de/RWS_Tarot_01_Magician.jpg'
-]
+import { useListVals } from 'react-firebase-hooks/database'
 
 function TablePanel(props) {
   const safeFrame = useRef(null);
@@ -28,7 +19,7 @@ function TablePanel(props) {
   // firebase
   const firebase = useContext(FirebaseContext)
   const ref = firebase.database().ref('images')
-  const [snapshots, loading, error] = useList(ref)
+  const [images, loading, error] = useListVals(ref)
 
   // add an image to the list, maybe do this from project panel instead?
   const addImage = () => {
@@ -54,20 +45,21 @@ function TablePanel(props) {
   // gesture controls for images on table
   const [{x, y}, setPosition] = useState({x: 0, y: 0});
   const bind = useGesture({
-    onDrag: ({ down, offset: [x, y], xy: [px, py]}) => {setPosition({x, y}); updateImage('-M5FGo__4ZQB_5aJvv89', {px, py}); console.log(safeFrame);},
-    onMouseDown: () => console.log('')
+    onDrag: ({ down, offset: [x, y], xy: [px, py]}) => {setPosition({x, y})},
+    onDragEnd: () => {updateImage('-M5FGo__4ZQB_5aJvv89', {x, y}); console.log(`${x} ${y}`)},
+    onMouseDown: () => console.log(x)
   })
  
   return (
     <div id="table-wrapper">
       <div id="table-safe-frame" ref={safeFrame}></div>
-      {cards.map((img) => (
+      {images.map((img) => (
           <animated.div {...bind()} 
             style={{
               ...animationProps, 
               ...staticProps, 
               ...{x, y},
-              backgroundImage: `url("${img}")`
+              backgroundImage: `url("${img.url}")`
             }}
               >
           </animated.div>
