@@ -8,12 +8,12 @@ class ChatInput extends Component {
   };
 
   handleChange(e) {
-    this.props.handleMessageChange(e.target.value);
+    this.props.setMessageOut(e.target.value);
   }
 
   handleSubmit(e) {
-    this.props.sendMessage(e);
     e.preventDefault();
+    this.props.sendMessage();
   }
 
   render() {
@@ -22,7 +22,7 @@ class ChatInput extends Component {
         <form id="chat-form" onSubmit={this.handleSubmit}>
           <input id="text-input"
             type="text" 
-            value={this.props.value}
+            value={this.props.messageOut}
             onChange={this.handleChange}
             autoFocus
             placeholder="Type to chat..."

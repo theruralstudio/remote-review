@@ -16,8 +16,9 @@ const LiveVideo = props => (
     </div>
     <style jsx>{`
       #video-wrapper {
+        height: 100%;
+        width: 100%;
         background: black;
-        flex-grow: 2;
         display: flex;
         justify-content: center;
         align-items: center;

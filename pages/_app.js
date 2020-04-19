@@ -7,8 +7,8 @@ import Layout from '../layouts/Layout';
 import dynamic from 'next/dynamic';
 
 import NavPersonal from '../components/NavPersonal';
-// import ChatPanel from '../components/ChatPanel';
-// import RegisterPanel from '../components/RegisterPanel';
+import ChatPanel from '../components/ChatPanel';
+import RegisterPanel from '../components/RegisterPanel';
 import LiveVideo from '../components/LiveVideo';
 
 const TablePanelNoSSR = dynamic(
@@ -45,9 +45,9 @@ function MyApp(props) {
   const viewSwitch = p => {
     switch(p) {
       case "chat":
-        // return <ChatPanel currentUser={user} />;
+        return <ChatPanel currentUser={user} />;
       case "register":
-        // return <RegisterPanel currentUser={user} setUser={setUser} />;
+        return <RegisterPanel currentUser={user} setUser={setUser} />;
       case "stream":
         return <LiveVideo url={streamUrl} currentUser={user} />;
       case "table":
@@ -66,14 +66,11 @@ function MyApp(props) {
         currentUser={user}
         setView={setView}
         Right={viewSwitch(router.query.view)}
-        >
-        <Component 
-          {...pageProps}
-          numUsers={userCount}
-          handleUpdate={handleUpdate}
-          currentUser={user}
-        />
-      </Layout>
+        Left={ <Component {...pageProps}
+                            numUsers={userCount}
+                            handleUpdate={handleUpdate}
+                            currentUser={user}/>}
+      />
       <style jsx global>{`
       html, body {
         font-family: 'Arial';

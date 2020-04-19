@@ -11,7 +11,7 @@ export default function Layout(props) {
       <div id="frame-outer">
         <div id="frame-left">
           <NavPersonal currentUser={props.currentUser}/>
-          {props.children}
+          {props.Left}
         </div>
         <div id="frame-right">
           <NavPublic setView={props.setView}/>
@@ -72,6 +72,7 @@ export default function Layout(props) {
 
         #public-content-frame {
           flex-grow: 1;
+          overflow: hidden;
         }
 
       `}</style>
