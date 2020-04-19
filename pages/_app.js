@@ -11,7 +11,9 @@ import ChatPanel from '../components/ChatPanel';
 import RegisterPanel from '../components/RegisterPanel';
 import LiveVideo from '../components/LiveVideo';
 
-import "slick-carousel/slick/slick.css";
+//import "slick-carousel/slick/slick.css";
+
+import '../styles/main.css'
 
 const TablePanelNoSSR = dynamic(
   () => import('../components/TablePanel'),
@@ -25,7 +27,7 @@ function MyApp(props) {
   const [user, setUser] = useState({ name: '', style: {} });
   const [userCount, setUserCount] = useState(2);
   const [view, setView] = useState('register');
-  const [streamUrl, setStreamUrl] = useState('https://www.youtube.com/watch?v=mG9_Ey_zr6U');
+  const [streamUrl, setStreamUrl] = useState('https://www.youtube.com/watch?v=ik4b9WKdti0');
   
   // get chat messages from firebase
   // const [initializing, messages] = useMessages();
@@ -62,8 +64,12 @@ function MyApp(props) {
   // so databases etc are available everywhere in react
 
   return (
-    <FirebaseProvider>
-      <Layout 
+    <FirebaseProvider >
+      <Component {...pageProps}
+                            numUsers={userCount}
+                            handleUpdate={handleUpdate}
+                            currentUser={user} />
+      {/* <Layout 
         numUsers={userCount} 
         currentUser={user}
         setView={setView}
@@ -72,7 +78,7 @@ function MyApp(props) {
                             numUsers={userCount}
                             handleUpdate={handleUpdate}
                             currentUser={user}/>}
-      />
+      /> */}
       <style jsx global>{`
       html, body {
         font-family: 'Arial';

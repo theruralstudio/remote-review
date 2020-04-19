@@ -5,6 +5,8 @@ import { FirebaseContext } from '../utils/firebase'
 import 'firebase/database'
 import { useListVals } from 'react-firebase-hooks/database'
 
+import TableImage from './TableImage'
+
 function TablePanel(props) {
   const safeFrame = useRef(null);
 
@@ -12,14 +14,14 @@ function TablePanel(props) {
   const [hovered, setHovered] = useState(true);
 
   const animationProps = useSpring({opacity: 1, from: {opacity: 0}}) // basic animation props
-  const staticProps = {width: '100px', height: '100px', background: 'black'} // static styles
+  const staticProps = {maxWidth: '100px', maxHeight: '100px', background: 'black', boxShadow: '0px 0px 10px black'} // static styles
   // dragging example w react-use-gesture
   //const [{ x, y }, setPosition] = useSpring(() => ({ x: 0, y: 0 }))
   
   // firebase
   const firebase = useContext(FirebaseContext)
   const ref = firebase.database().ref('images')
-  const [images, loading, error] = useListVals(ref)
+  const [images, loading, error] = useListVals(ref, {keyField: 'id'})
 
   // add an image to the list, maybe do this from project panel instead?
   const addImage = () => {
@@ -35,6 +37,7 @@ function TablePanel(props) {
 
   // update an image's position
   const updateImage = (id, pos) => {
+    console.log(pos)
     const ref = firebase.database().ref(`images/${id}`)
     const updatebody = {
       position: pos
@@ -43,26 +46,21 @@ function TablePanel(props) {
   }
 
   // gesture controls for images on table
-  const [{x, y}, setPosition] = useState({x: 0, y: 0});
-  const bind = useGesture({
-    onDrag: ({ down, offset: [x, y], xy: [px, py]}) => {setPosition({x, y})},
-    onDragEnd: () => {updateImage('-M5FGo__4ZQB_5aJvv89', {x, y}); console.log(`${x} ${y}`)},
-    onMouseDown: () => console.log(x)
-  })
+  // const [{x, y}, setPosition] = useState({x: 0, y: 0});
+  // const bind = useGesture({
+  //   onDrag: ({ down, offset: [x, y]}) => {setPosition({x, y})}, // while dragging, use temporary x/y
+  //   onDragEnd: () => { console.log(`${x} ${y}`)}, // then update the actual record
+  //   // onMouseDown: () => console.log(x)
+  // })
  
   return (
     <div id="table-wrapper">
-      <div id="table-safe-frame" ref={safeFrame}></div>
-      {images.map((img) => (
-          <animated.div {...bind()} 
-            style={{
-              ...animationProps, 
-              ...staticProps, 
-              ...{x, y},
-              backgroundImage: `url("${img.url}")`
-            }}
-              >
-          </animated.div>
+      {/* <div id="table-safe-frame" ref={safeFrame}></div> */}
+      { images.map( (img) => (
+          <TableImage 
+            img={img}
+            updateImage={updateImage}
+          />
         ))
       }
       <style jsx>{`
