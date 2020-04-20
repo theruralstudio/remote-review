@@ -2,5 +2,7 @@
 title: null
 ---
 
-local development: `npm run dev`  
-deploy: `npx now`  
+local development: `now dev`  
+deploy: `now`
+
+(assumes [Zeit "now" CLI](https://zeit.co/download) is installed)
