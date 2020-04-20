@@ -4,3 +4,4 @@ node_modules/
 .next/
 .env
 next.config.js
+now.json
