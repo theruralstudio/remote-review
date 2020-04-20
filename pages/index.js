@@ -23,34 +23,14 @@ class Index extends Component {
   render() {
     return (
       <FourGrid >
-        <div>Spring 2020</div>
-        <div>Previous Studios</div>
-        <div>Media & Bibliography</div>
-        <div>Who</div>
-        <style jsx>{`
-        p,
-        a {
-          font-family: 'Arial';
-        }
-
-        ul {
-          padding: 0;
-        }
-
-        li {
-          list-style: none;
-          margin: 5px 0;
-        }
-
-        a {
-          text-decoration: none;
-          color: blue;
-        }
-
-        a:hover {
-          opacity: 0.6;
-        }    
-      `}</style>   
+        <div className="flex-grow bg-blue-400">
+          <div className="w-1/2 m-4 p-4 flex justify-center content-center border-black border-2">Spring 2020</div>
+          <div className="w-1/2 m-4 p-4 flex justify-center content-center border border-black border-4">Previous Studios</div>
+        </div>
+        <div className="flex-grow bg-green-400">
+          <div className="w-1/2 m-4 p-4 flex justify-center content-center border border-black border-4">Media & Bibliography</div>
+          <div className="w-1/2 m-4 p-4 flex justify-center content-center border border-black border-4">Who</div>
+        </div>
       </FourGrid>
     )
   }

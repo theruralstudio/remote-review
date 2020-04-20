@@ -80,10 +80,12 @@ function MyApp(props) {
                             currentUser={user}/>}
       /> */}
       <style jsx global>{`
-      html, body {
+      html, body, #__next {
         font-family: 'Arial';
         margin: 0px;
         padding: 0px;
+        width: 100vw;
+        height: 100vh;
       }
 
       .markdown {

@@ -2,28 +2,27 @@ import { useRouter } from 'next/router';
 import NavPublic from '../components/NavPublic';
 import NavPersonal from '../components/NavPersonal';
 
+
 export default function FourGrid(props) {
 
   // const router = useRouter();
 
   return (
-    <div id="full-page" className="bg-gray-200">
+    <div className="bg-gray-200 w-full h-full">
+      <div id="frame-outer" className="flex-row justify-between w-full h-full p-20">
+        {props.children}
+      </div>
       <div id="nav-outer">
         <div className="column">
           <div className="nav-button">Search</div>
-          <div className="nav-button">Estudio Herreros</div>
+          <a className="nav-button" href={'http://estudioherreros.com/en/'}>estudio Herreros</a>
         </div>
         <div className="column right">
           <div className="nav-button">Lang</div>
           <div className="nav-button">Contact</div>
         </div>
       </div>
-      <div id="frame-outer">
-        <div id="cells">
-          {props.children}
-        </div>
-      </div>
-      <style jsx>{`
+      {/* <style jsx>{`
         #full-page {
           display: flex;
           flex-direction: column;
@@ -66,11 +65,7 @@ export default function FourGrid(props) {
         .right {
           align-items: flex-end;
         }
-
-        #cells {
-          margin: 5em;
-        }
-      `}</style>
+      `}</style> */}
     </div>
   );
 }
