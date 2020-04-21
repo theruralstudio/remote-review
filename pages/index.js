@@ -22,16 +22,26 @@ class Index extends Component {
 
   render() {
     return (
-      <FourGrid >
-        <div className="flex-grow bg-blue-400">
-          <div className="w-1/2 m-4 p-4 flex justify-center content-center border-black border-2">Spring 2020</div>
-          <div className="w-1/2 m-4 p-4 flex justify-center content-center border border-black border-4">Previous Studios</div>
+      <div className="flex bg-gray-200 w-full h-full">
+        <div className="flex flex-col flex-grow items-stretch m-20">
+          <div className="flex flex-grow items-stretch">
+            <span className="flex-grow flex items-center justify-center m-5 border-black border-2">Spring 2020</span>
+            <span className="flex-grow flex items-center justify-center m-5 border-black border-2">Previous Studios</span>
+          </div>
+          <div className="flex flex-grow items-stretch">
+            <span className="flex-grow flex items-center justify-center m-5 border-black border-2">Media & Bibliography</span>
+            <span className="flex-grow flex items-center justify-center m-5 border-black border-2">Who</span>
+          </div>
         </div>
-        <div className="flex-grow bg-green-400">
-          <div className="w-1/2 m-4 p-4 flex justify-center content-center border border-black border-4">Media & Bibliography</div>
-          <div className="w-1/2 m-4 p-4 flex justify-center content-center border border-black border-4">Who</div>
+        <div>
+            <div className="fixed top-0 left-0 m-2">Search</div>
+            <div>
+              <a className="fixed bottom-0 left-0 m-2" href={'http://estudioherreros.com/en/'}>estudio Herreros</a>
+            </div>
+            <div className="fixed top-0 right-0 m-2">Lang</div>
+            <div className="fixed bottom-0 right-0 m-2">Contact</div>
         </div>
-      </FourGrid>
+      </div>
     )
   }
 }
