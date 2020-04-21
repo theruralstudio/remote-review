@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 // import Firebase, { FirebaseContext, withFirebase } from '../components/Firebase';
 import FirebaseProvider from '../utils/firebase';
 import { useRouter } from 'next/router';
-import Layout from '../layouts/Layout';
 import dynamic from 'next/dynamic';
 
 import NavPersonal from '../components/NavPersonal';
@@ -11,14 +10,8 @@ import ChatPanel from '../components/ChatPanel';
 import RegisterPanel from '../components/RegisterPanel';
 import LiveVideo from '../components/LiveVideo';
 
-//import "slick-carousel/slick/slick.css";
-
+// load tailwind through css
 import '../styles/main.css'
-
-const TablePanelNoSSR = dynamic(
-  () => import('../components/TablePanel'),
-  { ssr: false }
-)
 
 function MyApp(props) {
   const { Component, pageProps } = props;
@@ -29,15 +22,6 @@ function MyApp(props) {
   const [view, setView] = useState('register');
   const [streamUrl, setStreamUrl] = useState('https://www.youtube.com/watch?v=ik4b9WKdti0');
   
-  // get chat messages from firebase
-  // const [initializing, messages] = useMessages();
-  useEffect(() => {
-    // do stuff to update data or other sideeffecfts
-
-  });
-
-
-  //
   const handleUpdate = o => {
     this.setState(o);
   };
@@ -46,19 +30,19 @@ function MyApp(props) {
     //this.props.firebase.messages().off();
   };
 
-  const viewSwitch = p => {
-    switch(p) {
-      case "chat":
-        return <ChatPanel currentUser={user} />;
-      case "register":
-        return <RegisterPanel currentUser={user} setUser={setUser} />;
-      case "stream":
-        return <LiveVideo url={streamUrl} currentUser={user} />;
-      case "table":
-      default:
-        return <TablePanelNoSSR currentUser={user} />;
-    };
-  }
+  // const viewSwitch = p => {
+  //   switch(p) {
+  //     case "chat":
+  //       return <ChatPanel currentUser={user} />;
+  //     case "register":
+  //       return <RegisterPanel currentUser={user} setUser={setUser} />;
+  //     case "stream":
+  //       return <LiveVideo url={streamUrl} currentUser={user} />;
+  //     case "table":
+  //     default:
+  //       return <TablePanelNoSSR currentUser={user} />;
+  //   };
+  // }
 
   // app body, wrapped with FirebaseProvider
   // so databases etc are available everywhere in react
@@ -66,9 +50,11 @@ function MyApp(props) {
   return (
     <FirebaseProvider >
       <Component {...pageProps}
-                            numUsers={userCount}
-                            handleUpdate={handleUpdate}
-                            currentUser={user} />
+                  numUsers={userCount}
+                  handleUpdate={handleUpdate}
+                  currentUser={user} 
+                  setUser={setUser}
+                  streamUrl={streamUrl}/>
       {/* <Layout 
         numUsers={userCount} 
         currentUser={user}
@@ -106,6 +92,15 @@ function MyApp(props) {
         padding: 0;
         text-transform: uppercase;
       }
+
+      h1 {
+        font-size: 2em;
+      }
+
+      h2 {
+        font-size: 1.4em;
+      }
+
     `}</style>
     </FirebaseProvider>
   )

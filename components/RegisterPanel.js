@@ -5,6 +5,12 @@ import { useList } from 'react-firebase-hooks/database'
 import tinycolor from 'tinycolor2'
 
 function RegisterPanel(props) {
+  const participantKeys = {
+    [process.env.loginKeyModerator]: 'moderator',
+    [process.env.loginKeyParticipant]: 'participant',
+    [process.env.loginKeyGuest]: 'guest'
+  }
+
   const [name, setName] = useState('')
   const [entryCode, setEntryCode] = useState('')
 
@@ -35,8 +41,9 @@ function RegisterPanel(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // register user in db if the key matches 
-    if (process.env.loginKeys.includes(entryCode)) {
+    // register user in db if the key matches any
+    if ( participantKeys[entryCode] ) {
+      console.log(participantKeys[entryCode])
       
       // randomly create color pair
       const rand = Math.random() * 360;
