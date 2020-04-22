@@ -3,21 +3,26 @@ import { FirebaseContext } from '../utils/firebase'
 import { useListVals } from 'react-firebase-hooks/database'
 import 'firebase/database'
 
+function ChatMessage({message, currentUser}) {
+  const m = message
+  return (
+    <div className={`m-2 p-2 shadow-lg ${m.user == currentUser.name ? ' self-end' : ''}`} style={m.style}>
+      <div className="text-xs">{m.user}</div>
+      {m.body}
+    </div>
+  )
+}
+
 export default function ChatMessages({currentUser}) {
 
   const firebase = useContext(FirebaseContext)
   const ref = firebase.database().ref('messages')
   const [messages, loading, error] = useListVals(ref)
 
-  // const usertoright = (m.user == currentUser.name ) ? ' float-right' : ''
-
   return (
-    <div className="absolute bottom-0 left-0 m-4">
-      {messages.map(m => (
-        <div key={m.uuid} className={`p-2 ${m.user == currentUser.name ? 'justify-end' : ''}`} style={m.style}>
-          <div className="chatMessageUserName">{m.user}</div>
-          {m.body}
-        </div>
+    <div className="flex flex-col h-full justify-end items-start m-4 mb-20">
+      {messages.map((m, i) => (
+        <ChatMessage key={i} message={m} currentUser={currentUser} />
       ))}
     </div>
   )

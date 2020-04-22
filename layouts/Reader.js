@@ -12,7 +12,7 @@ export default function Reader({children, currentUser}) {
         <div className="flex flex-grow -mx-2">
           <div className="flex w-full px-2">
             <div className="flex-grow bg-white">
-              <NavPersonal currentUser={currentUser}/>
+              {/* <NavPersonal currentUser={currentUser}/> */}
               {children}
             </div>
           </div>

@@ -4,11 +4,10 @@ import { useGesture, useDrag } from 'react-use-gesture'
 import { FirebaseContext } from '../utils/firebase'
 import 'firebase/database'
 import { useListVals } from 'react-firebase-hooks/database'
-
-import ChatPanel from './ChatPanel'
+// import ChatPanel from './ChatPanel'
 import ChatInput from './ChatInput'
 import ChatMessages from './ChatMessages'
-import UserCount from './UserCount'
+import UserStatus from './UserStatus'
 import TableImage from './TableImage'
 
 function TablePanel({numUsers, currentUser}) {
@@ -59,12 +58,14 @@ function TablePanel({numUsers, currentUser}) {
  
   return (
     <div className="flex-grow flex flex-col w-full bg-gray-300 relative">
+      <div className="absolute w-full h-full flex justify-center items-center text-6xl text-gray-200 select-none pointer-events-none z-0">+</div>
       <ChatInput currentUser={currentUser}/>
-      <UserCount numUsers={numUsers}/>
+      <UserStatus numUsers={numUsers} currentUser={currentUser}/>
       <ChatMessages currentUser={currentUser}/>
       <div id="table-safe-frame" ref={safeFrame}></div>
-      { images.map( (img) => (
-          <TableImage 
+      { images.map( (img, i) => (
+          <TableImage
+            key={i} 
             img={img}
             updateImage={updateImage}
           />

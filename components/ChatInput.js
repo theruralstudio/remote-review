@@ -37,7 +37,7 @@ export default function ChatInput(props) {
 
     return (
       <div className='absolute bottom-0 right-0 m-4'>
-        <form autocomplete="off" id="chat-form" onSubmit={handleSubmit}>
+        <form autoComplete="off" id="chat-form" onSubmit={handleSubmit}>
           <input id="text-input"
             type="text" 
             value={messageOut}

@@ -18,7 +18,7 @@ function TableImage(props) {
     maxWidth: '200px', 
     maxHeight: '200px', 
     background: 'black', 
-    boxShadow: '0px 0px 10px black'
+    // boxShadow: '0px 0px 10px black'
   }
   // dragging example w react-use-gesture
   //const [{ x, y }, setPosition] = useSpring(() => ({ x: 0, y: 0 }))
@@ -35,6 +35,7 @@ function TableImage(props) {
  
   return (
     <animated.img {...bind()} 
+      className="shadow"
       draggable={false}
       src={props.img.url}
       style={{...animationProps, ...staticProps, ...{ x, y } }}>

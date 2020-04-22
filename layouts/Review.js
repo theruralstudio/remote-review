@@ -1,11 +1,9 @@
 import { useRouter } from 'next/router'
 import NavPublic from '../components/NavPublic'
-import NavPersonal from '../components/NavPersonal'
-import ChatPanel from '../components/ChatPanel'
+// import ChatPanel from '../components/ChatPanel'
 import RegisterPanel from '../components/RegisterPanel'
 import LiveVideo from '../components/LiveVideo'
 import TablePanel from '../components/TablePanel'
-import UserCount from '../components/UserCount'
 
 // const TablePanelNoSSR = dynamic(
 //   () => import('../components/TablePanel'),
@@ -18,7 +16,7 @@ export default function Review({children, currentUser, numUsers, setView, setUse
 
   const reviewPanel = {
     'register': <RegisterPanel currentUser={currentUser} setUser={setUser} />,
-    'chat': <ChatPanel currentUser={currentUser} />,
+    // 'chat': <ChatPanel currentUser={currentUser} />,
     'stream': <LiveVideo url={streamUrl} currentUser={currentUser} />,
     'table': <TablePanel currentUser={currentUser} />
   }
@@ -28,14 +26,13 @@ export default function Review({children, currentUser, numUsers, setView, setUse
       <div className="flex w-full h-full p-4">
         <div className="flex flex-grow -mx-2">
           <div className="flex w-2/5 px-2">
-            <div className="flex-grow bg-white">
+            <div className="flex-grow bg-white border-2 border-black">
               { children }
             </div>
           </div>
           <div className="flex w-3/5 px-2 h-full">
             <div className="flex-grow flex flex-col bg-white relative">
               <NavPublic setView={setView}/>
-              <NavPersonal currentUser={currentUser}/>
               { reviewPanel[router.query.view] }
             </div>
           </div>

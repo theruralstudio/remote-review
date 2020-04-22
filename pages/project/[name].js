@@ -11,8 +11,9 @@ import { useListVals } from 'react-firebase-hooks/database'
 import { useSprings, useSpring, animated } from 'react-spring'
 import { useGesture, useDrag } from 'react-use-gesture'
 
-import Review from '../../layouts/Review';
-import Reader from '../../layouts/Reader';
+import Review from '../../layouts/Review'
+import Reader from '../../layouts/Reader'
+import Carousel from '../../components/Carousel'
 
 function fetcher(url) {
   return fetch(url).then(r => r.json());
@@ -20,10 +21,12 @@ function fetcher(url) {
 
 export default function Project(props) {
   const router = useRouter()
-  const open = router.query.open
-  const view = router.query.view
+  const {name, ...viewprops} = router.query
+  const open = viewprops.open
+  const view = viewprops.view
 
-  const { data, error } = useSWR(`/api/project?title=${encodeURI(router.query.name)}`, fetcher);
+
+  const { data, error } = useSWR(`/api/project?title=${encodeURI(name)}`, fetcher);
 
   // gesture controls for images
   const [{x, y}, setPosition] = useState({x: 0, y: 0});
@@ -65,39 +68,31 @@ export default function Project(props) {
   const projectImages = () => {
     const imgs = project.images.map(img=> (
       <animated.div key={img.url} {...bind()} style={{...{x, y}}} >
-        <img className="slider-img" src={img.url}></img>
+        <img className="max-w-full" src={img.url}></img>
         <p>{img.caption}</p>
       </animated.div>
     ))
     return imgs
   }
 
-
   const pageContent = () => (
-    <div>
-      <Link href="/archive">
-        <a>Back</a>
-      </Link>      
+    <div className="divide-y-2 divide-black">
+      <div className="p-2">
+        <Link href={{pathname: '/archive', query: {...viewprops, view: 'register'}}}>
+          <a>Back</a>
+        </Link>
+      </div>
 
-      <h1>{project.title}</h1>
-
-        <div>
-          <ReactPlayer className="slider-video" url={project.video.url} playing />
-          <p>{project.video.caption}</p>
-        </div>
-        {/* <Slider {...carouselSettings}>
-      </Slider> */}
-
-      <div>
-        {projectImages()}
+      <div className="p-2">
+        <h1>{project.title}</h1>
       </div>
 
 
-      <div id="text-frame">
+      <Carousel images={project.images} video={project.video}/>
+
+      <div id="text-frame" className="p-2">
         <Markdown source={project.text.body} />
       </div>
-
-      {/* <div>{project.text.body}</div> */}
     </div>
   )
 

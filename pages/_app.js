@@ -113,6 +113,10 @@ function MyApp(props) {
         font-weight: bold;
       }
 
+      p {
+        margin-bottom: 1em;
+      }
+
     `}</style>
     </FirebaseProvider>
   )
