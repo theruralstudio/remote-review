@@ -21,20 +21,20 @@ export default function Archive(props) {
   const view = router.query.view
 
   const projectList = projects.map((project, i) => (
-    <li key={i}>
+    <div className="text-left py-2" key={i}>
       <Link href={{ pathname: `/project/${project.title}`, query: { open: open, view: view, ...router.query }}}>
       {/* <Link href="/project/[id]" as={`/project/${project.title}`}> */}
         <a>{project.title}</a>
       </Link>
-    </li>
+    </div>
   ))
 
   const archiveContent = () => (
-    <div id='archive-list'>
+    <div className="p-4">
       <h2>Projects</h2>
-      <ul>
+      <div className="divide-y divide-gray-400">
         {projectList}
-      </ul>
+      </div>
     </div>
   )
 

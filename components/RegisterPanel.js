@@ -4,7 +4,7 @@ import 'firebase/database'
 import { useList } from 'react-firebase-hooks/database'
 import tinycolor from 'tinycolor2'
 
-function RegisterPanel(props) {
+export default function RegisterPanel(props) {
   const participantKeys = {
     [process.env.loginKeyModerator]: 'moderator',
     [process.env.loginKeyParticipant]: 'participant',
@@ -17,26 +17,6 @@ function RegisterPanel(props) {
   // firebase
   const firebase = useContext(FirebaseContext)
   const ref = firebase.database().ref('users')
-
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     name: '',
-  //     entrycode: '',
-  //   }
-    // this.handleChange = this.handleChange.bind(this);
-    // this.handleSubmit = this.handleSubmit.bind(this);
-  // };
-
-  // const handleChange = (e) => {
-  //   const target = event.target;
-  //   const name = target.name;
-  //   const value = target.value;
-
-  //   this.setState({
-  //     [name]: value
-  //   });
-  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -85,60 +65,47 @@ function RegisterPanel(props) {
   // };
 
   return (
-    <div>
-      <div id='register-form-container'>
-        <form onSubmit={handleSubmit} id='register-form'>
-          <label className='input'>
+    <form onSubmit={handleSubmit} className="w-full max-w-sm">
+      <div class="md:flex md:items-center mb-6">
+        <div className="md:w-1/3">
+          <label className='block text-black font-bold md:text-right mb-1 md:mb-0 pr-4' for="name-input">
             Your Name:
-            <input className='input'
-              name="name" 
-              type="text" 
-              value={name} 
-              onChange={(e) => setName(e.target.value)} 
-            />
           </label>
-          <label className='input'>
-            Entry Code:
-            <input className='input'
-              name="entrycode" 
-              type="text" 
-              value={entryCode} 
-              onChange={(e) => setEntryCode(e.target.value)} 
-            />
-          </label>
-          <input className='submit-button' type="submit" value="Register" />
-        </form>
+        </div>
+        <div className="md:w-2/3">
+          <input className='bg-gray-200 appearance-none border-2 border-gray-200 w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-black'
+            id="name-input"
+            name="name" 
+            type="text" 
+            value={name} 
+            onChange={(e) => setName(e.target.value)}
+          />
+        </div>
       </div>
-      <style jsx>{`
-        .input {
-          font-size: 2em;
-          text-align: center;
-          display: block;
-          margin: 0.5em;
-        }
-
-        #register-form-container {
-          display: flex;
-          flex-grow: 2;
-          justify-content: center;
-          align-items: center;
-        }
-
-        #register-form {
-          display: flex;
-          flex-direction: column;
-        }
-
-        .submit-button {
-          font-size: 2em;
-          text-decoration: none;
-          border: 2px solid black;
-        }
-
-    `}</style>
-    </div>
-  );
-
+      <div class="md:flex md:items-center mb-6">
+        <div className='md:w-1/3'> 
+          <label className='block text-black font-bold md:text-right mb-1 md:mb-0 pr-4' for='code-input'>
+            Entry Code:
+          </label>
+        </div>
+        <div>
+          <input className='bg-gray-200 appearance-none border-2 border-gray-200 w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-black'
+            id="code-input"
+            name="entrycode" 
+            type="text" 
+            value={entryCode} 
+            onChange={(e) => setEntryCode(e.target.value)} 
+          />
+        </div>
+      </div>
+      <div class="md:flex md:items-center">
+        <div class="md:w-1/3"></div>
+        <div class="md:w-2/3">
+          <button class="shadow bg-gray-800 hover:bg-black focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4" type="submit" value="Register">
+            Register
+          </button>
+        </div>
+      </div>
+    </form>
+  )
 }
-
-export default RegisterPanel;

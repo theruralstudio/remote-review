@@ -3,6 +3,7 @@ import ChatInput from './ChatInput';
 import { FirebaseContext } from '../utils/firebase'
 import 'firebase/database'
 import { useListVals } from 'react-firebase-hooks/database'
+import UserCount from '../components/UserCount'
 
 function ChatPanel(props) {
 
@@ -10,23 +11,7 @@ function ChatPanel(props) {
   const firebase = useContext(FirebaseContext)
   const ref = firebase.database().ref('messages')
   const [messages, loading, error] = useListVals(ref)
-
   const [messageOut, setMessageOut] = useState('')
-
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     messageToSend: '',
-  //     loading: false,
-  //     messages: [],
-  //   }
-  //   this.handleMessageChange = this.handleMessageChange.bind(this);
-  //   this.sendMessage = this.sendMessage.bind(this);
-  // };
-
-  // const handleMessageChange = (msg) => {
-  //   this.setState({messageToSend: msg});
-  // }
 
   const sendMessage = () => {
     ref.push({
@@ -36,23 +21,6 @@ function ChatPanel(props) {
     });
     setMessageOut('') // clear the input
   }
-
-  // componentDidMount() {
-  //   this.setState({ loading: true });
-    // this.props.firebase.messages().on('value', snapshot => {
-    //   const msgObj = snapshot.val();
-    //   const msgList = Object.keys(msgObj).map(key => ({
-    //     uuid: key,
-    //     user: msgObj[key].user,
-    //     style: msgObj[key].style,
-    //     body: msgObj[key].body,
-    //   }));
-  //     this.setState({
-  //       messages: msgList,
-  //       loading: false,
-  //     });
-  //   });
-  // };
 
   return (
     <div id="chatWrapper">
@@ -65,7 +33,7 @@ function ChatPanel(props) {
         ))}
       </div>
       <ChatInput messageOut={messageOut} setMessageOut={setMessageOut} sendMessage={sendMessage} />
-      <style jsx>{`
+      {/* <style jsx>{`
         #chatWrapper {
           height: 100%;
           width: 100%;
@@ -101,7 +69,7 @@ function ChatPanel(props) {
           text-transform: uppercase;
           margin-bottom: 0.5em;
         }
-      `}</style>
+      `}</style> */}
     </div>
   )
 }

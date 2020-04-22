@@ -1,29 +1,47 @@
-import React, { Component } from 'react';
+import React, { useContext, useState } from 'react';
+import { FirebaseContext } from '../utils/firebase'
+import 'firebase/database'
+import { useListVals } from 'react-firebase-hooks/database'
 
-class ChatInput extends Component {
-  constructor(props) {
-    super(props);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  };
+export default function ChatInput(props) {
 
-  handleChange(e) {
-    this.props.setMessageOut(e.target.value);
-  }
+    // firebase
+    const firebase = useContext(FirebaseContext)
+    const ref = firebase.database().ref('messages')
+    const [messages, loading, error] = useListVals(ref)
+    const [messageOut, setMessageOut] = useState('')
+  
+    const sendMessage = () => {
+      ref.push({
+        user: props.currentUser.name,
+        style: props.currentUser.style,
+        body: messageOut,
+      });
+      setMessageOut('') // clear the input
+    }
 
-  handleSubmit(e) {
-    e.preventDefault();
-    this.props.sendMessage();
-  }
+    // constructor(props) {
+    //   super(props);
+    //   this.handleChange = this.handleChange.bind(this);
+    //   this.handleSubmit = this.handleSubmit.bind(this);
+    // };
 
-  render() {
+    const handleChange = (e) => {
+      setMessageOut(e.target.value)
+    }
+
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      sendMessage();
+    }
+
     return (
-      <div>
-        <form id="chat-form" onSubmit={this.handleSubmit}>
+      <div className='absolute bottom-0 right-0 m-4'>
+        <form autocomplete="off" id="chat-form" onSubmit={handleSubmit}>
           <input id="text-input"
             type="text" 
-            value={this.props.messageOut}
-            onChange={this.handleChange}
+            value={messageOut}
+            onChange={handleChange}
             autoFocus
             placeholder="Type to chat..."
           />
@@ -32,7 +50,6 @@ class ChatInput extends Component {
         <style jsx>{`
           #chat-form {
             display: flex;
-            margin: 1em;
             justify-content: space-between;
           }
 
@@ -69,8 +86,4 @@ class ChatInput extends Component {
         `}</style>
       </div>
     )
-  }
 }
-
-export default ChatInput;
-

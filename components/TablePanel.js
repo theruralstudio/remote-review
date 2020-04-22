@@ -5,9 +5,13 @@ import { FirebaseContext } from '../utils/firebase'
 import 'firebase/database'
 import { useListVals } from 'react-firebase-hooks/database'
 
+import ChatPanel from './ChatPanel'
+import ChatInput from './ChatInput'
+import ChatMessages from './ChatMessages'
+import UserCount from './UserCount'
 import TableImage from './TableImage'
 
-function TablePanel(props) {
+function TablePanel({numUsers, currentUser}) {
   const safeFrame = useRef(null);
 
   const [active, setActive] = useState(true);
@@ -54,8 +58,11 @@ function TablePanel(props) {
   // })
  
   return (
-    <div id="table-wrapper">
-      {/* <div id="table-safe-frame" ref={safeFrame}></div> */}
+    <div className="flex-grow flex flex-col w-full bg-gray-300 relative">
+      <ChatInput currentUser={currentUser}/>
+      <UserCount numUsers={numUsers}/>
+      <ChatMessages currentUser={currentUser}/>
+      <div id="table-safe-frame" ref={safeFrame}></div>
       { images.map( (img) => (
           <TableImage 
             img={img}
@@ -63,31 +70,6 @@ function TablePanel(props) {
           />
         ))
       }
-      <style jsx>{`
-        #table-wrapper { 
-          width: 100%;
-          height: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          overflow: hidden;
-          position: relative;
-        }
-
-        #table-safe-frame {
-          display:block;
-          height: auto;
-          bottom:0;
-          top:0;
-          left:0;
-          right:0;
-          margin: 2em;
-          position: absolute;
-          border: 1px dotted lime;
-          pointer-events: none;
-          z-index: 100;
-        }
-      `}</style>
     </div>
   )
 }

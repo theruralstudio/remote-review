@@ -1,10 +1,11 @@
 import { useRouter } from 'next/router'
 import NavPublic from '../components/NavPublic'
 import NavPersonal from '../components/NavPersonal'
-import ChatPanel from '../components/ChatPanel';
-import RegisterPanel from '../components/RegisterPanel';
-import LiveVideo from '../components/LiveVideo';
-import TablePanel from '../components/TablePanel';
+import ChatPanel from '../components/ChatPanel'
+import RegisterPanel from '../components/RegisterPanel'
+import LiveVideo from '../components/LiveVideo'
+import TablePanel from '../components/TablePanel'
+import UserCount from '../components/UserCount'
 
 // const TablePanelNoSSR = dynamic(
 //   () => import('../components/TablePanel'),
@@ -32,13 +33,10 @@ export default function Review({children, currentUser, numUsers, setView, setUse
             </div>
           </div>
           <div className="flex w-3/5 px-2 h-full">
-            <div className="flex-grow bg-white">
+            <div className="flex-grow flex flex-col bg-white relative">
               <NavPublic setView={setView}/>
               <NavPersonal currentUser={currentUser}/>
-              <div id="user-count">{numUsers} are here</div>
-              <div id="public-content-frame">
               { reviewPanel[router.query.view] }
-              </div>
             </div>
           </div>
         </div>
