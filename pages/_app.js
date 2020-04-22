@@ -94,11 +94,23 @@ function MyApp(props) {
       }
 
       h1 {
-        font-size: 2em;
+        font-size: 2.074em;
+        font-weight: bold;
       }
 
       h2 {
-        font-size: 1.4em;
+        font-size: 1.728em;
+        font-weight: bold;
+      }
+
+      h3 {
+        font-size: 1.44em;
+        font-weight: bold;
+      }
+
+      h4 {
+        font-size: 1.2em;
+        font-weight: bold;
       }
 
     `}</style>
