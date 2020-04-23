@@ -27,26 +27,18 @@ function TablePanel({numUsers, currentUser, setView}) {
   const [images, loading, error] = useListVals(ref, {keyField: 'id'})
 
   // add an image to the list, maybe do this from project panel instead?
-  const addImage = () => {
-    ref.push({
-      url: cards[0]
-    })
-  }
+  // const addImage = () => {
+  //   ref.push({
+  //     url: cards[0]
+  //   })
+  // }
 
   // remove an image
   const removeImage = (id) => {
     firebase.database().ref(`images/${id}`).remove()
   }
 
-  // update an image's position
-  const updateImage = (id, pos) => {
-    console.log(pos)
-    const ref = firebase.database().ref(`images/${id}`)
-    const updatebody = {
-      position: pos
-    }
-    ref.update(updatebody)
-  }
+  const tableFrame= useRef(null);
 
   // gesture controls for images on table
   // const [{x, y}, setPosition] = useState({x: 0, y: 0});
@@ -62,14 +54,18 @@ function TablePanel({numUsers, currentUser, setView}) {
       <ChatInput currentUser={currentUser}/>
       <UserStatus numUsers={numUsers} currentUser={currentUser} setView={setView}/>
       <ChatMessages currentUser={currentUser}/>
-      { images.map( (img, i) => (
-          <TableImage
-            key={i} 
-            img={img}
-            updateImage={updateImage}
-          />
-        ))
-      }
+      <div className="flex-grow h-full flex justify-center items-center relative">
+        { images.map( (img, i) => (
+            <TableImage
+              id={img.id}
+              key={i} 
+              img={img}
+              // updateImage={updateImage}
+              frame={tableFrame}
+            />
+          ))
+        }
+      </div>
     </div>
   )
 }
