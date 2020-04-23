@@ -12,7 +12,7 @@ function VideoPlayer({video}) {
   )
 }
 
-function DraggableImage({img}) {
+function DraggableImage({img, addImage}) {
   const [{x, y}, setPosition] = useState({x: 0, y: 0});
   const [targetUrl, setTargetUrl] = useState(null);
   const bind = useGesture({
@@ -21,23 +21,6 @@ function DraggableImage({img}) {
     // onMouseDown: () => console.log(x)
   })
 
-  // firebase
-  const firebase = useContext(FirebaseContext)
-  const ref = firebase.database().ref('images')
-  const [images, loading, imgError] = useListVals(ref)
-
-  // add an image to the list, maybe do this from project panel instead?
-  const addImage = (url) => {
-    if (url) {
-      ref.push({
-        url: url,
-        position: {x: 0, y: 0} // add at 0,0 for now
-      })
-    }
-  }  
-
-
-
   return (
     <animated.div className='max-h-full flex' key={img.url} {...bind()} style={{...{x, y}}} >
       <img className='object-contain' src={img.url}></img>
@@ -45,11 +28,11 @@ function DraggableImage({img}) {
   )
 }
 
-function Slide({content}) {
+function Slide({content, addImage}) {
   const typedict = {
     'mp4': <ReactPlayer className="w-full" url={content.url} controls width='100%' height='100%' playing loop/>,
-    'jpg': <DraggableImage img={content} />,
-    'png': <DraggableImage img={content} />
+    'jpg': <DraggableImage img={content} addImage={addImage} />,
+    'png': <DraggableImage img={content} addImage={addImage} />
   }
 
   return (
@@ -57,11 +40,11 @@ function Slide({content}) {
   )
 }
 
-export default function Carousel({images, video}) {
+export default function Carousel({images, video, addImage}) {
   const [index, setIndex] = useState(0)
   const mergedContent = [video, ...images]
   const slides = mergedContent.map( (c) => (
-    <Slide content={c} />
+    <Slide content={c} addImage={addImage}/>
   ))
 
   const increment = () => {

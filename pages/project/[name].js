@@ -20,11 +20,11 @@ function fetcher(url) {
 }
 
 export default function Project(props) {
+  const addImage = props.addImage
   const router = useRouter()
-  const {name, ...viewprops} = router.query
-  const open = viewprops.open
-  const view = viewprops.view
-
+  const {name} = router.query
+  // const open = viewprops.open
+  // const view = viewprops.view
 
   const { data, error } = useSWR(`/api/project?title=${encodeURI(name)}`, fetcher);
 
@@ -37,32 +37,6 @@ export default function Project(props) {
     // onMouseDown: () => console.log(x)
   })
   
-  // useDrag(({ offset: [x, y], event }) => , {threshold: 100})
-
-  // const carouselSettings = {
-  //   dots: false,
-  //   infinite: true,
-  //   draggable: false, // using drag for table
-  //   speed: 500,
-  //   slidesToShow: 1,
-  //   slidesToScroll: 1
-  // }
-
-    // firebase
-    const firebase = useContext(FirebaseContext)
-    const ref = firebase.database().ref('images')
-    const [images, loading, imgError] = useListVals(ref)
-  
-    // add an image to the list, maybe do this from project panel instead?
-    const addImage = (url) => {
-      if (url) {
-        ref.push({
-          url: url,
-          position: {x: 0, y: 0} // add at 0,0 for now
-        })
-      }
-    }  
-
   const project = data;
 
   const projectImages = () => {
@@ -78,43 +52,27 @@ export default function Project(props) {
   const pageContent = () => (
     <div className="divide-y-2 divide-black">
       <div className="p-2">
-        <Link href={{pathname: '/archive', query: {...viewprops, view: 'register'}}}>
+        <Link href={{pathname: '/archive'}}>
           <a>Back</a>
         </Link>
       </div>
-
       <div className="p-2">
         <h1>{project.title}</h1>
       </div>
-
-
-      <Carousel images={project.images} video={project.video}/>
-
-      <div id="text-frame" className="p-2">
+      <Carousel images={project.images} video={project.video} addImage={addImage}/>
+      <div className="p-2">
         <Markdown source={project.text.body} />
       </div>
     </div>
   )
 
-  // depending on "open" and "view" router params
-  // render the right page layout
-  if (open === 'true' && data) {
+  if (data) {
     return (
-      <Review currentUser={props.currentUser}>
-        {pageContent()}
-      </Review>
+      pageContent()
     )
-  } else if (data) {
-    return (
-      <Reader currentUser={props.currentUser}>
-        {pageContent()}
-      </Reader>
-    )    
   } else {
     return (
-      <Reader currentUser={props.currentUser}>
-        loading...
-      </Reader>
+      <p>loading...</p>
     )
   }
 }

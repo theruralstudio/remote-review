@@ -33,7 +33,7 @@ export default function RegisterPanel(props) {
       const style = {
         color: fg.toHexString(),
         background: bg.toHexString(),
-        border: `1px solid ${fg.toHexString()}`,
+        border: `2px solid ${fg.toHexString()}`,
       };
 
       // push to firebase
@@ -55,6 +55,9 @@ export default function RegisterPanel(props) {
     // then clear state/ add active user
     setName(null)
     setEntryCode(null)
+
+    // and change the view back to table
+    props.setView('table')
   };
 
   // componentDidMount() {
@@ -65,47 +68,49 @@ export default function RegisterPanel(props) {
   // };
 
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-sm">
-      <div class="md:flex md:items-center mb-6">
-        <div className="md:w-1/3">
-          <label className='block text-black font-bold md:text-right mb-1 md:mb-0 pr-4' for="name-input">
-            Your Name:
-          </label>
+    <div className="flex-grow flex flex-col justify-center items-center w-full relative pointer-events-none">
+      <form onSubmit={handleSubmit} className="w-full max-w-sm bg-white p-8 pointer-events-auto">
+        <div className="md:flex md:items-center mb-6">
+          <div className="md:w-1/3">
+            <label className='block text-black md:text-right mb-1 md:mb-0 pr-4' htmlFor="name-input">
+              Your Name:
+            </label>
+          </div>
+          <div className="md:w-2/3">
+            <input className='appearance-none border-b-2 border-black w-full leading-tight focus:outline-none focus:border-black'
+              id="name-input"
+              name="name" 
+              type="text" 
+              value={name} 
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
         </div>
-        <div className="md:w-2/3">
-          <input className='bg-gray-200 appearance-none border-2 border-gray-200 w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-black'
-            id="name-input"
-            name="name" 
-            type="text" 
-            value={name} 
-            onChange={(e) => setName(e.target.value)}
-          />
+        <div className="md:flex md:items-center mb-6">
+          <div className='md:w-1/3'> 
+            <label className='block text-black md:text-right mb-1 md:mb-0 pr-4' htmlFor='code-input'>
+              Entry Code:
+            </label>
+          </div>
+          <div>
+            <input className='appearance-none border-b-2 border-black w-full leading-tight focus:outline-none focus:border-black'
+              id="code-input"
+              name="entrycode" 
+              type="text" 
+              value={entryCode} 
+              onChange={(e) => setEntryCode(e.target.value)} 
+            />
+          </div>
         </div>
-      </div>
-      <div class="md:flex md:items-center mb-6">
-        <div className='md:w-1/3'> 
-          <label className='block text-black font-bold md:text-right mb-1 md:mb-0 pr-4' for='code-input'>
-            Entry Code:
-          </label>
+        <div className="md:flex md:items-center">
+          <div className="md:w-1/3"></div>
+          <div className="md:w-2/3">
+            <button className="link focus:outline-none py-2" type="submit" value="Register">
+              Register
+            </button>
+          </div>
         </div>
-        <div>
-          <input className='bg-gray-200 appearance-none border-2 border-gray-200 w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-black'
-            id="code-input"
-            name="entrycode" 
-            type="text" 
-            value={entryCode} 
-            onChange={(e) => setEntryCode(e.target.value)} 
-          />
-        </div>
-      </div>
-      <div class="md:flex md:items-center">
-        <div class="md:w-1/3"></div>
-        <div class="md:w-2/3">
-          <button class="shadow bg-gray-800 hover:bg-black focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4" type="submit" value="Register">
-            Register
-          </button>
-        </div>
-      </div>
-    </form>
+      </form>
+    </div>
   )
 }

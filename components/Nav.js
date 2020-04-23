@@ -20,16 +20,6 @@ const Nav = (props) => (
     <span>{props.numUsers} logged in</span>
     <span style={props.currentUser.style}>Hello, {props.currentUser.name}</span>
     <style jsx>{`
-      .wrapper {
-        border-bottom: 2px solid black;
-      }
-      a {
-        color: black;
-        text-decoration: none;
-        font-weight: bold;
-        display: inline-block;
-        padding: 1em;
-      }
     `}</style>
   </div>
 );

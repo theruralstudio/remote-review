@@ -1,37 +1,21 @@
 import Link from 'next/link'
-import { useRouter } from 'next/router'
+// import { useRouter } from 'next/router'
 
-function Nav(props) {
-  const router = useRouter()
-
+export default function NavPublic({setView}) {
   return (
-    <div className="wrapper">
-      <Link href={{ query: {...router.query, view: 'register'}}}>
-        <a>Register</a>
-      </Link>
-      {/* <Link href={{ query: {...router.query, view: 'chat'}}}>
-        <a>Chat</a>
-      </Link> */}
-      <Link href={{ query: {...router.query, view: 'stream'}}}>
-        <a>Stream</a>
-      </Link>
-      <Link href={{ query: {...router.query, view: 'table'}}}>
-        <a>Table</a>
-      </Link>
-      <style jsx>{`
-        .wrapper {
-          display: flex;
-          justify-content: space-between;
-        }
-        a {
-          color: blue;
-          text-decoration: underline;
-          font-weight: bold;
-          padding: 1em;
-        }
-      `}</style>
+    <div className="absolute top-0 right-0">
+      <div className="bg-white rounded-full flex m-4">
+        <div className='p-4'>
+          {/* <Link href={{ query: {...router.query, view: 'stream'}}}> */}
+            <a onClick={() => setView('stream')}>Stream</a>
+          {/* </Link> */}
+        </div>
+        <div className='p-4'>
+          {/* <Link href={{ query: {...router.query, view: 'table'}}}> */}
+            <a onClick={() => setView('table')}>Table</a>
+          {/* </Link> */}
+        </div>
+      </div>
     </div>
   )
 }
-
-export default Nav

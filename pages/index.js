@@ -8,7 +8,7 @@ class Index extends Component {
       <div className="flex bg-gray-200 w-full h-full">
         <div className="flex-grow grid grid-cols-2 gap-8 m-48">
           <span className="flex items-center justify-center border-black border-2">
-            <Link href={{pathname: '/archive', query: {open: true, view: 'table'}}}><a>Spring 2020</a></Link>
+            <Link href={{pathname: '/archive', query: {open: true}}}><a>Spring 2020</a></Link>
           </span>
           <span className="line-through text-gray-400 flex items-center justify-center border-black border-2">Previous Studios</span>
           <span className="line-through text-gray-400 flex items-center justify-center border-black border-2">Media & Bibliography</span>

@@ -9,8 +9,9 @@ import ChatInput from './ChatInput'
 import ChatMessages from './ChatMessages'
 import UserStatus from './UserStatus'
 import TableImage from './TableImage'
+import NavPublic from './NavPublic'
 
-function TablePanel({numUsers, currentUser}) {
+function TablePanel({numUsers, currentUser, setView}) {
   const safeFrame = useRef(null);
 
   const [active, setActive] = useState(true);
@@ -57,12 +58,12 @@ function TablePanel({numUsers, currentUser}) {
   // })
  
   return (
-    <div className="flex-grow flex flex-col w-full bg-gray-300 relative">
-      <div className="absolute w-full h-full flex justify-center items-center text-6xl text-gray-200 select-none pointer-events-none z-0">+</div>
+    <div className="flex-grow flex flex-col w-full bg-gray-200 relative">
+      <div className="absolute flex-grow w-full h-full flex justify-center items-center text-6xl text-gray-400 select-none pointer-events-none z-0">╳</div>
       <ChatInput currentUser={currentUser}/>
-      <UserStatus numUsers={numUsers} currentUser={currentUser}/>
+      <NavPublic setView={setView}/>
+      <UserStatus numUsers={numUsers} currentUser={currentUser} setView={setView}/>
       <ChatMessages currentUser={currentUser}/>
-      <div id="table-safe-frame" ref={safeFrame}></div>
       { images.map( (img, i) => (
           <TableImage
             key={i} 

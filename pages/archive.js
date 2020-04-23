@@ -22,14 +22,23 @@ export default function Archive(props) {
 
   const projectList = projects.map((project, i) => (
     <div className="text-left p-2" key={i}>
-      <Link href={{ pathname: `/project/${project.title}`, query: { open: open, view: view, ...router.query }}}>
+      <Link href={{pathname: `/project/${project.title}`}}>
       {/* <Link href="/project/[id]" as={`/project/${project.title}`}> */}
         <a>{project.title}</a>
       </Link>
     </div>
   ))
 
-  const archiveContent = () => (
+  // const archiveContent = () => (
+  //   <div className="divide-y-2 divide-black">
+  //     <div className="p-2"> 
+  //       <h2>Projects</h2>
+  //     </div>
+  //     {projectList}
+  //   </div>
+  // )
+
+  return (
     <div className="divide-y-2 divide-black">
       <div className="p-2"> 
         <h2>Projects</h2>
@@ -37,20 +46,19 @@ export default function Archive(props) {
       {projectList}
     </div>
   )
-
-  // depending on "open" and "view" router params
-  // render the right page layout
-  if (open === 'true') {
-    return (
-      <Review currentUser={props.currentUser} setUser={props.setUser} streamUrl={props.streamUrl}>
-        {archiveContent()}
-      </Review>
-    )
-  } else {
-    return (
-      <Reader currentUser={props.currentUser}>
-        {archiveContent()}
-      </Reader>
-    )    
-  }
+  // // depending on "open" and "view" router params
+  // // render the right page layout
+  // if (open === 'true') {
+  //   return (
+  //     <Review currentUser={props.currentUser} setUser={props.setUser} streamUrl={props.streamUrl}>
+  //       {archiveContent()}
+  //     </Review>
+  //   )
+  // } else {
+  //   return (
+  //     <Reader currentUser={props.currentUser}>
+  //       {archiveContent()}
+  //     </Reader>
+  //   )    
+  // }
 }
