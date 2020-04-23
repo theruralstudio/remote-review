@@ -8,15 +8,23 @@ export default function ChatInput(props) {
     // firebase
     const firebase = useContext(FirebaseContext)
     const ref = firebase.database().ref('messages')
+    const imgref = firebase.database().ref('images')
     const [messages, loading, error] = useListVals(ref)
     const [messageOut, setMessageOut] = useState('')
   
+    // handle chat commands and outgoing messages
     const sendMessage = () => {
-      ref.push({
-        user: props.currentUser.name,
-        style: props.currentUser.style,
-        body: messageOut,
-      });
+      if (messageOut == 'CLEARCHAT') {
+        ref.remove();
+      } else if (messageOut == 'CLEARTABLE') {
+        imgref.remove();
+      } else {
+        ref.push({
+          user: props.currentUser.name,
+          style: props.currentUser.style,
+          body: messageOut,
+        });
+      }
       setMessageOut('') // clear the input
     }
 

@@ -6,7 +6,7 @@ import 'firebase/database'
 function ChatMessage({message, currentUser}) {
   const m = message
   return (
-    <div className={`m-2 p-2 shadow-lg ${m.user == currentUser.name ? ' self-end' : ''}`} style={m.style}>
+    <div className={`my-2 p-2 shadow-lg ${m.user == currentUser.name ? ' self-end' : ''}`} style={m.style}>
       <div className="text-xs">{m.user}</div>
       {m.body}
     </div>
@@ -20,7 +20,7 @@ export default function ChatMessages({currentUser}) {
   const [messages, loading, error] = useListVals(ref)
 
   return (
-    <div className="absolute flex flex-col h-full justify-end items-start m-4 mb-20 pointer-events-none">
+    <div className="absolute flex flex-col w-full h-full justify-end items-start p-2 pb-24 pointer-events-none overflow-hidden">
       {messages.map((m, i) => (
         <ChatMessage key={i} message={m} currentUser={currentUser} />
       ))}

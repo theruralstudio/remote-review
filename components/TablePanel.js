@@ -49,11 +49,8 @@ function TablePanel({numUsers, currentUser, setView}) {
   // })
  
   return (
-    <div className="flex-grow flex flex-col w-full relative pointer-events-none">
+    <div className="flex-grow flex flex-col w-full relative">
       <div className="absolute flex-grow w-full h-full flex justify-center items-center text-6xl text-gray-400 select-none z-0">╳</div>
-      <ChatInput currentUser={currentUser}/>
-      <UserStatus numUsers={numUsers} currentUser={currentUser} setView={setView}/>
-      <ChatMessages currentUser={currentUser}/>
       <div className="flex-grow h-full flex justify-center items-center relative">
         { images.map( (img, i) => (
             <TableImage
@@ -66,6 +63,9 @@ function TablePanel({numUsers, currentUser, setView}) {
           ))
         }
       </div>
+      <ChatMessages currentUser={currentUser}/>
+      <ChatInput currentUser={currentUser}/>
+      <UserStatus numUsers={numUsers} currentUser={currentUser} setView={setView}/>
     </div>
   )
 }
