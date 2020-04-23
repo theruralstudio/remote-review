@@ -9,10 +9,10 @@ export default function UserStatus({numUsers, currentUser, setView}) {
       <div className="bg-white rounded-full m-4 p-2">
         <a onClick={() => setView('register')}>Register</a>
       </div>
-      <span className="bg-white rounded-full m-4 p-2" style={currentUser.style}>
+      <div className="bg-white rounded-full m-4 p-2" style={currentUser.style}>
         Hello, {currentUser.name}
-      </span>
-      <div className="bg-white rounded-full m-4 p-2">{numUsers} are here</div>
+      </div>
+      {/* <div className="bg-white rounded-full m-4 p-2">{numUsers} are here</div> */}
     </div>
   )
 }
