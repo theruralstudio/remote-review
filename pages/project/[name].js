@@ -20,7 +20,6 @@ function fetcher(url) {
 }
 
 export default function Project(props) {
-  const addImage = props.addImage
   const router = useRouter()
   const {name} = router.query
   // const open = viewprops.open
@@ -59,7 +58,7 @@ export default function Project(props) {
       <div className="p-2">
         <h1>{project.title}</h1>
       </div>
-      <Carousel images={project.images} video={project.video} addImage={addImage}/>
+      <Carousel images={project.images} video={project.video}/>
       <div className="p-2">
         <Markdown source={project.text.body} />
       </div>

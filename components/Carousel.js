@@ -12,7 +12,7 @@ function VideoPlayer({video}) {
   )
 }
 
-function DraggableImage({img, addImage}) {
+function DraggableImage({img}) {
   const [{x, y}, setPosition] = useState({x: 0, y: 0});
   const [targetUrl, setTargetUrl] = useState(null);
   const bind = useGesture({
@@ -21,6 +21,23 @@ function DraggableImage({img, addImage}) {
     // onMouseDown: () => console.log(x)
   })
 
+  // firebase
+  const firebase = useContext(FirebaseContext)
+  const ref = firebase.database().ref('images')
+  // const [images, loading, ferror] = useListVals(ref, {keyField: 'id'})
+
+  // add an image to the list, maybe do this from project panel instead?
+  const addImage = () => {
+    ref.push({
+      url: img.url,
+      position: {
+        x: x,
+        y: y
+      }
+    })
+  }
+  
+
   return (
     <animated.div className='max-h-full flex' key={img.url} {...bind()} style={{...{x, y}}} >
       <img className='object-contain' src={img.url}></img>
@@ -28,11 +45,11 @@ function DraggableImage({img, addImage}) {
   )
 }
 
-function Slide({content, addImage}) {
+function Slide({content}) {
   const typedict = {
     'mp4': <ReactPlayer className="w-full" url={content.url} controls width='100%' height='100%' playing loop/>,
-    'jpg': <DraggableImage img={content} addImage={addImage} />,
-    'png': <DraggableImage img={content} addImage={addImage} />
+    'jpg': <DraggableImage img={content} />,
+    'png': <DraggableImage img={content} />
   }
 
   return (
@@ -40,12 +57,8 @@ function Slide({content, addImage}) {
   )
 }
 
-export default function Carousel({images, video, addImage}) {
+export default function Carousel({images, video}) {
   const [index, setIndex] = useState(0)
-  const mergedContent = [video, ...images]
-  const slides = mergedContent.map( (c) => (
-    <Slide content={c} addImage={addImage}/>
-  ))
 
   const increment = () => {
     if (index == slides.length - 1) setIndex(0)
@@ -56,6 +69,11 @@ export default function Carousel({images, video, addImage}) {
     if (index == 0) setIndex(slides.length - 1)
     else setIndex(index - 1)
   }
+
+  const mergedContent = [video, ...images]
+  const slides = mergedContent.map( (c) => (
+    <Slide content={c}/>
+  ))
 
   return (
     <div className='viewer max-w-full divide-y-2 divide-black'>
