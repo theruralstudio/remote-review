@@ -33,10 +33,10 @@ function DraggableImage({img}) {
       position: {
         x: x,
         y: y
-      }
+      },
+      zoom: 5.0
     })
   }
-  
 
   return (
     <animated.div className='max-h-full flex' key={img.url} {...bind()} style={{...{x, y}}} >
@@ -84,9 +84,9 @@ export default function Carousel({images, video}) {
       </div>
       {/* <VideoPlayer video={video}/> */}
       <div className='controls max-w-full flex justify-between divide-x-2 divide-black'>
-        <button onClick={decrement} className='p-2'>←</button>
+        <button onClick={decrement} className='p-2'>← Prev</button>
         <div className='p-2 flex-grow'>{ mergedContent[index].caption }</div>
-        <button onClick={increment} className='p-2'>→</button>
+        <button onClick={increment} className='p-2'>Next →</button>
       </div>
     </div>
   )
