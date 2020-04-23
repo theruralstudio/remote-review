@@ -35,7 +35,7 @@ function TableImage(props) {
  
   return (
     <animated.img {...bind()} 
-      className="shadow"
+      className="shadow pointer-events-auto"
       draggable={false}
       src={props.img.url}
       style={{...animationProps, ...staticProps, ...{ x, y } }}>
