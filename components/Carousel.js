@@ -71,8 +71,6 @@ export default function Carousel({images, video}) {
     <Slide content={c}/>
   ))
 
-  console.log(mergedContent)
-
   return (
     <div className='viewer max-w-full divide-y-2 divide-black'>
       <div className='aspect-ratio-square w-full relative'>
