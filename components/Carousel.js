@@ -13,35 +13,18 @@ function VideoPlayer({video}) {
 }
 
 function DraggableImage({img}) {
-  const [{x, y}, setPosition] = useState({x: 0, y: 0});
-  const [targetUrl, setTargetUrl] = useState(null);
-  const bind = useGesture({
-    onDrag: ({ down, event, offset: [x, y], xy: [px, py]}) => {setPosition({x, y}); setTargetUrl(event.target.src); },
-    onDragEnd: ( event ) => addImage(targetUrl),
-    // onMouseDown: () => console.log(x)
-  })
-
-  // firebase
-  const firebase = useContext(FirebaseContext)
-  const ref = firebase.database().ref('images')
-  // const [images, loading, ferror] = useListVals(ref, {keyField: 'id'})
-
-  // add an image to the list, maybe do this from project panel instead?
-  const addImage = () => {
-    ref.push({
-      url: img.url,
-      position: {
-        x: x,
-        y: y
-      },
-      zoom: 5.0
-    })
-  }
+  // const [{x, y}, setPosition] = useState({x: 0, y: 0});
+  // const [targetUrl, setTargetUrl] = useState(null);
+  // const bind = useGesture({
+  //   onDrag: ({ down, event, offset: [x, y], xy: [px, py]}) => {setPosition({x, y}); setTargetUrl(event.target.src); },
+  //   onDragEnd: ( event ) => addImage(targetUrl),
+  //   // onMouseDown: () => console.log(x)
+  // })
 
   return (
-    <animated.div className='max-h-full flex' key={img.url} {...bind()} style={{...{x, y}}} >
+    <div className='max-h-full flex' key={img.url}>
       <img className='object-contain' src={img.url}></img>
-    </animated.div>
+    </div>
   )
 }
 
@@ -59,6 +42,8 @@ function Slide({content}) {
 
 export default function Carousel({images, video}) {
   const [index, setIndex] = useState(0)
+  const firebase = useContext(FirebaseContext)
+  const ref = firebase.database().ref('images')
 
   const increment = () => {
     if (index == slides.length - 1) setIndex(0)
@@ -70,10 +55,23 @@ export default function Carousel({images, video}) {
     else setIndex(index - 1)
   }
 
+  const addImage = (img) => {
+    ref.push({
+      url: img.url,
+      position: {
+        x: 0,
+        y: 0
+      },
+      zoom: 5.0
+    })
+  }
+
   const mergedContent = [video, ...images]
   const slides = mergedContent.map( (c) => (
     <Slide content={c}/>
   ))
+
+  console.log(mergedContent)
 
   return (
     <div className='viewer max-w-full divide-y-2 divide-black'>
@@ -82,7 +80,7 @@ export default function Carousel({images, video}) {
           { slides[index] }
         </div>
       </div>
-      {/* <VideoPlayer video={video}/> */}
+      { mergedContent[index].extension != 'mp4' && <button onClick={() => addImage(mergedContent[index])} className='controls w-full text-center' style={{background: 'lime'}}>Add to Table</button>}
       <div className='controls max-w-full flex justify-between divide-x-2 divide-black'>
         <button onClick={decrement} className='p-2'>← Prev</button>
         <div className='p-2 flex-grow'>{ mergedContent[index].caption }</div>
