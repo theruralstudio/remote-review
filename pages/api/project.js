@@ -1,4 +1,3 @@
-import config from '../../config.json';
 import fetch from 'isomorphic-unfetch';
 var Minio = require('minio');
 
@@ -8,13 +7,14 @@ export default (req, res) => {
   //console.log(querytitle);
 
   const minioClient = new Minio.Client({
-    endPoint: config.api.staticendpoint,
+    endPoint: process.env.bucketEndpoint,
+    bucketName: 'studio-herreros-content-test',
     useSSL: true,
     accessKey: process.env.bucketPublicKey,
     secretKey: process.env.bucketSecretKey
   });
     
-  const objectsStream = minioClient.listObjectsV2(config.api.staticbucketname, 'projects/' + querytitle , true,'');
+  const objectsStream = minioClient.listObjectsV2('studio-herreros-content-test', 'projects/' + querytitle , true,'');
   let project = {
     "title": querytitle,
     "video": {},

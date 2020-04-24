@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@brainhubeu/react-carousel": "^1.13.38",
+    "@daily-co/daily-js": "^0.9.987",
     "autoprefixer": "^9.7.6",
     "aws-sdk": "^2.656.0",
     "eventemitter3": "^4.0.0",

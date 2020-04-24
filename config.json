@@ -1,6 +1,0 @@
-{
-  "api": {
-    "staticendpoint": "nyc3.digitaloceanspaces.com",
-    "staticbucketname": "studio-herreros-content-test"
-  }
-}

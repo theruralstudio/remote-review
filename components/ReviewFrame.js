@@ -1,13 +1,19 @@
+import dynamic from 'next/dynamic'
+
 import NavPublic from '../components/NavPublic'
 import RegisterPanel from '../components/RegisterPanel'
-import LiveVideo from '../components/LiveVideo'
 import TablePanel from '../components/TablePanel'
+
+// load video panel client-side only
+const LiveVideoNoSSR = dynamic(() => import('../components/LiveVideo'), {
+  ssr: false
+}) 
 
 export default function ReviewFrame({user, setUser, view, setView, url}) {
   const reviewPanel = {
     'register': <RegisterPanel currentUser={user} setUser={setUser} setView={setView}/>,
     // 'chat': <ChatPanel currentUser={user} />,
-    'stream': <LiveVideo url={url} currentUser={user} setView={setView} />,
+    'stream': <LiveVideoNoSSR url={url} currentUser={user} setView={setView} />,
     'table': <TablePanel currentUser={user} setView={setView} />
   }
 
