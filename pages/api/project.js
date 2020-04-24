@@ -3,18 +3,21 @@ var Minio = require('minio');
 
 // lists all projects in the source repository
 export default (req, res) => {
-  const querytitle = req.query.title;
-  //console.log(querytitle);
+  const endPoint = process.env.bucketEndpoint
+  const bucketName = 'studio-herreros-content-test'
+  const publicKey = process.env.bucketPublicKey
+  const secretKey = process.env.bucketSecretKey
+  const querytitle = req.query.title
 
   const minioClient = new Minio.Client({
-    endPoint: process.env.bucketEndpoint,
-    bucketName: 'studio-herreros-content-test',
+    endPoint: endPoint,
+    bucketName: bucketName,
+    accessKey: publicKey,
+    secretKey: secretKey,
     useSSL: true,
-    accessKey: process.env.bucketPublicKey,
-    secretKey: process.env.bucketSecretKey
   });
     
-  const objectsStream = minioClient.listObjectsV2('studio-herreros-content-test', 'projects/' + querytitle , true,'');
+  const objectsStream = minioClient.listObjectsV2(bucketName, 'projects/' + querytitle , true,'');
   let project = {
     "title": querytitle,
     "video": {},
@@ -33,7 +36,7 @@ export default (req, res) => {
     if (matches[0]) {
       // console.log(obj);
       const [orig, collection, title, authors, index, caption, extension, ...rest] = matches[0];
-      const url = `http://${config.api.staticendpoint}/${config.api.staticbucketname}/${encodeURI(obj.name)}`;
+      const url = `http://${endPoint}/${bucketName}/${encodeURI(obj.name)}`;
       const key = obj.etag;
       //const type = obj.metadata['content-type'][0];
       switch (extension) {
