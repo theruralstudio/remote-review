@@ -26,8 +26,9 @@ export default function MyApp(props) {
   const [userCount, setUserCount] = useState(0);
   const [view, setView] = useState('table') // if view isn't provided in link, won't work
   const [open, setOpen] = useState(true) 
-  const [streamUrl, setStreamUrl] = useState('https://www.youtube.com/watch?v=Q47u0B_Fqjs');
-  
+  const [streamUrl, setStreamUrl] = useState('https://www.youtube.com/watch?v=YO67a5UvX9k');
+  // FINAL REVIEW: 'https://www.youtube.com/watch?v=Zoe3zSEIAl8'
+
   // depending on "open" and "view" router params
   // render the right page layout
   return (
