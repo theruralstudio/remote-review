@@ -78,19 +78,11 @@ class MyApp extends App {
     //     </Layout>      
     //   )
     // } else {
+    const reviewChildren = this.state.open == true && <ReviewFrame view={this.state.view} setView={this.setView} user={this.state.user} setUser={this.setUser} />
+
     return (
-      <Layout>
-        <div className="flex w-full h-full p-4">
-          <div className="flex flex-grow -mx-2">
-            <div className={`flex ${this.state.open ? 'w-2/5' : 'w-full'} px-2`}>
-              <div className="flex-grow bg-white border-2 border-black">
-                {/* { children } */}
-                <Component {...pageProps}/>
-              </div>
-            </div>
-            { this.state.open == true && <ReviewFrame view={this.state.view} setView={this.setView} user={this.state.user} setUser={this.setUser} /> }
-          </div>
-        </div>  
+      <Layout open={this.state.open} view={this.state.view} reviewChildren={reviewChildren}>
+        <Component {...pageProps}/>
       </Layout>
     )
     // }

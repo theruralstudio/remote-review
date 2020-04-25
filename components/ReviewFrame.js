@@ -9,12 +9,11 @@ const LiveVideoNoSSR = dynamic(() => import('./LiveVideo/LiveVideo'), {
   ssr: false
 }) 
 
-export default function ReviewFrame({user, setUser, view, setView, url}) {
+export default function ReviewFrame({user, setUser, view, setView}) {
   const reviewPanel = {
     'register': <RegisterPanel currentUser={user} setUser={setUser} setView={setView}/>,
-    // 'chat': <ChatPanel currentUser={user} />,
-    'stream': <LiveVideoNoSSR url={url} currentUser={user} setView={setView} />,
-    'table': <TablePanel currentUser={user} setView={setView} />
+    'stream': <LiveVideoNoSSR currentUser={user} setView={setView} />,
+    'table': <TablePanel currentUser={user} setView={setView} />,
   }
 
   return (
