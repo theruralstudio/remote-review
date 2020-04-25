@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import Link from 'next/link'
 
+import BasicLayout from '../layouts/BasicLayout'
+
 class Index extends Component {
 
   render() {
@@ -26,5 +28,7 @@ class Index extends Component {
     )
   }
 }
+
+Index.Layout = BasicLayout
 
 export default Index;

@@ -6,11 +6,13 @@ import Link from 'next/link';
 // import Review from '../layouts/Review';
 // import Reader from '../layouts/Reader';
 
+import BasicLayout from '../layouts/BasicLayout'
+
 function fetcher(url) {
   return fetch(url).then(r => r.json());
 }
 
-export default function Archive(props) {
+function Archive(props) {
   const { data, error } = useSWR('/api/projects', fetcher)
   let projects = data?.projects;
   if (!data) projects = [{}];
@@ -22,7 +24,7 @@ export default function Archive(props) {
 
   const projectList = projects.map((project, i) => (
     <div className="text-left p-2" key={i}>
-      <Link href={{pathname: `/project/${project.title}`}}>
+      <Link href={{pathname: `/archive/project`, query: { title: project.title }}}>
       {/* <Link href="/project/[id]" as={`/project/${project.title}`}> */}
         <a>{project.title}</a>
       </Link>
@@ -40,6 +42,11 @@ export default function Archive(props) {
 
   return (
     <div className="divide-y-2 divide-black">
+      <div className="p-2">
+        <Link href={{pathname: '/'}}>
+          <a>Home</a>
+        </Link>
+      </div>
       <div className="p-2"> 
         <h2>Projects</h2>
       </div>
@@ -62,3 +69,7 @@ export default function Archive(props) {
   //   )    
   // }
 }
+
+Archive.Layout = BasicLayout
+
+export default Archive

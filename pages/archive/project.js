@@ -13,19 +13,22 @@ import { useGesture, useDrag } from 'react-use-gesture'
 
 // import Review from '../../layouts/Review'
 // import Reader from '../../layouts/Reader'
+
+import BasicLayout from '../../layouts/BasicLayout'
+
 import Carousel from '../../components/Carousel'
 
 function fetcher(url) {
   return fetch(url).then(r => r.json());
 }
 
-export default function Project(props) {
+function Project(props) {
   const router = useRouter()
-  const {name} = router.query
+  const {title} = router.query
   // const open = viewprops.open
   // const view = viewprops.view
 
-  const { data, error } = useSWR(`/api/project?title=${encodeURI(name)}`, fetcher);
+  const { data, error } = useSWR(`/api/project?title=${encodeURI(title)}`, fetcher);
 
   // gesture controls for images
   const [{x, y}, setPosition] = useState({x: 0, y: 0});
@@ -75,3 +78,7 @@ export default function Project(props) {
     )
   }
 }
+
+Project.Layout = BasicLayout
+
+export default Project

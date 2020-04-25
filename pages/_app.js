@@ -13,53 +13,100 @@ import 'firebase/database'
 import { useListVals } from 'react-firebase-hooks/database'
 
 // LAYOUTS
-import BasicLayout from '../layouts/BasicLayout'
+// import BasicLayout from '../layouts/BasicLayout'
 
 // COMPONENTS
 import ReviewFrame from '../components/ReviewFrame'
 
-export default function MyApp(props) {
-  const { Component, pageProps } = props;
-  const router = useRouter()
+// not clear what this does?
+const Noop = ({children}) => children
 
-  const [user, setUser] = useState({ name: 'Anonymous', style: { color: '#000000', background: '#ffffff', border: `2px solid #000000`,} });
-  const [userCount, setUserCount] = useState(0);
-  const [view, setView] = useState('table') // if view isn't provided in link, won't work
-  const [open, setOpen] = useState(true) 
-  const [streamUrl, setStreamUrl] = useState('https://www.youtube.com/watch?v=YO67a5UvX9k');
-  // FINAL REVIEW: 'https://www.youtube.com/watch?v=Zoe3zSEIAl8'
+class MyApp extends App {
+  constructor(props) {
+    super(props)
+    this.state = {
+      user: { 
+        name: 'Anonymous', 
+        style: { 
+          color: '#000000', 
+          background: '#ffffff', 
+          border: `2px solid #000000`,
+        }
+      },
+      view: 'table',
+      open: true,
+      // streamurl: 'https://www.youtube.com/watch?v=YO67a5UvX9k',
+    }
+  }
 
-  // depending on "open" and "view" router params
-  // render the right page layout
-  if (router.pathname == '/' ) {
+  setView = () => {
+
+  }
+
+  setUser = () => {
+    
+  }
+
+
+  render() {
+    const { Component, pageProps } = this.props
+    const Layout = Component.Layout || Noop
+
+    // const router = useRouter()
+  
+    // const [user, setUser] = useState({ name: 'Anonymous', style: { color: '#000000', background: '#ffffff', border: `2px solid #000000`,} });
+    // const [userCount, setUserCount] = useState(0);
+    // const [view, setView] = useState('table') // if view isn't provided in link, won't work
+    // const [open, setOpen] = useState(true) 
+    // const [streamUrl, setStreamUrl] = useState('https://www.youtube.com/watch?v=YO67a5UvX9k');
+    // FINAL REVIEW: 'https://www.youtube.com/watch?v=Zoe3zSEIAl8'
+  
+    // depending on "open" and "view" router params
+    // render the right page layout
+    // if (router.pathname == '/' ) {
+    //   return (
+    //     <Layout>
+    //       <div className="flex w-full h-full p-4">
+    //         <div className="flex flex-grow -mx-2">
+    //           <div className={`flex w-full px-2`}>
+    //             <div className="flex-grow">
+    //               <Component {...pageProps}/>
+    //             </div>
+    //           </div>
+    //         </div>
+    //       </div>  
+    //     </Layout>      
+    //   )
+    // } else {
     return (
-      <BasicLayout>
+      <Layout>
         <div className="flex w-full h-full p-4">
           <div className="flex flex-grow -mx-2">
-            <div className={`flex w-full px-2`}>
-              <div className="flex-grow">
-                <Component {...pageProps}/>
-              </div>
-            </div>
-          </div>
-        </div>  
-      </BasicLayout>      
-    )
-  } else {
-    return (
-      <BasicLayout>
-        <div className="flex w-full h-full p-4">
-          <div className="flex flex-grow -mx-2">
-            <div className={`flex ${open ? 'w-2/5' : 'w-full'} px-2`}>
+            <div className={`flex ${this.state.open ? 'w-2/5' : 'w-full'} px-2`}>
               <div className="flex-grow bg-white border-2 border-black">
                 {/* { children } */}
                 <Component {...pageProps}/>
               </div>
             </div>
-            { open == true && <ReviewFrame view={view} setView={setView} user={user} setUser={setUser} url={streamUrl}/> }
+            { this.state.open == true && <ReviewFrame view={this.state.view} setView={this.setView} user={this.state.user} setUser={this.setUser} /> }
           </div>
         </div>  
-      </BasicLayout>
+      </Layout>
     )
+    // }
   }
 }
+
+// Only uncomment this method if you have blocking data requirements for
+// every single page in your application. This disables the ability to
+// perform automatic static optimization, causing every page in your app to
+// be server-side rendered.
+//
+MyApp.getInitialProps = async (appContext) => {
+  // calls page's `getInitialProps` and fills `appProps.pageProps`
+  const appProps = await App.getInitialProps(appContext);
+
+  return { ...appProps }
+}
+
+export default MyApp
