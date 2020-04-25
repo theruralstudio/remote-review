@@ -39,12 +39,12 @@ class MyApp extends App {
     }
   }
 
-  setView = () => {
-
+  setView = (v) => {
+    this.setState({view: v})
   }
 
-  setUser = () => {
-    
+  setUser = (v) => {
+    this.setState({user: v})    
   }
 
 
