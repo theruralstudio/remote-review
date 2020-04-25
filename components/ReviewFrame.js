@@ -17,7 +17,7 @@ export default function ReviewFrame({user, setUser, view, setView}) {
   }
 
   return (
-    <div className='flex w-3/5 px-2 h-full'>
+    <div className='flex flex-grow px-2 h-full'>
       <div className='flex-grow flex flex-col relative'>
         { reviewPanel[view] }
         <NavPublic view={view} setView={setView}/>
