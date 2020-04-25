@@ -51,9 +51,9 @@ export default function Tray(props) {
       : callObject.startScreenShare();
   }
 
-  function leaveCall() {
-    props.onClickLeaveCall && props.onClickLeaveCall();
-  }
+  // function leaveCall() {
+  //   props.onClickLeaveCall && props.onClickLeaveCall();
+  // }
 
   // listen for participant state changes
   useEffect(() => {
@@ -108,7 +108,7 @@ export default function Tray(props) {
         disabled={props.disabled}
         newButtonGroup={true}
         highlighted={true}
-        onClick={leaveCall}
+        // onClick={leaveCall}
       />
     </div>
   );

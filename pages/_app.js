@@ -49,7 +49,7 @@ class MyApp extends App {
     const reviewChildren = this.state.open == true && <ReviewFrame view={this.state.view} setView={this.setView} user={this.state.user} setUser={this.setUser} />
 
     return (
-      <Layout open={this.state.open} view={this.state.view} reviewChildren={reviewChildren}>
+      <Layout open={this.state.open} view={this.state.view} reviewChildren={reviewChildren} user={this.state.user}>
         <Component {...pageProps}/>
       </Layout>
     )
