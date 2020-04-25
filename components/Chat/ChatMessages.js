@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { FirebaseContext } from '../utils/firebase'
+import { FirebaseContext } from '../../utils/firebase'
 import { useListVals } from 'react-firebase-hooks/database'
 import 'firebase/database'
 

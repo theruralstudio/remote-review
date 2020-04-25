@@ -3,8 +3,8 @@ import ReactPlayer from 'react-player';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
-import Review from '../layouts/Review';
-import Reader from '../layouts/Reader';
+// import Review from '../layouts/Review';
+// import Reader from '../layouts/Reader';
 
 function fetcher(url) {
   return fetch(url).then(r => r.json());

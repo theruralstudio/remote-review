@@ -1,11 +1,11 @@
 import dynamic from 'next/dynamic'
 
-import NavPublic from '../components/NavPublic'
+import NavPublic from '../components/ReviewUI/NavPublic'
 import RegisterPanel from '../components/RegisterPanel'
-import TablePanel from '../components/TablePanel'
+import TablePanel from '../components/Table/TablePanel'
 
 // load video panel client-side only
-const LiveVideoNoSSR = dynamic(() => import('../components/LiveVideo'), {
+const LiveVideoNoSSR = dynamic(() => import('./LiveVideo/LiveVideo'), {
   ssr: false
 }) 
 

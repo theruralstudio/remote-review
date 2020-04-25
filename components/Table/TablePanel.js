@@ -1,13 +1,13 @@
 import React, { useContext, useState, useRef } from 'react'
 import { useSprings, useSpring, animated } from 'react-spring'
 import { useGesture, useDrag } from 'react-use-gesture'
-import { FirebaseContext } from '../utils/firebase'
+import { FirebaseContext } from '../../utils/firebase'
 import 'firebase/database'
 import { useListVals } from 'react-firebase-hooks/database'
 // import ChatPanel from './ChatPanel'
-import ChatInput from './ChatInput'
-import ChatMessages from './ChatMessages'
-import UserStatus from './UserStatus'
+import ChatInput from '../Chat/ChatInput'
+import ChatMessages from '../Chat/ChatMessages'
+import UserStatus from '../ReviewUI/UserStatus'
 import TableImage from './TableImage'
 
 function TablePanel({numUsers, currentUser, setView}) {

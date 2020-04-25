@@ -11,8 +11,8 @@ import { useListVals } from 'react-firebase-hooks/database'
 import { useSprings, useSpring, animated } from 'react-spring'
 import { useGesture, useDrag } from 'react-use-gesture'
 
-import Review from '../../layouts/Review'
-import Reader from '../../layouts/Reader'
+// import Review from '../../layouts/Review'
+// import Reader from '../../layouts/Reader'
 import Carousel from '../../components/Carousel'
 
 function fetcher(url) {

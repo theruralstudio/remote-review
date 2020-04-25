@@ -1,11 +1,11 @@
 import React, { useContext, useState, useRef } from 'react'
 import { useSprings, useSpring, animated } from 'react-spring'
 import { useGesture, useDrag } from 'react-use-gesture'
-import { FirebaseContext } from '../utils/firebase'
+import { FirebaseContext } from '../../utils/firebase'
 import 'firebase/database'
 import { useObjectVal } from 'react-firebase-hooks/database'
 
-function TableImage({id}) {
+export default function TableVideo({id}) {
   //const safeFrame = useRef(null);
 
   //firebase
@@ -73,5 +73,3 @@ function TableImage({id}) {
   }
 
 }
-
-export default TableImage;

@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-// import "./Tray.css";
 import TrayButton, {
   TYPE_MUTE_CAMERA,
   TYPE_MUTE_MIC,
@@ -32,11 +31,6 @@ function getStreamStates(callObject) {
   return [isCameraMuted, isMicMuted, isSharingScreen];
 }
 
-/**
- * Props:
- * - onClickLeaveCall: () => ()
- * - disabled: boolean
- */
 export default function Tray(props) {
   const callObject = useContext(CallObjectContext);
   const [isCameraMuted, setCameraMuted] = useState(false);
@@ -61,10 +55,7 @@ export default function Tray(props) {
     props.onClickLeaveCall && props.onClickLeaveCall();
   }
 
-  /**
-   * Start listening for participant changes when callObject is set (i.e. when the component mounts).
-   * This event will capture any changes to your audio/video mute state.
-   */
+  // listen for participant state changes
   useEffect(() => {
     if (!callObject) return;
 
@@ -104,14 +95,14 @@ export default function Tray(props) {
         highlighted={isMicMuted}
         onClick={toggleMic}
       />
-      {DailyIframe.supportedBrowser().supportsScreenShare && (
+      {/* {DailyIframe.supportedBrowser().supportsScreenShare && (
         <TrayButton
           type={TYPE_SCREEN}
           disabled={props.disabled}
           highlighted={isSharingScreen}
           onClick={toggleSharingScreen}
         />
-      )}
+      )} */}
       <TrayButton
         type={TYPE_LEAVE}
         disabled={props.disabled}
