@@ -31,19 +31,35 @@ export default function MyApp(props) {
 
   // depending on "open" and "view" router params
   // render the right page layout
-  return (
-    <BasicLayout>
-      <div className="flex w-full h-full p-4">
-        <div className="flex flex-grow -mx-2">
-          <div className={`flex ${open ? 'w-2/5' : 'w-full'} px-2`}>
-            <div className="flex-grow bg-white border-2 border-black">
-              {/* { children } */}
-              <Component {...pageProps}/>
+  if (router.pathname == '/' ) {
+    return (
+      <BasicLayout>
+        <div className="flex w-full h-full p-4">
+          <div className="flex flex-grow -mx-2">
+            <div className={`flex w-full px-2`}>
+              <div className="flex-grow">
+                <Component {...pageProps}/>
+              </div>
             </div>
           </div>
-          { open == true && <ReviewFrame view={view} setView={setView} user={user} setUser={setUser} url={streamUrl}/> }
-        </div>
-      </div>  
-    </BasicLayout>
-  )
+        </div>  
+      </BasicLayout>      
+    )
+  } else {
+    return (
+      <BasicLayout>
+        <div className="flex w-full h-full p-4">
+          <div className="flex flex-grow -mx-2">
+            <div className={`flex ${open ? 'w-2/5' : 'w-full'} px-2`}>
+              <div className="flex-grow bg-white border-2 border-black">
+                {/* { children } */}
+                <Component {...pageProps}/>
+              </div>
+            </div>
+            { open == true && <ReviewFrame view={view} setView={setView} user={user} setUser={setUser} url={streamUrl}/> }
+          </div>
+        </div>  
+      </BasicLayout>
+    )
+  }
 }
