@@ -18,13 +18,16 @@ export default function LiveVideo() {
   const [roomUrl, setRoomUrl] = useState('https://ccsr.daily.co/rural-studio')
   const [callObject, setCallObject] = useState(null)
 
+  // get a meeting token w current user-name
+  // https://docs.daily.co/reference#create-meeting-token
+
   // starts the call from the provided url
   const startJoiningCall = useCallback(url => {
     const newCallObject = DailyIframe.createCallObject()
     setRoomUrl(url)
     setCallObject(newCallObject)
     setAppState(STATE_JOINING)
-    newCallObject.join({ url })
+    newCallObject.join({ url }) // and then use the token when joining here
   }, [])
 
   // leaves the current call
@@ -87,7 +90,7 @@ export default function LiveVideo() {
   const enableStartButton = appState === STATE_IDLE
 
   return (
-    <div className='app'>
+    <div className='flex-grow flex flex-col h-full'>
       {showCall ? (
         // Context may not be neccessary, but example shows anyway
         <CallObjectContext.Provider value={callObject}>

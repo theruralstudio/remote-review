@@ -123,9 +123,9 @@ export default function Call() {
     let largeTiles = [];
     let smallTiles = [];
     Object.entries(callState.callItems).forEach(([id, callItem]) => {
-      const isLarge =
-        isScreenShare(id) ||
-        (!isLocal(id) && !containsScreenShare(callState.callItems));
+      const isLarge = false
+        // isScreenShare(id) ||
+        // (!isLocal(id) && !containsScreenShare(callState.callItems));
       const tile = (
         <Tile
           key={id}
@@ -145,17 +145,13 @@ export default function Call() {
     return [largeTiles, smallTiles];
   }
 
-  const [largeTiles, smallTiles] = getTiles();
+  const [largeTiles, tiles] = getTiles();
   const message = getMessage(callState);
+
+  // based on the number of tiles, create a grid that will hold all
   return (
-    <div className="call">
-      <div className="large-tiles">
-        {!message
-          ? largeTiles
-          : null /* Avoid showing large tiles to make room for the message */}
-      </div>
-      <div className="small-tiles">{smallTiles}</div>
-      <div>MESSAGE</div>
+    <div className="flex-grow grid grid-cols-3 gap-0">
+      {tiles}
     </div>
   );
 }

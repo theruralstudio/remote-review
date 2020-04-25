@@ -1,14 +1,5 @@
 import React, { useEffect, useRef } from "react";
-// import "./Tile.css";
 
-/**
- * Props
- * - videoTrack: MediaStreamTrack?
- * - audioTrack: MediaStreamTrack?
- * - isLocalPerson: boolean
- * - isLarge: boolean
- * - isLoading: boolean
- */
 export default function Tile(props) {
   const videoEl = useRef(null);
   const audioEl = useRef(null);
@@ -35,7 +26,7 @@ export default function Tile(props) {
 
   function getVideoComponent() {
     return (
-      props.videoTrack && <video autoPlay muted playsInline ref={videoEl} />
+      props.videoTrack && <video className="object-cover w-full h-full" autoPlay muted playsInline ref={videoEl} />
     );
   }
 
@@ -54,8 +45,7 @@ export default function Tile(props) {
   }
 
   return (
-    <div className={getClassNames()}>
-      <div className="background" />
+    <div className="w-full flex items-center justify-center">
       {getLoadingComponent()}
       {getVideoComponent()}
       {getAudioComponent()}
