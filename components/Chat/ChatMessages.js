@@ -6,7 +6,7 @@ import 'firebase/database'
 function ChatMessage({message, currentUser}) {
   const m = message
   return (
-    <div className={`my-2 p-2 shadow-lg ${m.user == currentUser.name ? ' self-end' : ''}`} style={m.style}>
+    <div className={`my-2 p-2 max-w-md shadow-lg ${m.user == currentUser.name ? ' self-end' : ''}`} style={m.style}>
       <div className="text-xs">{m.user}</div>
       {m.body}
     </div>
