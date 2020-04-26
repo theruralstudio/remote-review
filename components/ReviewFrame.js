@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import dynamic from 'next/dynamic'
+import { withRouter } from 'next/router';
 import DailyIframe from '@daily-co/daily-js'
 
 import CallObjectContext from './LiveVideo/CallObjectContext'
@@ -38,11 +39,11 @@ class ReviewFrame extends Component {
   // get a meeting token w current user-name
   // https://docs.daily.co/reference#create-meeting-token
 
-  toggleRegister = () => {
-    this.setState({
-      showRegister: !this.state.showRegister
-    })
-  }
+  // toggleRegister = () => {
+  //   this.setState({
+  //     showRegister: !this.state.showRegister
+  //   })
+  // }
 
   toggleVideo = () => {
     this.setState({
@@ -56,10 +57,7 @@ class ReviewFrame extends Component {
     })
   }
 
-  // join the call on mount
-  componentDidMount() {
-    // if (!this.state.callObject) return
-
+  startCall = () => {
     const newCallObject = DailyIframe.createCallObject()
     const events = ['joined-meeting', 'left-meeting', 'error']
 
@@ -78,6 +76,17 @@ class ReviewFrame extends Component {
         this.state.callObject.on(event, this.handleNewMeetingState)
       }  
     })
+  }
+
+  // join the call on mount
+  componentDidMount() {
+    //reroute to registration page if not registered
+    console.log(this.props.router.pathname)
+    if (!this.props.user.registered) {
+      this.props.router.push('/register')
+    } else {
+      this.startCall()
+    }
   }
 
   handleNewMeetingState(e) {
@@ -114,33 +123,39 @@ class ReviewFrame extends Component {
     if (!this.state.callObject) return
 
     // Stop listening for changes in state
-    return function cleanup() {
-      for (const event of events) {
-        callObject.off(event, this.handleNewMeetingState)
-      }
-    }   
-    
+    // return function cleanup() {
+    // }   
+
+    // for (const event of events) {
+    //   callObject.off(event, this.handleNewMeetingState)
+    // }
+
     this.setState({appState: 'STATE_LEAVING'})
     this.state.callObject.leave()
+    this.state.callObject.destroy()
   }
 
   render() {
-    return (
-      <div id="review-frame-full" className='flex-grow flex flex-col relative'>
-        <CallObjectContext.Provider value={this.state.callObject}>
-          { this.state.showRegister && <RegisterPanel currentUser={this.props.user} setUser={this.props.setUser} toggleRegister={this.toggleRegister}/> }
-          { this.state.showChat && <ChatMessages currentUser={this.props.user}/> }
-          { this.state.showChat && <ChatInput currentUser={this.props.user}/> }
-          <VisibilityToggles showVideo={this.state.showVideo} toggleVideo={this.toggleVideo} showChat={this.state.showChat} toggleChat={this.toggleChat}/>
-          <UserStatus user={this.props.user} numUsers={0} toggleRegister={this.toggleRegister}/>
-          {/* <NavPublic view={this.props.view} setView={this.props.setView}/> */}
-          { this.state.showVideo && <LiveVideoNoSSR currentUser={this.props.user} appState={this.state.appState} callObject={this.state.callObject} /> }
-          <div className="absolute flex-grow w-full h-full flex justify-center items-center text-6xl text-gray-400 pointer-events-none select-none z-0">╳</div>
-          <TablePanel currentUser={this.props.user} />
-        </CallObjectContext.Provider>
-      </div>
-    )
+    if (!this.props.user.registered) {
+      return null
+    } else {
+      return (
+        <div id="review-frame-full" className='flex-grow flex flex-col relative'>
+          <CallObjectContext.Provider value={this.state.callObject}>
+            { this.state.showRegister && <RegisterPanel currentUser={this.props.user} setUser={this.props.setUser} toggleRegister={this.toggleRegister}/> }
+            { this.state.showChat && <ChatMessages currentUser={this.props.user}/> }
+            { this.state.showChat && <ChatInput currentUser={this.props.user}/> }
+            <VisibilityToggles showVideo={this.state.showVideo} toggleVideo={this.toggleVideo} showChat={this.state.showChat} toggleChat={this.toggleChat}/>
+            <UserStatus user={this.props.user} numUsers={0} toggleRegister={this.toggleRegister}/>
+            {/* <NavPublic view={this.props.view} setView={this.props.setView}/> */}
+            { this.state.showVideo && <LiveVideoNoSSR currentUser={this.props.user} appState={this.state.appState} callObject={this.state.callObject} /> }
+            <div className="absolute flex-grow w-full h-full flex justify-center items-center text-6xl text-gray-400 opacity-25 pointer-events-none select-none z-0">╳</div>
+            <TablePanel currentUser={this.props.user} />
+          </CallObjectContext.Provider>
+        </div>
+      )
+    }
   }
 }
 
-export default ReviewFrame
+export default withRouter(ReviewFrame)

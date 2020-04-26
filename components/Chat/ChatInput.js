@@ -44,54 +44,26 @@ export default function ChatInput(props) {
     }
 
     return (
-      <div className='absolute bottom-0 right-0 z-10'>
-        <form autoComplete="off" id="chat-form" onSubmit={handleSubmit}>
+      <div className='absolute bottom-0 right-0 m-2 z-10'>
+        <form autoComplete="off" id="chat-form" className='flex justify-between' onSubmit={handleSubmit}>
           <input id="text-input"
+            className="rounded-l-full p-2 pl-4"
             type="text" 
             value={messageOut}
             onChange={handleChange}
             autoFocus
             placeholder="Type to chat..."
           />
-          <input id="send-button" type="submit" value="Send" />
+          <input id="send-button" className='rounded-r-full p-2 pr-4' type="submit" value="Send" />
         </form>
         <style jsx>{`
-          #chat-form {
-            display: flex;
-            justify-content: space-between;
-          }
-
-          #text-input {
-            padding: 0.75em;
-            padding-left: 1em;
-            outline: 0;
-            border: 2px solid black;
-            border-right: none;
-            border-radius: 2em 0em 0em 2em;
-            -webkit-appearance: none;
-            appearance: none;
-            flex-grow: 2;
-          }
-
           input:focus {
             outline: 0 solid transparent;
           }
 
           #send-button {
-            display: block;
             background: lime;
-            border: 2px solid black;
-            font-weight: bold;
-            padding-right: 1em;
-            padding-left: 0.5em;
-            border-radius: 0em 2em 2em 0em;
           }
-
-          #send-button:active {
-            background: black;
-            color: white;
-          }
-
         `}</style>
       </div>
     )

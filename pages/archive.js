@@ -44,7 +44,7 @@ function Archive(props) {
     <div className="divide-y-2 divide-black">
       <div className="p-2">
         <Link href={{pathname: '/'}}>
-          <a>Home</a>
+          <a>← Home</a>
         </Link>
       </div>
       <div className="p-2"> 

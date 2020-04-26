@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, createContext } from 'react';
 
 // NEXT COMPONENTS
-import { useRouter } from 'next/router';
+import { withRouter } from 'next/router';
 import App from 'next/app'
 
 // STYLE (TAILWIND)
@@ -11,6 +11,7 @@ import '../styles/main.css'
 // import { FirebaseContext } from '../utils/firebase'
 // import 'firebase/database'
 // import { useListVals } from 'react-firebase-hooks/database'
+import UserContext from '../utils/usercontext'
 
 // COMPONENTS
 import ReviewFrame from '../components/ReviewFrame'
@@ -28,7 +29,8 @@ class MyApp extends App {
           color: '#000000', 
           background: '#ffffff', 
           border: `2px solid #000000`,
-        }
+        },
+        registered: false
       },
       view: 'stream',
       open: true,
@@ -43,18 +45,26 @@ class MyApp extends App {
     this.setState({user: v})    
   }
 
+  componentDidMount() {
+    // reroute to registration page if not registered and path contains 'archive'
+    // console.log(this.props.router.pathname)
+    // if (!this.state.user.registered && this.props.router.pathname.includes('archive')) {
+    //   this.props.router.push('/register')
+    // }
+  }
+
   render() {
     const { Component, pageProps } = this.props
     const Layout = Component.Layout || Noop
     const reviewChildren = this.state.open == true && <ReviewFrame view={this.state.view} setView={this.setView} user={this.state.user} setUser={this.setUser} />
-
     return (
-      <Layout open={this.state.open} view={this.state.view} reviewChildren={reviewChildren} user={this.state.user}>
-        <Component {...pageProps}/>
+      <Layout open={this.state.open} view={this.state.view} reviewChildren={reviewChildren} user={this.state.user} setUser={this.setUser} >
+        <UserContext.Provider value={{ user: this.state.user, setUser: this.setUser }}>
+          <Component {...pageProps}/>
+        </UserContext.Provider>
       </Layout>
     )
-    // }
   }
 }
 
-export default MyApp
+export default withRouter(MyApp)

@@ -1,10 +1,14 @@
 import React, { useContext, useState } from 'react'
+import { useRouter } from 'next/router'
 import { FirebaseContext } from '../utils/firebase'
+import UserContext from '../utils/usercontext'
 import 'firebase/database'
 import { useList } from 'react-firebase-hooks/database'
 import tinycolor from 'tinycolor2'
 
 export default function RegisterPanel(props) {
+  const router = useRouter()
+
   const participantKeys = {
     [process.env.loginKeyModerator]: 'moderator',
     [process.env.loginKeyParticipant]: 'participant',
@@ -13,10 +17,14 @@ export default function RegisterPanel(props) {
 
   const [name, setName] = useState('')
   const [entryCode, setEntryCode] = useState('')
+  const [errorMsg, setErrorMsg] = useState('')
 
   // firebase
   const firebase = useContext(FirebaseContext)
   const ref = firebase.database().ref('users')
+
+  // local user
+  const {user, setUser} = useContext(UserContext)
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -33,7 +41,7 @@ export default function RegisterPanel(props) {
       const style = {
         color: fg.toHexString(),
         background: bg.toHexString(),
-        border: `2px solid ${fg.toHexString()}`,
+        // border: `2px solid ${fg.toHexString()}`,
       };
 
       // push to firebase
@@ -42,22 +50,26 @@ export default function RegisterPanel(props) {
         style: style
       });
 
-      // pass state back up
-      props.setUser({
+      // pass state back up thru context
+      setUser({
         name: name,
-        style: style
+        style: style,
+        registered: true
       });
 
+      // reroute to archive again
+      router.push('/archive')
     } else {
+      setErrorMsg('Sorry, couldn\'t sign you in, check your entry code.')
       // console.log("couldn't sign you in");
     };
 
-    // then clear state/ add active user
+    // then clear input state/ add active user
     setName(null)
     setEntryCode(null)
 
     // and toggle visibility again
-    props.toggleRegister()
+    // props.toggleRegister()
     // props.setView('table')
   };
 
@@ -69,48 +81,54 @@ export default function RegisterPanel(props) {
   // };
 
   return (
-    <div className="self-center flex-grow flex flex-col justify-center items-center w-full h-full relative pointer-events-none">
-      <form onSubmit={handleSubmit} className="w-full max-w-sm bg-white p-8 pointer-events-auto">
-        <div className="md:flex md:items-center mb-6">
-          <div className="md:w-1/3">
-            <label className='block text-black md:text-right mb-1 md:mb-0 pr-4' htmlFor="name-input">
-              Your Name:
-            </label>
+    <div className="self-center flex-grow flex flex-col justify-center items-center w-full h-full relative">
+      <form onSubmit={handleSubmit} className="w-full flex flex-col items-center justify-center">
+
+        { errorMsg &&
+          <div className="w-full max-w-sm bg-red-300 text-red-800 p-8 mb-4">
+            {errorMsg}
+          </div>        
+        }
+
+
+
+        <div className="w-full max-w-sm bg-white p-8 border-2 border-black">
+          <div className="md:flex md:items-center mb-6">
+            <div className="md:w-1/3">
+              <label className='block text-black md:text-right mb-1 md:mb-0 pr-4' htmlFor="name-input">
+                Your Name:
+              </label>
+            </div>
+            <div className="md:w-2/3">
+              <input className='appearance-none border-b-2 border-black w-full leading-tight focus:outline-none focus:border-black'
+                id="name-input"
+                name="name" 
+                type="text" 
+                value={name} 
+                onChange={(e) => setName(e.target.value)}
+              />
+            </div>
           </div>
-          <div className="md:w-2/3">
-            <input className='appearance-none border-b-2 border-black w-full leading-tight focus:outline-none focus:border-black'
-              id="name-input"
-              name="name" 
-              type="text" 
-              value={name} 
-              onChange={(e) => setName(e.target.value)}
-            />
+          <div className="md:flex md:items-center mb-6">
+            <div className='md:w-1/3'> 
+              <label className='block text-black md:text-right mb-1 md:mb-0 pr-4' htmlFor='code-input'>
+                Entry Code:
+              </label>
+            </div>
+            <div>
+              <input className='appearance-none border-b-2 border-black w-full leading-tight focus:outline-none focus:border-black'
+                id="code-input"
+                name="entrycode" 
+                type="text" 
+                value={entryCode} 
+                onChange={(e) => setEntryCode(e.target.value)} 
+              />
+            </div>
           </div>
         </div>
-        <div className="md:flex md:items-center mb-6">
-          <div className='md:w-1/3'> 
-            <label className='block text-black md:text-right mb-1 md:mb-0 pr-4' htmlFor='code-input'>
-              Entry Code:
-            </label>
-          </div>
-          <div>
-            <input className='appearance-none border-b-2 border-black w-full leading-tight focus:outline-none focus:border-black'
-              id="code-input"
-              name="entrycode" 
-              type="text" 
-              value={entryCode} 
-              onChange={(e) => setEntryCode(e.target.value)} 
-            />
-          </div>
-        </div>
-        <div className="md:flex md:items-center">
-          <div className="md:w-1/3"></div>
-          <div className="md:w-2/3">
-            <button className="link focus:outline-none py-2" type="submit" value="Register">
-              Register
-            </button>
-          </div>
-        </div>
+        <button className="link bg-white focus:outline-none p-2 px-3 mt-4 rounded-full border-2 border-black cursor-pointer" type="submit" value="Register">
+          Register
+        </button>
       </form>
     </div>
   )

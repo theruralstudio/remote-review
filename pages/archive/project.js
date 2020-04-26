@@ -55,7 +55,7 @@ function Project(props) {
     <div className="divide-y-2 divide-black">
       <div className="p-2">
         <Link href={{pathname: '/archive'}}>
-          <a>Back</a>
+          <a>← Back</a>
         </Link>
       </div>
       <div className="p-2">
@@ -74,7 +74,9 @@ function Project(props) {
     )
   } else {
     return (
-      <p>loading...</p>
+      <div className="flex-grow w-full h-full flex justify-center items-center">
+        <p>↻ loading...</p>
+      </div>
     )
   }
 }

@@ -45,7 +45,7 @@ export default function Tile(props) {
   }
 
   return (
-    <div className='object-cover'>
+    <div className='object-cover bg-gray-500'>
       {getLoadingComponent()}
       {getVideoComponent()}
       {getAudioComponent()}
