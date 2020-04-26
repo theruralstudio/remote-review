@@ -69,7 +69,7 @@ export default function RegisterPanel(props) {
   // };
 
   return (
-    <div className="flex-grow flex flex-col justify-center items-center w-full relative pointer-events-none">
+    <div className="self-center flex-grow flex flex-col justify-center items-center w-full h-full relative pointer-events-none">
       <form onSubmit={handleSubmit} className="w-full max-w-sm bg-white p-8 pointer-events-auto">
         <div className="md:flex md:items-center mb-6">
           <div className="md:w-1/3">
