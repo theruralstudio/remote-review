@@ -56,8 +56,9 @@ export default function RegisterPanel(props) {
     setName(null)
     setEntryCode(null)
 
-    // and change the view back to table
-    props.setView('table')
+    // and toggle visibility again
+    props.toggleRegister()
+    // props.setView('table')
   };
 
   // componentDidMount() {

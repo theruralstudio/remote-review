@@ -7,6 +7,9 @@ import CallObjectContext from './LiveVideo/CallObjectContext'
 import NavPublic from '../components/ReviewUI/NavPublic'
 import RegisterPanel from '../components/RegisterPanel'
 import TablePanel from '../components/Table/TablePanel'
+import UserStatus from '../components/ReviewUI/UserStatus'
+import ChatInput from '../components/Chat/ChatInput'
+import ChatMessages from '../components/Chat/ChatMessages'
 
 // load video panel client-side only
 const LiveVideoNoSSR = dynamic(() => import('./LiveVideo/LiveVideo'), {
@@ -21,6 +24,8 @@ class ReviewFrame extends Component {
       appState: 'STATE_IDLE', // rename to callState
       callObject: null,
       roomUrl: 'https://ccsr.daily.co/rural-studio', // make this an env variable?
+      showRegister: false,
+      showVideo: false,
     }
     this.handleNewMeetingState = this.handleNewMeetingState.bind(this)
   }
@@ -30,6 +35,12 @@ class ReviewFrame extends Component {
 
   // get a meeting token w current user-name
   // https://docs.daily.co/reference#create-meeting-token
+
+  toggleRegister = () => {
+    this.setState({
+      showRegister: !this.state.showRegister
+    })
+  }
 
   // join the call on mount
   componentDidMount() {
@@ -54,13 +65,6 @@ class ReviewFrame extends Component {
       }  
     })
   }
-  // const startJoiningCall = useCallback(url => {
-  //   const newCallObject = DailyIframe.createCallObject()
-  //   setRoomUrl(url)
-  //   setCallObject(newCallObject)
-  //   setAppState(STATE_JOINING)
-  //   newCallObject.join({ url }) // and then use the token when joining here
-  // }, [])
 
   handleNewMeetingState(e) {
     if (!this.state.callObject) return
@@ -91,16 +95,6 @@ class ReviewFrame extends Component {
     }
   }
 
-
-  // watch for changes to call state etc. on update
-  componentDidUpdate() {
-    // if (!this.state.callObject) return
-
-
-
- 
-  }
-
   // leave the call on unmount
   componentWillUnmount() {
     if (!this.state.callObject) return
@@ -116,33 +110,35 @@ class ReviewFrame extends Component {
     //setAppState('STATE_LEAVING')
     this.state.callObject.leave()
   }
-  // const startLeavingCall = useCallback(() => {
-  //   if (!callObject) return
-  //   setAppState(STATE_LEAVING)
-  //   callObject.leave()
-  // }, [callObject])
 
   render() {
-    const reviewPanel = {
-      'register': <RegisterPanel currentUser={this.props.user} setUser={this.props.setUser} setView={this.props.setView}/>,
-      'stream': <LiveVideoNoSSR 
-                  currentUser={this.props.user} 
-                  setView={this.props.setView} 
-                  appState={this.state.appState} 
-                  // setAppState={this.props.setAppState} 
-                  callObject={this.state.callObject} 
-                  // setCallObject={this.props.setCallObject}
-                />,
-      'table': <TablePanel currentUser={this.props.user} setView={this.props.setView} />,
-    }
+    // const reviewPanel = {
+    //   'register': <RegisterPanel currentUser={this.props.user} setUser={this.props.setUser} setView={this.props.setView}/>,
+    //   'stream': <LiveVideoNoSSR currentUser={this.props.user} setView={this.props.setView} appState={this.state.appState} callObject={this.state.callObject} />,
+    //   // 'table': <TablePanel currentUser={this.props.user} setView={this.props.setView} />,
+    // }
 
     return (
       <div className='flex flex-grow px-2 h-full'>
         <div className='flex-grow flex flex-col relative'>
           <CallObjectContext.Provider value={this.state.callObject}>
-            { reviewPanel[this.props.view] }
+            {/* { reviewPanel[this.props.view] } */}
+
+            {/* below here, all Review UI */}
+            { this.state.showRegister &&
+              <RegisterPanel currentUser={this.props.user} setUser={this.props.setUser} toggleRegister={this.toggleRegister}/>
+            }
+            <div className="absolute flex-grow w-full h-full flex justify-center items-center text-6xl text-gray-400 pointer-events-none select-none z-0">╳</div>
+            <ChatMessages currentUser={this.props.user}/>
+            <ChatInput currentUser={this.props.user}/>
+            <UserStatus user={this.props.user} numUsers={0} toggleRegister={this.toggleRegister}/>
+            {/* <NavPublic view={this.props.view} setView={this.props.setView}/> */}
+
+            { this.state.showVideo &&
+              <LiveVideoNoSSR currentUser={this.props.user} appState={this.state.appState} callObject={this.state.callObject} />
+            }
+            <TablePanel currentUser={this.props.user} />
           </CallObjectContext.Provider>
-          <NavPublic view={this.props.view} setView={this.props.setView}/>
         </div>
       </div>    
     )

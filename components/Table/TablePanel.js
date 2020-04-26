@@ -1,13 +1,8 @@
 import React, { useContext, useState, useRef } from 'react'
 import { useSprings, useSpring, animated } from 'react-spring'
-import { useGesture, useDrag } from 'react-use-gesture'
 import { FirebaseContext } from '../../utils/firebase'
 import 'firebase/database'
 import { useListVals } from 'react-firebase-hooks/database'
-// import ChatPanel from './ChatPanel'
-import ChatInput from '../Chat/ChatInput'
-import ChatMessages from '../Chat/ChatMessages'
-import UserStatus from '../ReviewUI/UserStatus'
 import TableImage from './TableImage'
 
 function TablePanel({numUsers, currentUser, setView}) {
@@ -26,13 +21,6 @@ function TablePanel({numUsers, currentUser, setView}) {
   const ref = firebase.database().ref('images')
   const [images, loading, error] = useListVals(ref, {keyField: 'id'})
 
-  // add an image to the list, maybe do this from project panel instead?
-  // const addImage = () => {
-  //   ref.push({
-  //     url: cards[0]
-  //   })
-  // }
-
   // remove an image
   const removeImage = (id) => {
     firebase.database().ref(`images/${id}`).remove()
@@ -40,32 +28,18 @@ function TablePanel({numUsers, currentUser, setView}) {
 
   const tableFrame= useRef(null);
 
-  // gesture controls for images on table
-  // const [{x, y}, setPosition] = useState({x: 0, y: 0});
-  // const bind = useGesture({
-  //   onDrag: ({ down, offset: [x, y]}) => {setPosition({x, y})}, // while dragging, use temporary x/y
-  //   onDragEnd: () => { console.log(`${x} ${y}`)}, // then update the actual record
-  //   // onMouseDown: () => console.log(x)
-  // })
- 
   return (
-    <div className="flex-grow flex flex-col w-full relative">
-      <div className="absolute flex-grow w-full h-full flex justify-center items-center text-6xl text-gray-400 select-none z-0">╳</div>
-      <div className="flex-grow h-full flex justify-center items-center relative">
-        { images.map( (img, i) => (
-            <TableImage
-              id={img.id}
-              key={i} 
-              img={img}
-              // updateImage={updateImage}
-              frame={tableFrame}
-            />
-          ))
-        }
-      </div>
-      <ChatMessages currentUser={currentUser}/>
-      <ChatInput currentUser={currentUser}/>
-      <UserStatus numUsers={numUsers} currentUser={currentUser} setView={setView}/>
+    <div className="flex-grow h-full flex justify-center items-center relative pointer-events-none">
+      { images.map( (img, i) => (
+          <TableImage
+            id={img.id}
+            key={i} 
+            img={img}
+            // updateImage={updateImage}
+            frame={tableFrame}
+          />
+        ))
+      }
     </div>
   )
 }

@@ -1,8 +1,7 @@
 import React, { useEffect, useContext, useReducer } from "react";
-// import "./Call.css";
-import Tile from "./Tile";
 import CallObjectContext from "./CallObjectContext";
-// import CallMessage from "./CallMessage";
+import Tile from "./Tile";
+
 import {
   initialCallState,
   CLICK_ALLOW_TIMEOUT,
@@ -15,7 +14,6 @@ import {
   containsScreenShare,
   getMessage
 } from "./callState";
-import { logDailyEvent } from "./logUtils";
 
 export default function Call() {
   const callObject = useContext(CallObjectContext);
@@ -30,7 +28,7 @@ export default function Call() {
     const events = [
       "participant-joined",
       "participant-updated",
-      "participant-left"
+      "participant-left",
     ];
 
     function handleNewParticipantsState(event) {
@@ -148,9 +146,8 @@ export default function Call() {
   const [largeTiles, tiles] = getTiles();
   const message = getMessage(callState);
 
-  // based on the number of tiles, create a grid that will hold all
   return (
-    <div className="flex-grow grid grid-cols-3 gap-0">
+    <div className="grid grid-cols-2 gap-0">
       {tiles}
     </div>
   );
