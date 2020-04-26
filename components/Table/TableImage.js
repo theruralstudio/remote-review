@@ -5,6 +5,10 @@ import { FirebaseContext } from '../../utils/firebase'
 import 'firebase/database'
 import { useObjectVal } from 'react-firebase-hooks/database'
 
+function TableVideo({id}) {
+
+}
+
 function TableImage({id}) {
   //const safeFrame = useRef(null);
 

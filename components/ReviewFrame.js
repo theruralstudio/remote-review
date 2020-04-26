@@ -119,9 +119,8 @@ class ReviewFrame extends Component {
         callObject.off(event, this.handleNewMeetingState)
       }
     }   
-
+    
     this.setState({appState: 'STATE_LEAVING'})
-    //setAppState('STATE_LEAVING')
     this.state.callObject.leave()
   }
 
