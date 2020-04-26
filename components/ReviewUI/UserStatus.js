@@ -64,7 +64,7 @@ export default function UserStatus({numUsers, user, toggleRegister}) {
   const isRegistered = user.name == 'Anonymous'
 
   return (
-    <div className="absolute bottom-0 left-0 flex flex-col justify-start items-start">
+    <div className="absolute bottom-0 left-0 flex flex-col justify-start items-start z-10">
       <div className="bg-white rounded-full p-2 mt-2 cursor-pointer" style={user.style}>
         {isRegistered
           ? <div onClick={toggleRegister}>Click to Register</div>

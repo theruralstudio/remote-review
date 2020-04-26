@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react"
 export default function VisibilityToggles({showVideo, toggleVideo, showChat, toggleChat}) {
 
   return (
-    <div className="absolute top-0 right-0 flex flex-col justify-start items-start">
+    <div className="absolute top-0 right-0 flex flex-col justify-start items-start z-10">
       <div className="bg-white rounded-full p-2 mb-2 cursor-pointer">
         <div onClick={toggleVideo}>{showVideo ? 'Hide Video' : 'Show Video'}</div>
       </div>  

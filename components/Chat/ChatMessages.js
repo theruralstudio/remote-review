@@ -20,7 +20,7 @@ export default function ChatMessages({currentUser}) {
   const [messages, loading, error] = useListVals(ref)
 
   return (
-    <div className="absolute flex flex-col w-full h-full justify-end items-start p-2 pb-24 pointer-events-none overflow-hidden">
+    <div className="absolute flex flex-col w-full h-full justify-end items-start p-2 pb-24 pointer-events-none overflow-hidden z-10">
       {messages.map((m, i) => (
         <ChatMessage key={i} message={m} currentUser={currentUser} />
       ))}

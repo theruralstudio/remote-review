@@ -45,7 +45,7 @@ export default function Tile(props) {
   }
 
   return (
-    <div className="flex items-center justify-center bg-black">
+    <div className='object-cover'>
       {getLoadingComponent()}
       {getVideoComponent()}
       {getAudioComponent()}

@@ -146,8 +146,10 @@ export default function Call() {
   const [largeTiles, tiles] = getTiles();
   const message = getMessage(callState);
 
+  const gridWidth = Math.ceil(Math.sqrt(tiles.length))
+
   return (
-    <div className="grid grid-cols-2 gap-0">
+    <div className={`absolute flex-grow grid grid-cols-${gridWidth} grid-rows-${gridWidth} gap-0 w-full h-full z-0`}>
       {tiles}
     </div>
   );

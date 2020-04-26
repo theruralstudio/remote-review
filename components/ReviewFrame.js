@@ -127,21 +127,19 @@ class ReviewFrame extends Component {
 
   render() {
     return (
-      <div className='flex flex-grow px-2 h-full'>
-        <div className='flex-grow flex flex-col relative'>
-          <CallObjectContext.Provider value={this.state.callObject}>
-            { this.state.showRegister && <RegisterPanel currentUser={this.props.user} setUser={this.props.setUser} toggleRegister={this.toggleRegister}/> }
-            { this.state.showChat && <ChatMessages currentUser={this.props.user}/> }
-            { this.state.showChat && <ChatInput currentUser={this.props.user}/> }
-            <VisibilityToggles showVideo={this.state.showVideo} toggleVideo={this.toggleVideo} showChat={this.state.showChat} toggleChat={this.toggleChat}/>
-            <UserStatus user={this.props.user} numUsers={0} toggleRegister={this.toggleRegister}/>
-            {/* <NavPublic view={this.props.view} setView={this.props.setView}/> */}
-            { this.state.showVideo && <LiveVideoNoSSR currentUser={this.props.user} appState={this.state.appState} callObject={this.state.callObject} /> }
-            <div className="absolute flex-grow w-full h-full flex justify-center items-center text-6xl text-gray-400 pointer-events-none select-none z-0">╳</div>
-            <TablePanel currentUser={this.props.user} />
-          </CallObjectContext.Provider>
-        </div>
-      </div>    
+      <div id="review-frame-full" className='flex-grow flex flex-col relative'>
+        <CallObjectContext.Provider value={this.state.callObject}>
+          { this.state.showRegister && <RegisterPanel currentUser={this.props.user} setUser={this.props.setUser} toggleRegister={this.toggleRegister}/> }
+          { this.state.showChat && <ChatMessages currentUser={this.props.user}/> }
+          { this.state.showChat && <ChatInput currentUser={this.props.user}/> }
+          <VisibilityToggles showVideo={this.state.showVideo} toggleVideo={this.toggleVideo} showChat={this.state.showChat} toggleChat={this.toggleChat}/>
+          <UserStatus user={this.props.user} numUsers={0} toggleRegister={this.toggleRegister}/>
+          {/* <NavPublic view={this.props.view} setView={this.props.setView}/> */}
+          { this.state.showVideo && <LiveVideoNoSSR currentUser={this.props.user} appState={this.state.appState} callObject={this.state.callObject} /> }
+          <div className="absolute flex-grow w-full h-full flex justify-center items-center text-6xl text-gray-400 pointer-events-none select-none z-0">╳</div>
+          <TablePanel currentUser={this.props.user} />
+        </CallObjectContext.Provider>
+      </div>
     )
   }
 }
