@@ -26,7 +26,7 @@ class ReviewFrame extends Component {
     this.state = {
       appState: 'STATE_IDLE', // rename to callState
       callObject: null,
-      roomUrl: 'https://ccsr.daily.co/rural-studio', // make this an env variable?
+      roomUrl: process.env.dailyCoRoom, // make this an env variable?
       showRegister: false,
       showVideo: true,
       showChat: true,
@@ -35,7 +35,6 @@ class ReviewFrame extends Component {
   }
   // const [appState, setAppState] = useState(STATE_IDLE)
   // const [callObject, setCallObject] = useState(null)
-  // const roomUrl = 'https://ccsr.daily.co/rural-studio'
 
   // get a meeting token w current user-name
   // https://docs.daily.co/reference#create-meeting-token
