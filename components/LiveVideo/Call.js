@@ -15,13 +15,12 @@ import {
   getMessage
 } from "./callState";
 
-export default function Call() {
+export default function Call(props) {
   const callObject = useContext(CallObjectContext);
   const [callState, dispatch] = useReducer(callReducer, initialCallState);
   const [activeSpeaker, setActiveSpeaker] = useState('')
 
   const handleActiveSpeaker = (e) => {
-    console.log(e.activeSpeaker)
     setActiveSpeaker(e.activeSpeaker.peerId)
   }
 
@@ -168,8 +167,13 @@ export default function Call() {
   const gridWidth = Math.ceil(Math.sqrt(tiles.length))
 
   return (
-    <div className={`absolute flex-grow grid grid-cols-${gridWidth} grid-rows-${gridWidth} gap-0 w-full h-full`}>
+    <div className={`${props.showVideo ? '' : 'video-hidden'} absolute flex-grow grid grid-cols-${gridWidth} grid-rows-${gridWidth} gap-0 w-full h-full`}>
       {tiles}
+      <style jsx>{`
+        .video-hidden {
+          visibility: hidden;
+        }
+      `}</style>
     </div>
   );
 }

@@ -75,7 +75,7 @@ export default function UserStatus({numUsers, user, toggleRegister}) {
         <div onClick={toggleMic}>{isMicMuted ? 'Unmute Mic' : 'Mute Mic'}</div>
       </div>
       <div className="bg-white rounded-full p-2 mt-2 cursor-pointer">
-        <div onClick={toggleCamera}>{isCameraMuted ? 'Start Video' : 'Pause Video'}</div>
+        <div onClick={toggleCamera}>{isCameraMuted ? 'Unblock Camera' : 'Block Camera'}</div>
       </div>            
       {/* <div className="bg-white rounded-full m-4 p-2">{numUsers} are here</div> */}
     </div>

@@ -26,7 +26,6 @@ function TableImage({id}) {
 
   // update an image's position, in X, Y from the center
   const updateImage = (d) => {
-    console.log(d)
     const updatebody = d
     ref.update(updatebody)
   }

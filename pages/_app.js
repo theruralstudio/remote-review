@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext, createContext } from 'react';
 
 // NEXT COMPONENTS
-import { withRouter } from 'next/router';
 import App from 'next/app'
 
 // STYLE (TAILWIND)
@@ -67,4 +66,4 @@ class MyApp extends App {
   }
 }
 
-export default withRouter(MyApp)
+export default MyApp

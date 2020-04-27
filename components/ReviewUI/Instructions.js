@@ -19,7 +19,7 @@ function Instructions(props) {
   });
 
   return (
-    <div className="relative flex-grow gap-8 m-48 flex flex-col items-start z-50">
+    <div className="absolute flex-grow gap-8 m-48 flex flex-col items-start z-50">
       <div className="bg-white self-stretch p-4 border-2 border-black shadow-2xl">
         <Markdown source={mdText} />
       </div>

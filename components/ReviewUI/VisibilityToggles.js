@@ -10,7 +10,7 @@ export default function VisibilityToggles({showVideo, toggleVideo, showChat, tog
         </div>  
       }
       <div className="bg-white rounded-full p-2 mb-2 cursor-pointer">
-        <div onClick={toggleVideo}>{showVideo ? 'Hide Video' : 'Show Video'}</div>
+        <div onClick={toggleVideo}>{showVideo ? 'Hide Video Call' : 'Show Video Call'}</div>
       </div>  
       <div className="bg-white rounded-full p-2 mb-2 cursor-pointer">
         <div onClick={toggleChat}>{showChat ? 'Hide Chat' : 'Show Chat'}</div>
