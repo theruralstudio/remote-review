@@ -155,7 +155,7 @@ class ReviewFrame extends Component {
             <VisibilityToggles toggleInstructions={this.toggleInstructions} showVideo={this.state.showVideo} toggleVideo={this.toggleVideo} showChat={this.state.showChat} toggleChat={this.toggleChat}/>
             <UserStatus user={this.props.user} numUsers={0} toggleRegister={this.toggleRegister}/>
             <LiveVideoNoSSR currentUser={this.props.user} appState={this.state.appState} callObject={this.state.callObject} showVideo={this.state.showVideo}/>
-            <div className="absolute flex-grow w-full h-full flex justify-center items-center text-6xl text-gray-400 opacity-25 pointer-events-none select-none z-0">╳</div>
+            <div className="absolute flex-grow w-full h-full flex justify-center items-center text-6xl text-gray-400 opacity-25 pointer-events-none select-none z-30">╳</div>
             <TablePanel currentUser={this.props.user} />
             { !this.props.user.instructed && <Instructions toggleInstructions={this.toggleInstructions} instructed={this.props.user.instructed}/> }
           </CallObjectContext.Provider>

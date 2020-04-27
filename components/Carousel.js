@@ -30,7 +30,7 @@ function DraggableImage({img}) {
 
 function Slide({content}) {
   const typedict = {
-    'mp4': <ReactPlayer className="w-full" url={content.url} controls width='100%' height='100%' playing loop/>,
+    'mp4': <ReactPlayer className="w-full" url={content.url} controls width='100%' height='100%'/>,
     'jpg': <DraggableImage img={content} />,
     'png': <DraggableImage img={content} />
   }

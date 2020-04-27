@@ -29,47 +29,57 @@ function TableImage({id}) {
     const updatebody = d
     ref.update(updatebody)
   }
+
+  const remap = (value, x1, y1, x2, y2) => (value - x1) * (y2 - x2) / (y1 - x1) + x2;
+
+  const updateZoom = (z) => {
+    console.log(z)
+    const zoomMultiplier = remap(z, -25, 25, 0.5, 1.5)
+    const [zMin, zMax] = [2, 20]
+    // const zFactor = 10
+    // const scaledInput = z/zFactor
+    const newValue = img.zoom * zoomMultiplier
+    const newValuePadded = Math.min(Math.max(parseInt(newValue), zMin), zMax)
+
+    console.log(newValue)
+    updateImage({
+      zoom: newValuePadded
+    })
+  }
   
-  // initialize position from props
-  // const [{x, y}, setPosition] = useState( img ? {x: img.position.x, y: img.position.y} : {x: 0, y: 0});
-
-  // const [{x, y}, setPosition] = useState({x: img.position.x, y: img.position.y});
-  // const [{ x, y }, setPosition] = useSpring(() => ({ x: img.position.x, y: img.position.y }))
-
-  // const centerPosition = (targetNode) => {
-  //   let centerX = targetNode.offsetLeft + targetNode.offsetWidth / 2;
-  //   let centerY = targetNode.offsetTop + targetNode.offsetHeight / 2;
-  //   return [centerX, centerY]
-  // }
-
-  // const centerDelta = (before, after) => {
-  //   let [x1, y1] = centerPosition(before)
-  //   let [x2, y2] = centerPosition(after)
-  //   return [x1 - x2, y1 - y2]
-  // }
-
   // if image loaded, translate props here
   const {x, y} = img && img.position ? img.position : {x: 0, y: 0}
   const zoom = img ? img.zoom : 5
   const staticProps = {  // static styles
-    maxWidth: `${zoom*100}px`, 
-    maxHeight: `${zoom*100}px`, 
+    width: `${zoom*100}px`, 
+    height: `${zoom*100}px`, 
   }
 
-
   const bind = useGesture({
-    onDrag: ({ down, event, tap, offset: [dx, dy]}) => { if (tap) removeImage(); updateImage({position: { x: dx, y: dy }}) }, // while dragging, use temporary x/y setPosition({x: dx, y: px + dy})
-    onWheel: ({xy: [x, y]}) => { updateImage({zoom: y/10}) },
-  }, { filterTaps: true })
+    onDrag: ({ down, event, tap, offset: [dx, dy]}) => { updateImage({position: { x: dx, y: dy }}) }, // while dragging, use temporary x/y setPosition({x: dx, y: px + dy})
+    onWheel: ({movement: [x, y]}) => { updateZoom(y) },
+  })
  
   if (img) {
     return (
-      <animated.img {...bind()} 
-        className="absolute shadow pointer-events-auto"
-        draggable={false}
-        src={img.url}
-        style={{...staticProps, ...{ x, y } }}> 
-      </animated.img>
+      <animated.div {...bind()} className="absolute pointer-events-auto flex flex-col items-center justify-center" style={{...staticProps, ...{ x, y } }}> 
+        <div className="pointer-events-auto cursor-pointer self-start lime -mb-6 z-10" onClick={removeImage}>╳</div>
+        <img draggable={false} className="shadow" src={img.url} />
+        <style jsx>
+          {`
+          .lime {
+            font-weight: bold;
+            color: black;
+          }
+          `}
+        </style>
+      </animated.div>
+      // <animated.img 
+      //   className="absolute shadow pointer-events-auto"
+      //   draggable={false}
+      //   src={img.url}
+      //   style={{...staticProps, ...{ x, y } }}>
+      // </animated.img>
     )
   } else {
     return (<p>none</p>)
