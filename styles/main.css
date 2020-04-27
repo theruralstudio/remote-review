@@ -58,3 +58,11 @@ a, .link {
   font-weight: bold;
   color: blue;
 }
+
+ul {
+  list-style-type: square;
+}
+
+li {
+  list-style-position: inside;
+}

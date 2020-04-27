@@ -31,7 +31,7 @@ export default function RegisterPanel(props) {
 
     // register user in db if the key matches any
     if ( participantKeys[entryCode] ) {
-      console.log(participantKeys[entryCode])
+      // console.log(participantKeys[entryCode])
       
       // randomly create color pair
       const rand = Math.random() * 360;
@@ -54,7 +54,8 @@ export default function RegisterPanel(props) {
       setUser({
         name: name,
         style: style,
-        registered: true
+        registered: true,
+        instructed: false
       });
 
       // reroute to archive again
@@ -65,8 +66,8 @@ export default function RegisterPanel(props) {
     };
 
     // then clear input state/ add active user
-    setName(null)
-    setEntryCode(null)
+    setName('')
+    setEntryCode('')
 
     // and toggle visibility again
     // props.toggleRegister()

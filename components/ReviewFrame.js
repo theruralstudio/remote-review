@@ -12,6 +12,7 @@ import TablePanel from '../components/Table/TablePanel'
 import UserStatus from '../components/ReviewUI/UserStatus'
 import ChatInput from '../components/Chat/ChatInput'
 import ChatMessages from '../components/Chat/ChatMessages'
+import Instructions from '../components/ReviewUI/Instructions'
 
 // load video panel client-side only
 const LiveVideoNoSSR = dynamic(() => import('./LiveVideo/LiveVideo'), {
@@ -44,6 +45,14 @@ class ReviewFrame extends Component {
   //     showRegister: !this.state.showRegister
   //   })
   // }
+
+  toggleInstructions = () => {
+    console.log(this.props.user)
+    this.props.setUser({
+      ...this.props.user,
+      ...{ instructed: !this.props.user.instructed }
+    })
+  }
 
   toggleVideo = () => {
     this.setState({
@@ -81,7 +90,6 @@ class ReviewFrame extends Component {
   // join the call on mount
   componentDidMount() {
     //reroute to registration page if not registered
-    console.log(this.props.router.pathname)
     if (!this.props.user.registered) {
       this.props.router.push('/register')
     } else {
@@ -145,12 +153,13 @@ class ReviewFrame extends Component {
             { this.state.showRegister && <RegisterPanel currentUser={this.props.user} setUser={this.props.setUser} toggleRegister={this.toggleRegister}/> }
             { this.state.showChat && <ChatMessages currentUser={this.props.user}/> }
             { this.state.showChat && <ChatInput currentUser={this.props.user}/> }
-            <VisibilityToggles showVideo={this.state.showVideo} toggleVideo={this.toggleVideo} showChat={this.state.showChat} toggleChat={this.toggleChat}/>
+            <VisibilityToggles toggleInstructions={this.toggleInstructions} showVideo={this.state.showVideo} toggleVideo={this.toggleVideo} showChat={this.state.showChat} toggleChat={this.toggleChat}/>
             <UserStatus user={this.props.user} numUsers={0} toggleRegister={this.toggleRegister}/>
             {/* <NavPublic view={this.props.view} setView={this.props.setView}/> */}
             { this.state.showVideo && <LiveVideoNoSSR currentUser={this.props.user} appState={this.state.appState} callObject={this.state.callObject} /> }
             <div className="absolute flex-grow w-full h-full flex justify-center items-center text-6xl text-gray-400 opacity-25 pointer-events-none select-none z-0">╳</div>
             <TablePanel currentUser={this.props.user} />
+            { !this.props.user.instructed && <Instructions toggleInstructions={this.toggleInstructions} instructed={this.props.user.instructed}/> }
           </CallObjectContext.Provider>
         </div>
       )

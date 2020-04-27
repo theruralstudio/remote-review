@@ -1,9 +1,9 @@
 import React, {Component, useState, useEffect} from 'react'
 import Link from 'next/link'
 import Markdown from 'react-markdown'
-import LandingLayout from '../layouts/LandingLayout'
+import LandingLayout from '../../layouts/LandingLayout'
 
-function Instructions() {
+function Instructions(props) {
   const [mdText, setMdText] = useState('');
 
   useEffect(() => {
@@ -19,19 +19,12 @@ function Instructions() {
   });
 
   return (
-    <div className="flex-grow gap-8 m-48 flex flex-col items-start">
-      <div className="bg-white rounded-full p-2 mb-2 cursor-pointer border-2 border-black">
-        <Link href="/">
-          <a>Back</a>
-        </Link>
-      </div>
-      <div className="bg-white self-stretch p-4 border-2 border-black">
+    <div className="relative flex-grow gap-8 m-48 flex flex-col items-start z-50">
+      <div className="bg-white self-stretch p-4 border-2 border-black shadow-2xl">
         <Markdown source={mdText} />
       </div>
-      <div className="bg-white rounded-full p-2 mt-2 cursor-pointer border-2 border-black">
-        <Link href="/archive">
-          <a>I Understand</a>
-        </Link>
+      <div className="bg-white rounded-full p-2 px-4 mt-2 cursor-pointer border-2 border-black shadow-lg">
+        <a onClick={props.toggleInstructions}>OK</a>
       </div>
     </div>
   )
