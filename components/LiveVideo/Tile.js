@@ -44,11 +44,18 @@ export default function Tile(props) {
     return classNames;
   }
 
+  const isActive = props.id == props.activeSpeaker
+
   return (
-    <div className='object-cover bg-gray-500'>
+    <div className={`${isActive ? 'active-tile z-30' : 'inactive-tile'} object-cover bg-gray-500`}>
       {getLoadingComponent()}
       {getVideoComponent()}
       {getAudioComponent()}
+      <style jsx>{`
+        .active-tile {
+          outline: 2px solid magenta
+        }
+      `}</style>
     </div>
   );
 }

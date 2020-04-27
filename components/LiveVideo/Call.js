@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useReducer } from "react";
+import React, { useState, useEffect, useContext, useReducer } from "react";
 import CallObjectContext from "./CallObjectContext";
 import Tile from "./Tile";
 
@@ -18,6 +18,12 @@ import {
 export default function Call() {
   const callObject = useContext(CallObjectContext);
   const [callState, dispatch] = useReducer(callReducer, initialCallState);
+  const [activeSpeaker, setActiveSpeaker] = useState('')
+
+  const handleActiveSpeaker = (e) => {
+    console.log(e.activeSpeaker)
+    setActiveSpeaker(e.activeSpeaker.peerId)
+  }
 
   /**
    * Start listening for participant changes, when the callObject is set.
@@ -80,6 +86,17 @@ export default function Call() {
     };
   }, [callObject]);
 
+  // listen for active speaker changes
+  useEffect(() => {
+    if (!callObject) return
+
+    callObject.on("active-speaker-change", handleActiveSpeaker)
+
+    return function cleanup() {
+      callObject.off("active-speaker-change", handleErrorEvent);
+    }
+  }, [callObject])
+
   /**
    * Start listening for fatal errors, when the callObject is set.
    */
@@ -127,11 +144,13 @@ export default function Call() {
       const tile = (
         <Tile
           key={id}
+          id={id}
           videoTrack={callItem.videoTrack}
           audioTrack={callItem.audioTrack}
           isLocalPerson={isLocal(id)}
           isLarge={isLarge}
           isLoading={callItem.isLoading}
+          activeSpeaker={activeSpeaker}
         />
       );
       if (isLarge) {

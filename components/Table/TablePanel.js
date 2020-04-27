@@ -29,7 +29,7 @@ function TablePanel({numUsers, currentUser, setView}) {
   const tableFrame= useRef(null);
 
   return (
-    <div className="flex-grow h-full flex justify-center items-center relative pointer-events-none">
+    <div className="flex-grow h-full flex justify-center items-center relative pointer-events-none z-0">
       { images.map( (img, i) => (
           <TableImage
             id={img.id}
