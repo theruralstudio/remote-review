@@ -18,8 +18,10 @@ export default (req, res) => {
   });
     
   const objectsStream = minioClient.listObjectsV2(bucketName, 'projects/' + querytitle , true,'');
+  
   let project = {
     "title": querytitle,
+    "authors": [],
     "video": {},
     "images": [],
     "text": {}
@@ -55,16 +57,27 @@ export default (req, res) => {
     }
   })
   objectsStream.on('end', () => {
+    const projectText = ''
     if (project.text.url) {
-      fetch(project.text.url).then( (r) => {
-        r.text().then((s)=>{
-          project.text.body = s;
+      projectText = fetch(project.text.url).then((r) => r.text())
+    }
+    const students = fetch(`https://${endPoint}/${bucketName}/text/students.json`).then((r) => r.json())
+
+    Promise.all([projectText, students])
+    // if (project.text.url) {
+    //   fetch(project.text.url).then( (r) => {
+        .then(values => {
+          let authors = project.video.authors.split('-')
+          project.authors = values[1].filter( (s) => {
+            authors.includes(s.uni)
+          })
+          project.text.body = values[0]
           res.status(200).json(project);
         })
-      })
-    } else {
-      res.status(200).json(project);
-    }
+      // })
+    // } else {
+    //   res.status(200).json(project);
+    // }
   })
   objectsStream.on('error', function(e) {
     // console.log(e)
