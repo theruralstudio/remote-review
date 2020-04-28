@@ -63,7 +63,7 @@ function TableImage({id}) {
   if (img) {
     return (
       <animated.div {...bind()} className="absolute pointer-events-auto flex flex-col items-center justify-center" style={{...staticProps, ...{ x, y } }}> 
-        <div className="pointer-events-auto cursor-pointer self-start lime -mb-6 z-10" onClick={removeImage}>╳</div>
+        <div className="pointer-events-auto cursor-pointer self-start lime" onClick={removeImage}>╳</div>
         <img draggable={false} className="shadow" src={img.url} />
         <style jsx>
           {`
