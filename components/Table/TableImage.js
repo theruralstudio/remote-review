@@ -84,7 +84,6 @@ function TableImage({id}) {
   } else {
     return (<p>none</p>)
   }
-
 }
 
 export default TableImage;
