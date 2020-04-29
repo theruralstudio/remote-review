@@ -68,10 +68,17 @@ export default (req, res) => {
     //   fetch(project.text.url).then( (r) => {
         .then(values => {
           let authors = project.video.authors.split('-')
-          project.authors = values[1].filter( (s) => {
-            authors.includes(s.uni)
+          let students = values[1]
+          console.log(students)
+          let authorObjs = students.filter(s => {
+            return authors.includes(s.uni)
           })
+          console.log(authors)
+          console.log(authorObjs)
+          project.authors = authorObjs
           project.text.body = values[0]
+        })
+        .then(v => {
           res.status(200).json(project);
         })
       // })

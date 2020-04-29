@@ -18,9 +18,9 @@ import BasicLayout from '../../layouts/BasicLayout'
 
 import Carousel from '../../components/Carousel'
 
-// function fetcher(url) {
-//   return fetch(url).then(r => r.json());
-// }
+function fetcher(url) {
+  return fetch(url).then(r => r.json());
+}
 
 function Project(props) {
   const router = useRouter()
@@ -28,7 +28,13 @@ function Project(props) {
   // const open = viewprops.open
   // const view = viewprops.view
 
-  const { data: project } = useSWR(`/api/project?title=${encodeURI(title)}`)
+  const { data, error } = useSWR(`/api/project?title=${encodeURI(title)}`, fetcher);
+  // const { students, sError } =useSWR('/api/students', fetcher)
+  // const authorUnis = data.authors.split('-')
+  // const authors = students.filter( (s) => {
+  //   authorUnis.includes(s.uni)
+  // })
+  // console.log(authors)
 
   // gesture controls for images
   const [{x, y}, setPosition] = useState({x: 0, y: 0});
@@ -39,12 +45,9 @@ function Project(props) {
     // onMouseDown: () => console.log(x)
   })
   
-  // const project = data;
+  const project = data;
 
-
-
-  if (students) {
-
+  if (data) {
     const projectImages = () => {
       const imgs = project.images.map(img=> (
         <animated.div key={img.url} {...bind()} style={{...{x, y}}} >
@@ -65,6 +68,9 @@ function Project(props) {
         <div className="p-2">
           <h1>{project.title}</h1>
         </div>
+        <div className="divide-y divide-black">
+          {project.authors.map((a) => { return <div className="p-2">{a.name}</div> })}
+        </div>        
         <Carousel images={project.images} video={project.video}/>
         <div className="p-2">
           <Markdown source={project.text.body} />
@@ -72,7 +78,7 @@ function Project(props) {
       </div>
     )
 
-
+    
     return (
       pageContent()
     )
