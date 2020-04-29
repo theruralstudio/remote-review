@@ -33,8 +33,10 @@ function TablePanel({numUsers, currentUser, setView}) {
       { images.map( (img, i) => (
           <TableImage
             id={img.id}
-            key={i} 
+            key={i}
+            num={i} 
             img={img}
+            caption={img.caption}
             // updateImage={updateImage}
             frame={tableFrame}
           />

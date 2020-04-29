@@ -62,7 +62,8 @@ export default function Carousel({images, video}) {
         x: 0,
         y: 0
       },
-      zoom: 5.0
+      zoom: 5.0,
+      caption: img.caption
     })
   }
 

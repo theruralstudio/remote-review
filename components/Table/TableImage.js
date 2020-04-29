@@ -9,7 +9,7 @@ function TableVideo({id}) {
 
 }
 
-function TableImage({id}) {
+function TableImage({id, num}) {
   //const safeFrame = useRef(null);
 
   //firebase
@@ -19,9 +19,27 @@ function TableImage({id}) {
 
   // const animationProps = useSpring({opacity: 1, from: {opacity: 0}}) // basic animation props
 
+  const remap = (value, x1, y1, x2, y2) => (value - x1) * (y2 - x2) / (y1 - x1) + x2;
+
+  const pad = (input, min, max) => {
+    return Math.min(Math.max(parseInt(input), min), max)
+  }
+
   // remove an image
   const removeImage = () => {
     ref.remove()
+  }
+
+  const zoomIn = () => {
+    ref.update({
+      zoom: pad(img.zoom + 2, 2, 20)
+    })
+  }
+
+  const zoomOut = () => {
+    ref.update({
+      zoom: pad(img.zoom - 2, 2, 20)
+    })
   }
 
   // update an image's position, in X, Y from the center
@@ -30,7 +48,6 @@ function TableImage({id}) {
     ref.update(updatebody)
   }
 
-  const remap = (value, x1, y1, x2, y2) => (value - x1) * (y2 - x2) / (y1 - x1) + x2;
 
   const updateZoom = (z) => {
     console.log(z)
@@ -51,8 +68,9 @@ function TableImage({id}) {
   const {x, y} = img && img.position ? img.position : {x: 0, y: 0}
   const zoom = img ? img.zoom : 5
   const staticProps = {  // static styles
-    width: `${zoom*100}px`, 
-    height: `${zoom*100}px`, 
+    maxWidth: `${zoom*100}px`, 
+    maxHeight: `${zoom*100}px`, 
+    // transform: `scale(${zoom})`
   }
 
   const bind = useGesture({
@@ -63,23 +81,22 @@ function TableImage({id}) {
   if (img) {
     return (
       <animated.div {...bind()} className="absolute pointer-events-auto flex flex-col items-center justify-center" style={{...staticProps, ...{ x, y } }}> 
-        <div className="pointer-events-auto cursor-pointer self-start lime" onClick={removeImage}>╳</div>
+        <div className="self-start flex">
+          <div className="pointer-events-auto bg-white cursor-pointer text-gray-700 px-2" onClick={removeImage}>╳</div>
+          <div className="pointer-events-auto bg-green-200 cursor-pointer text-gray-700 px-2" onClick={zoomIn}>+</div>
+          <div className="pointer-events-auto bg-red-200 cursor-pointer text-gray-700 px-2" onClick={zoomOut}>-</div>          
+        </div>
         <img draggable={false} className="shadow" src={img.url} />
-        <style jsx>
-          {`
-          .lime {
-            font-weight: bold;
-            color: black;
+        <div className="self-start flex">
+          <div className="self-start number bg-white text-gray-700 px-2">{num + 1}</div>
+          <div className="self-start number bg-white text-gray-700 px-2">{img.caption}</div>
+        </div>
+        <style jsx>{`
+          .number {
+            font-family: monospace;
           }
-          `}
-        </style>
+        `}</style>
       </animated.div>
-      // <animated.img 
-      //   className="absolute shadow pointer-events-auto"
-      //   draggable={false}
-      //   src={img.url}
-      //   style={{...staticProps, ...{ x, y } }}>
-      // </animated.img>
     )
   } else {
     return (<p>none</p>)
