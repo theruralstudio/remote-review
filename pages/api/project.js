@@ -32,7 +32,6 @@ export default (req, res) => {
   objectsStream.on('data', function(obj) {
     //console.log(obj);
     const { name } = obj; // get the name
-
     const nameRegex = /([\w]+)\/([\d\w\s]+)\_([\d\w\-]+)\/([\d]*)[\_]*([\w\d\s\-]+)\.([\w\d]+)/g;
     const matches = [...name.matchAll(nameRegex)];
     if (matches[0]) {
@@ -57,7 +56,7 @@ export default (req, res) => {
     }
   })
   objectsStream.on('end', () => {
-    const projectText = ''
+    let projectText = ''
     if (project.text.url) {
       projectText = fetch(project.text.url).then((r) => r.text())
     }
@@ -67,7 +66,7 @@ export default (req, res) => {
     // if (project.text.url) {
     //   fetch(project.text.url).then( (r) => {
         .then(values => {
-          let authors = project.video.authors.split('-')
+          let authors = project.images[0].authors ? project.images[0].authors.split('-') : {}
           let students = values[1]
           console.log(students)
           let authorObjs = students.filter(s => {
