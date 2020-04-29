@@ -13,6 +13,7 @@ import UserStatus from '../components/ReviewUI/UserStatus'
 import ChatInput from '../components/Chat/ChatInput'
 import ChatMessages from '../components/Chat/ChatMessages'
 import Instructions from '../components/ReviewUI/Instructions'
+import ProjectMinimal from '../components/ProjectMinimal'
 
 // load video panel client-side only
 const LiveVideoNoSSR = dynamic(() => import('./LiveVideo/LiveVideo'), {
@@ -30,6 +31,7 @@ class ReviewFrame extends Component {
       showRegister: false,
       showVideo: true,
       showChat: true,
+      // this.handleClick = this.handleClick.bind(this);
     }
     this.handleNewMeetingState = this.handleNewMeetingState.bind(this)
   }
@@ -149,6 +151,7 @@ class ReviewFrame extends Component {
       return (
         <div id="review-frame-full" className='flex-grow flex flex-col relative'>
           {/* <CallObjectContext.Provider value={this.state.callObject}> */}
+            { !this.props.open && <ProjectMinimal toggleOpen={this.props.toggleOpen} />}
             {/* { this.state.showRegister && <RegisterPanel currentUser={this.props.user} setUser={this.props.setUser} toggleRegister={this.toggleRegister}/> } */}
             {/* { this.state.showChat && <ChatMessages currentUser={this.props.user}/> } */}
             {/* { this.state.showChat && <ChatInput currentUser={this.props.user}/> } */}

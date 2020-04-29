@@ -59,7 +59,7 @@ function Project(props) {
     }
   
     const pageContent = () => (
-      <div className="divide-y-2 divide-black">
+      <div className="flex flex-col divide-y-2 divide-black h-full">
         <div className="p-2">
           <Link href={{pathname: '/archive'}}>
             <a>← Back</a>
@@ -72,8 +72,11 @@ function Project(props) {
           {project.authors.map((a) => { return <div className="p-2">{a.name}</div> })}
         </div>        
         <Carousel images={project.images} video={project.video}/>
-        <div className="p-2">
+        <div className="p-2 flex-grow overflow-y-auto">
           <Markdown source={project.text.body} />
+        </div>
+        <div className="flex flex-row justify-end p-2">
+          <a onClick={props.toggleOpen} className="cursor-pointer">← Hide Archive</a>
         </div>
       </div>
     )
@@ -85,9 +88,7 @@ function Project(props) {
     return (
       <div className="w-full h-full flex flex-col divide-y-2 divide-black">
         <div className="p-2">
-          <Link href={{pathname: '/archive'}}>
-            <a>← Back</a>
-          </Link>
+          <a>← Back</a>
         </div>
         <div className="flex-grow flex justify-center items-center">
           <p>↻ loading...</p>

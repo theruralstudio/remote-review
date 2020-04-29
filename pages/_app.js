@@ -44,6 +44,10 @@ class MyApp extends App {
     this.setState({user: v})    
   }
 
+  toggleOpen = () => {
+    this.setState({open: !this.state.open})
+  }
+
   componentDidMount() {
     // reroute to registration page if not registered and path contains 'archive'
     // console.log(this.props.router.pathname)
@@ -55,11 +59,11 @@ class MyApp extends App {
   render() {
     const { Component, pageProps } = this.props
     const Layout = Component.Layout || Noop
-    const reviewChildren = this.state.open == true && <ReviewFrame view={this.state.view} setView={this.setView} user={this.state.user} setUser={this.setUser} />
+    const reviewChildren = <ReviewFrame toggleOpen={this.toggleOpen} open={this.state.open} view={this.state.view} setView={this.setView} user={this.state.user} setUser={this.setUser} />
     return (
-      <Layout open={this.state.open} view={this.state.view} reviewChildren={reviewChildren} user={this.state.user} setUser={this.setUser} >
+      <Layout toggleOpen={this.toggleOpen} open={this.state.open} view={this.state.view} reviewChildren={reviewChildren} user={this.state.user} setUser={this.setUser} >
         <UserContext.Provider value={{ user: this.state.user, setUser: this.setUser }}>
-          <Component {...pageProps}/>
+          <Component {...pageProps} toggleOpen={this.toggleOpen} open={this.state.open} />
         </UserContext.Provider>
       </Layout>
     )
