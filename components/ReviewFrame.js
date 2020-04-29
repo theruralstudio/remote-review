@@ -66,24 +66,24 @@ class ReviewFrame extends Component {
   }
 
   startCall = () => {
-    const newCallObject = DailyIframe.createCallObject()
-    const events = ['joined-meeting', 'left-meeting', 'error']
+    // const newCallObject = DailyIframe.createCallObject()
+    // const events = ['joined-meeting', 'left-meeting', 'error']
 
-    // add new call object to state
-    this.setState({
-      callObject: newCallObject,
-      appState: 'STATE_JOINING'
-    })
+    // // add new call object to state
+    // this.setState({
+    //   callObject: newCallObject,
+    //   appState: 'STATE_JOINING'
+    // })
 
-    // to-do: get token before join
-    newCallObject.join({ url: this.state.roomUrl }).then(() => {
-      // what does this do?
-      this.handleNewMeetingState()
-      // creat event listeners for the call object?
-      for (const event of events) {
-        this.state.callObject.on(event, this.handleNewMeetingState)
-      }  
-    })
+    // // to-do: get token before join
+    // newCallObject.join({ url: this.state.roomUrl }).then(() => {
+    //   // what does this do?
+    //   this.handleNewMeetingState()
+    //   // creat event listeners for the call object?
+    //   for (const event of events) {
+    //     this.state.callObject.on(event, this.handleNewMeetingState)
+    //   }  
+    // })
   }
 
   // join the call on mount
@@ -148,7 +148,7 @@ class ReviewFrame extends Component {
     } else {
       return (
         <div id="review-frame-full" className='flex-grow flex flex-col relative'>
-          <CallObjectContext.Provider value={this.state.callObject}>
+          {/* <CallObjectContext.Provider value={this.state.callObject}> */}
             {/* { this.state.showRegister && <RegisterPanel currentUser={this.props.user} setUser={this.props.setUser} toggleRegister={this.toggleRegister}/> } */}
             {/* { this.state.showChat && <ChatMessages currentUser={this.props.user}/> } */}
             {/* { this.state.showChat && <ChatInput currentUser={this.props.user}/> } */}
@@ -157,8 +157,8 @@ class ReviewFrame extends Component {
             {/* <LiveVideoNoSSR currentUser={this.props.user} appState={this.state.appState} callObject={this.state.callObject} showVideo={this.state.showVideo}/> */}
             <div className="absolute flex-grow w-full h-full flex justify-center items-center text-2xl text-gray-400 opacity-25 pointer-events-none select-none z-0">⌖</div>
             <TablePanel currentUser={this.props.user} />
-            { !this.props.user.instructed && <Instructions toggleInstructions={this.toggleInstructions} instructed={this.props.user.instructed}/> }
-          </CallObjectContext.Provider>
+            {/* { !this.props.user.instructed && <Instructions toggleInstructions={this.toggleInstructions} instructed={this.props.user.instructed}/> } */}
+          {/* </CallObjectContext.Provider> */}
         </div>
       )
     }
