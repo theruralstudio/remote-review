@@ -78,14 +78,20 @@ function Project(props) {
       </div>
     )
 
-    
     return (
       pageContent()
     )
   } else {
     return (
-      <div className="flex-grow w-full h-full flex justify-center items-center">
-        <p>↻ loading...</p>
+      <div className="w-full h-full flex flex-col divide-y-2 divide-black">
+        <div className="p-2">
+          <Link href={{pathname: '/archive'}}>
+            <a>← Back</a>
+          </Link>
+        </div>
+        <div className="flex-grow flex justify-center items-center">
+          <p>↻ loading...</p>
+        </div>
       </div>
     )
   }

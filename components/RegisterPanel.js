@@ -55,7 +55,7 @@ export default function RegisterPanel(props) {
         name: name,
         style: style,
         registered: true,
-        instructed: false
+        instructed: true
       });
 
       // reroute to archive again
