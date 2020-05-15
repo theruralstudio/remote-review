@@ -25,8 +25,12 @@ function Who() {
             <a>Back</a>
           </Link>
         </div>
-        <div className="bg-white self-stretch p-4 border-2 border-black">
-          <Markdown source={mdText} />
+        <div className="text-center bg-white self-stretch p-4 border-2 border-black">
+        <p className="font-bold">Juan Herreros, Professor of Professional Practice</p>
+        <br></br>
+        <p>Jesse Liam McCormick, TA</p>
+        <p>Esteban Salcedo (eH), Collaborator</p>
+        <p>Site by Carsten Rodin</p>
         </div>
       </div>
   )

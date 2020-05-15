@@ -1,4 +1,5 @@
-import FirebaseProvider from '../utils/firebase';
+import FirebaseProvider from '../utils/firebase'
+import Link from 'next/link'
 
 export default ({children, setUser}) => {
   return (
@@ -12,11 +13,17 @@ export default ({children, setUser}) => {
                   { children }
                   <div>
                     <div className="line-through text-gray-400 fixed top-0 left-0 m-6">Search</div>
-                    <div>
-                      <a className="fixed bottom-0 left-0 m-6" href={'http://estudioherreros.com/en/'}>estudio Herreros ↗</a>
+                    <div className="fixed bottom-0 left-0 m-6">
+                      <a  href={'http://estudioherreros.com/en/'}>estudio Herreros ↗</a>
                     </div>
                     <div className="line-through text-gray-400 fixed top-0 right-0 m-6">Lang</div>
-                    <div className="line-through text-gray-400 fixed bottom-0 right-0 m-6">Contact</div>
+                    <div className="fixed bottom-0 right-0 m-6">
+                      <Link href={{pathname: '/who'}}>
+                        <a>
+                          Who
+                        </a>
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>
