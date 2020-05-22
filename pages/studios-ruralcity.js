@@ -9,30 +9,31 @@ class Index extends Component {
     return (
       <div className="flex-grow flex flex-col justify-center items-center m-24">
         <div className="flex-grow grid grid-cols-2 gap-8">
-          <span className="text-center bg-white flex items-center justify-center border-black border-2">
-            <Link href={{pathname: '/studios-ruralcity', query: {open: true}}}>
+          <span className="text-center bg-white text-gray-600 flex items-center justify-center border-black border-2">
               <div className="cursor-pointer">
-                <p>RURAL CITY STUDIOS 2017-2021</p>
+                <p>RURAL CITY IV · ADVANCED STUDIO VI · SPRING 2021</p>
+                <p className="text-xs">WE’RE WORKING ON IT</p>
+              </div>
+          </span>
+          <span className="cursor-pointer text-center bg-white flex items-center justify-center border-black border-2">
+            <Link href={{pathname: '/archive', query: {open: true}}}>
+              <div>
+                <p>RURAL CITY III · ADVANCED STUDIO VI · SPRING 2020</p>
+                <p className="font-bold">INFRASTRUCTURAL GEOGRAPHY: WATER, LEISURE AND ENERGY POLICIES</p>
               </div>
             </Link>
           </span>
           <span className="text-center bg-white text-gray-600 flex items-center justify-center border-black border-2">
             <div>
-              <p>TYPOLOGICAL CORRECTIONS STUDIOS 2013-2017</p>
+              <p>RURAL CITY II · ADVANCED STUDIO VI · SPRING 2019</p>
+              <p className="font-bold">POST-OCCUPATION OF THE DEPLETED TERRITORIES</p>
               <p className="text-xs">WE’RE WORKING ON IT</p>
             </div>
           </span>
           <span className="text-center bg-white text-gray-600 flex items-center justify-center border-black border-2">
             <div>
-              <p>EMERGING PRACTICES IN ARCHITECTURE 2012-2021</p>
-              <p className="font-bold">RESEARCH · SYMPOSIUM · BOOK · SEMINAR</p>
-              <p className="text-xs">WE’RE WORKING ON IT</p>
-            </div>
-          </span>
-          <span className="text-center bg-white text-gray-600 flex items-center justify-center border-black border-2">
-            <div>
-              <p>UNORTHODOX ARCHITECTS 2020-2021</p>
-              <p className="font-bold">BOOK · SEMINAR</p>
+              <p>RURAL CITY I · ADVANCED STUDIO VI · SPRING 2019</p>
+              <p className="font-bold">THE PERIPHERY OF THE PERIPHERY</p>
               <p className="text-xs">WE’RE WORKING ON IT</p>
             </div>
           </span>
