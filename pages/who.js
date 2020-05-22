@@ -26,7 +26,11 @@ function Who() {
           </Link>
         </div>
         <div className="text-center bg-white self-stretch p-4 border-2 border-black">
-        <p className="font-bold">Juan Herreros, Professor of Professional Practice</p>
+        <p className="font-bold">
+          <a href="https://studio-herreros-content-test.nyc3.digitaloceanspaces.com/20200118_Resume_3pg.%20English.docx" download>
+            Juan Herreros, Professor of Professional Practice
+          </a>
+        </p>
         <br></br>
         <p>Jesse Liam McCormick, TA</p>
         <p>Esteban Salcedo (eH), Collaborator</p>
