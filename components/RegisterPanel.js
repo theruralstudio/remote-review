@@ -2,19 +2,16 @@ import React, { useContext, useState } from 'react'
 import { useRouter } from 'next/router'
 import { FirebaseContext } from '../utils/firebase'
 import UserContext from '../utils/usercontext'
-import 'firebase/database'
-import { useList } from 'react-firebase-hooks/database'
 import tinycolor from 'tinycolor2'
+import 'firebase/database'
 
 export default function RegisterPanel(props) {
-  const router = useRouter()
-
   const participantKeys = {
-    [process.env.loginKeyModerator]: 'moderator',
-    [process.env.loginKeyParticipant]: 'participant',
-    [process.env.loginKeyGuest]: 'guest'
+    [process.env.NEXT_PUBLIC_LOGINKEYPARTICIPANT]: 'participant',
+    [process.env.NEXT_PUBLIC_LOGINKEYMODERATOR]: 'moderator',
+    [process.env.NEXT_PUBLIC_LOGINKEYGUEST]: 'guest'
   }
-
+  const router = useRouter()
   const [name, setName] = useState('')
   const [entryCode, setEntryCode] = useState('')
   const [errorMsg, setErrorMsg] = useState('')
@@ -28,7 +25,6 @@ export default function RegisterPanel(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     // register user in db if the key matches any
     if ( participantKeys[entryCode] ) {
       // console.log(participantKeys[entryCode])
