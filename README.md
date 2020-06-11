@@ -1,5 +1,3 @@
-local development: `now dev`  
-deploy preview: `now`
-deploy production: `now --prod`
+# Remote Review
 
-(assumes [Zeit "now" CLI](https://zeit.co/download) is installed)
+Run the site locally with `npm run dev`. Then deploy to production by committing changes and pushing them to the `master` branch on GitHub: `git commit -am "commit message"`, then `git push`.
