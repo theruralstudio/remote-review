@@ -1,14 +1,14 @@
 import firebase from 'firebase';
 
 const firebaseConfig = {
-  apiKey: process.env.firebaseApiKey,
-  authDomain: process.env.firebaseAuthDomain,
-  databaseURL: process.env.firebaseDatabaseURL,
-  projectId: process.env.firebaseProjectId,
-  storageBucket: process.env.firebaseStorageBucket,
-  messagingSenderId: process.env.firebaseMessagingSenderId,
-  appId: process.env.firebaseAppId,
-  measurementId: process.env.firebaseMeasurementId,
+  apiKey: process.env.FIREBASEAPIKEY,
+  authDomain: process.env.FIREBASEAUTHDOMAIN,
+  databaseURL: process.env.FIREBASEDATABASEURL,
+  projectId: process.env.FIREBASEPROJECTID,
+  storageBucket: process.env.FIREBASESTORAGEBUCKET,
+  messagingSenderId: process.env.FIREBASEMESSAGINGSENDERID,
+  appId: process.env.FIREBASEAPPID,
+  measurementId: process.env.FIREBASEMEASUREMENTID,
 };
 
 class Firebase {
