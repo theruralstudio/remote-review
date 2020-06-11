@@ -1,7 +1,3 @@
----
-title: null
----
-
 local development: `now dev`  
 deploy: `now`
 
