@@ -1,81 +1,73 @@
+import React, { useState, useEffect, useContext, createContext } from 'react';
+
+// NEXT COMPONENTS
 import App from 'next/app'
-import Firebase, { FirebaseContext, withFirebase } from '../components/Firebase';
-import Layout from '../layouts/Layout';
+
+// STYLE (TAILWIND)
+import '../styles/main.css'
+
+// FIREBASE
+// import { FirebaseContext } from '../utils/firebase'
+// import 'firebase/database'
+// import { useListVals } from 'react-firebase-hooks/database'
+import UserContext from '../utils/usercontext'
+
+// COMPONENTS
+import ReviewFrame from '../components/ReviewFrame'
+
+// not clear what this does?
+const Noop = ({children}) => children
 
 class MyApp extends App {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-      numUsers: 8,
-      currentUser: {
-        name: '',
-        style: {},
-      }
+      user: { 
+        name: 'Anonymous', 
+        style: { 
+          color: '#000000', 
+          background: '#ffffff', 
+          border: `2px solid #000000`,
+        },
+        registered: false
+      },
+      view: 'stream',
+      open: true,
     }
+  }
 
-    this.handleUpdate = this.handleUpdate.bind(this);
-  };
+  setView = (v) => {
+    this.setState({view: v})
+  }
 
-  handleUpdate(o) {
-    this.setState(o);
-  };
+  setUser = (v) => {
+    this.setState({user: v})    
+  }
 
-  componentWillUnmount() {
-    this.props.firebase.messages().off();
-  };
+  toggleOpen = () => {
+    this.setState({open: !this.state.open})
+  }
+
+  componentDidMount() {
+    // reroute to registration page if not registered and path contains 'archive'
+    // console.log(this.props.router.pathname)
+    // if (!this.state.user.registered && this.props.router.pathname.includes('archive')) {
+    //   this.props.router.push('/register')
+    // }
+  }
 
   render() {
     const { Component, pageProps } = this.props
+    const Layout = Component.Layout || Noop
+    const reviewChildren = <ReviewFrame toggleOpen={this.toggleOpen} open={this.state.open} view={this.state.view} setView={this.setView} user={this.state.user} setUser={this.setUser} />
     return (
-      <FirebaseContext.Provider value={new Firebase()}>
-        <Layout numUsers={this.state.numUsers} currentUser={this.state.currentUser}>
-          <Component 
-            {...pageProps}
-            handleUpdate={this.handleUpdate}
-            currentUser={this.state.currentUser}
-          />
-        </Layout>
-        <style jsx global>{`
-        html, body {
-          font-family: 'Arial';
-          margin: 0px;
-          padding: 0px;
-        }
-
-        .markdown {
-          font-family: 'Arial';
-        }
-
-        .markdown a {
-          text-decoration: none;
-          color: blue;
-        }
-
-        .markdown a:hover {
-          opacity: 0.6;
-        }
-
-        .markdown h3 {
-          margin: 0;
-          padding: 0;
-          text-transform: uppercase;
-        }
-      `}</style>
-      </FirebaseContext.Provider>
+      <Layout toggleOpen={this.toggleOpen} open={this.state.open} view={this.state.view} reviewChildren={reviewChildren} user={this.state.user} setUser={this.setUser} >
+        <UserContext.Provider value={{ user: this.state.user, setUser: this.setUser }}>
+          <Component {...pageProps} toggleOpen={this.toggleOpen} open={this.state.open} />
+        </UserContext.Provider>
+      </Layout>
     )
   }
 }
 
-// Only uncomment this method if you have blocking data requirements for
-// every single page in your application. This disables the ability to
-// perform automatic static optimization, causing every page in your app to
-// be server-side rendered.
-//
-// MyApp.getInitialProps = async (appContext) => {
-//   // calls page's `getInitialProps` and fills `appProps.pageProps`
-//   const appProps = await App.getInitialProps(appContext);
-//
-//   return { ...appProps }
-// }
-
-export default withFirebase(MyApp)
+export default MyApp

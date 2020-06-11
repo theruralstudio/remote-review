@@ -1,141 +1,136 @@
-import React, {Component} from 'react';
-import  { FirebaseContext, withFirebase } from './Firebase';
-import tinycolor from 'tinycolor2';
+import React, { useContext, useState } from 'react'
+import { useRouter } from 'next/router'
+import { FirebaseContext } from '../utils/firebase'
+import UserContext from '../utils/usercontext'
+import 'firebase/database'
+import { useList } from 'react-firebase-hooks/database'
+import tinycolor from 'tinycolor2'
 
+export default function RegisterPanel(props) {
+  const router = useRouter()
 
-class RegisterPanel extends Component {
+  const participantKeys = {
+    [process.env.loginKeyModerator]: 'moderator',
+    [process.env.loginKeyParticipant]: 'participant',
+    [process.env.loginKeyGuest]: 'guest'
+  }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: '',
-      entrycode: '',
-    }
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  };
+  const [name, setName] = useState('')
+  const [entryCode, setEntryCode] = useState('')
+  const [errorMsg, setErrorMsg] = useState('')
 
-  handleChange(e) {
-    const target = event.target;
-    const name = target.name;
-    const value = target.value;
+  // firebase
+  const firebase = useContext(FirebaseContext)
+  const ref = firebase.database().ref('users')
 
-    this.setState({
-      [name]: value
-    });
-  };
+  // local user
+  const {user, setUser} = useContext(UserContext)
 
-  handleSubmit(e) {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    // register user in db if the key matches 
-    if (process.env.loginKeys.includes(this.state.entrycode)) {
+    // register user in db if the key matches any
+    if ( participantKeys[entryCode] ) {
+      // console.log(participantKeys[entryCode])
       
-      // randomly create
-      const bg = tinycolor.random();
-      const fg = bg.complement();
+      // randomly create color pair
+      const rand = Math.random() * 360;
+      const fg = tinycolor({h: rand, s: 1, l: 0.25});
+      const bg = tinycolor({h: rand, s: 1, l: 0.75});
 
       const style = {
         color: fg.toHexString(),
         background: bg.toHexString(),
-        border: `1px solid ${fg.toHexString()}`,
+        // border: `2px solid ${fg.toHexString()}`,
       };
 
-      this.props.firebase.users().push({
-        name: this.state.name,
+      // push to firebase
+      ref.push({
+        name: name,
         style: style
       });
 
-      console.log(e.target);
-
-      // pass state back up
-      this.props.handleUpdate({
-        currentUser: {
-          name: this.state.name,
-          style: style
-        }
+      // pass state back up thru context
+      setUser({
+        name: name,
+        style: style,
+        registered: true,
+        instructed: true
       });
 
+      // reroute to archive again
+      router.push('/archive')
     } else {
+      setErrorMsg('Sorry, couldn\'t sign you in, check your entry code.')
       // console.log("couldn't sign you in");
     };
 
+    // then clear input state/ add active user
+    setName('')
+    setEntryCode('')
 
-
-    // then clear state/ add active user
-    // this.setState({
-    //   name: '',
-    //   entrycode: '',
-    //   activeuser: {
-    //     name: this.state.name,
-    //     style: style
-    //   }
-    // })
+    // and toggle visibility again
+    // props.toggleRegister()
+    // props.setView('table')
   };
 
-  componentDidMount() {
-    this.setState({ loading: true });
-    this.props.firebase.users().on('value', snapshot => {
-      // console.log(snapshot);
-    });
-  };
+  // componentDidMount() {
+  //   this.setState({ loading: true });
+  //   this.props.firebase.users().on('value', snapshot => {
+  //     // console.log(snapshot);
+  //   });
+  // };
 
-  render() {
-    return (
-      <div>
-        <div id='register-form-container'>
-          <form onSubmit={this.handleSubmit} id='register-form'>
-            <label className='input'>
-              Your Name:
-              <input className='input'
+  return (
+    <div className="self-center flex-grow flex flex-col justify-center items-center w-full h-full relative">
+      <form onSubmit={handleSubmit} className="w-full flex flex-col items-center justify-center">
+
+        { errorMsg &&
+          <div className="w-full max-w-sm bg-red-300 text-red-800 p-8 mb-4">
+            {errorMsg}
+          </div>        
+        }
+
+
+
+        <div className="w-full max-w-sm bg-white p-8 border-2 border-black">
+          <div className="md:flex md:items-center mb-6">
+            <div className="md:w-1/3">
+              <label className='block text-black md:text-right mb-1 md:mb-0 pr-4' htmlFor="name-input">
+                Your Name:
+              </label>
+            </div>
+            <div className="md:w-2/3">
+              <input className='appearance-none border-b-2 border-black w-full leading-tight focus:outline-none focus:border-black'
+                id="name-input"
                 name="name" 
                 type="text" 
-                value={this.state.name} 
-                onChange={this.handleChange} 
+                value={name} 
+                onChange={(e) => setName(e.target.value)}
               />
-            </label>
-            <label className='input'>
-              Entry Code:
-              <input className='input'
+            </div>
+          </div>
+          <div className="md:flex md:items-center mb-6">
+            <div className='md:w-1/3'> 
+              <label className='block text-black md:text-right mb-1 md:mb-0 pr-4' htmlFor='code-input'>
+                Entry Code:
+              </label>
+            </div>
+            <div>
+              <input className='appearance-none border-b-2 border-black w-full leading-tight focus:outline-none focus:border-black'
+                id="code-input"
                 name="entrycode" 
                 type="text" 
-                value={this.state.entrycode} 
-                onChange={this.handleChange} 
+                value={entryCode} 
+                onChange={(e) => setEntryCode(e.target.value)} 
               />
-            </label>
-            <input className='submit-button' type="submit" value="Register" />
-          </form>
+            </div>
+          </div>
         </div>
-        <style jsx>{`
-          .input {
-            font-size: 2em;
-            text-align: center;
-            display: block;
-            margin: 0.5em;
-          }
-
-          #register-form-container {
-            display: flex;
-            flex-grow: 2;
-            justify-content: center;
-            align-items: center;
-          }
-
-          #register-form {
-            display: flex;
-            flex-direction: column;
-          }
-
-          .submit-button {
-            font-size: 2em;
-            text-decoration: none;
-            border: 2px solid black;
-          }
-
-      `}</style>
-      </div>
-    );
-  }
+        <button className="link bg-white focus:outline-none p-2 px-3 mt-4 rounded-full border-2 border-black cursor-pointer" type="submit" value="Register">
+          Register
+        </button>
+      </form>
+    </div>
+  )
 }
-
-export default withFirebase(RegisterPanel);

@@ -1,17 +1,23 @@
-import config from '../../config.json';
 import fetch from 'isomorphic-unfetch';
 import * as Minio from 'minio';
 
 // lists all projects in the source repository
 export default (req, res) => {
+  const endPoint = process.env.bucketEndpoint
+  const bucketName = 'studio-herreros-content-test'
+  const publicKey = process.env.bucketPublicKey
+  const secretKey = process.env.bucketSecretKey
+  const querytitle = req.query.title
+
   const minioClient = new Minio.Client({
-    endPoint: config.api.staticendpoint,
+    endPoint: endPoint,
+    bucketName: bucketName,
+    accessKey: publicKey,
+    secretKey: secretKey,
     useSSL: true,
-    accessKey: 'AS5NPCNW3QGDTIBH42QB',
-    secretKey: '5gSUdkRgCDyEkPrx8HTjvGI4Z4/3QOneOZtDRlEGnXU'
   });
     
-  const objectsStream = minioClient.listObjectsV2(config.api.staticbucketname, '', true, '');
+  const objectsStream = minioClient.listObjectsV2(bucketName, '', true, '');
   let media = [];
   let projects = new Set();
 

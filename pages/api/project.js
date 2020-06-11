@@ -1,21 +1,27 @@
-import config from '../../config.json';
+import fetch from 'isomorphic-unfetch';
 var Minio = require('minio');
 
 // lists all projects in the source repository
 export default (req, res) => {
-  const querytitle = req.query.title;
-  //console.log(querytitle);
+  const endPoint = process.env.bucketEndpoint
+  const bucketName = 'studio-herreros-content-test'
+  const publicKey = process.env.bucketPublicKey
+  const secretKey = process.env.bucketSecretKey
+  const querytitle = req.query.title
 
   const minioClient = new Minio.Client({
-    endPoint: config.api.staticendpoint,
+    endPoint: endPoint,
+    bucketName: bucketName,
+    accessKey: publicKey,
+    secretKey: secretKey,
     useSSL: true,
-    accessKey: 'AS5NPCNW3QGDTIBH42QB',
-    secretKey: '5gSUdkRgCDyEkPrx8HTjvGI4Z4/3QOneOZtDRlEGnXU'
   });
     
-  const objectsStream = minioClient.listObjectsV2(config.api.staticbucketname, 'projects/' + querytitle , true,'');
+  const objectsStream = minioClient.listObjectsV2(bucketName, 'projects/' + querytitle , true,'');
+  
   let project = {
     "title": querytitle,
+    "authors": [],
     "video": {},
     "images": [],
     "text": {}
@@ -26,13 +32,12 @@ export default (req, res) => {
   objectsStream.on('data', function(obj) {
     //console.log(obj);
     const { name } = obj; // get the name
-
     const nameRegex = /([\w]+)\/([\d\w\s]+)\_([\d\w\-]+)\/([\d]*)[\_]*([\w\d\s\-]+)\.([\w\d]+)/g;
     const matches = [...name.matchAll(nameRegex)];
     if (matches[0]) {
       // console.log(obj);
       const [orig, collection, title, authors, index, caption, extension, ...rest] = matches[0];
-      const url = `http://${config.api.staticendpoint}/${config.api.staticbucketname}/${encodeURI(obj.name)}`;
+      const url = `http://${endPoint}/${bucketName}/${encodeURI(obj.name)}`;
       const key = obj.etag;
       //const type = obj.metadata['content-type'][0];
       switch (extension) {
@@ -51,7 +56,34 @@ export default (req, res) => {
     }
   })
   objectsStream.on('end', () => {
-    res.status(200).json(project);
+    let projectText = ''
+    if (project.text.url) {
+      projectText = fetch(project.text.url).then((r) => r.text())
+    }
+    const students = fetch(`https://${endPoint}/${bucketName}/text/students.json`).then((r) => r.json())
+
+    Promise.all([projectText, students])
+    // if (project.text.url) {
+    //   fetch(project.text.url).then( (r) => {
+        .then(values => {
+          let authors = project.images[0].authors ? project.images[0].authors.split('-') : {}
+          let students = values[1]
+          console.log(students)
+          let authorObjs = students.filter(s => {
+            return authors.includes(s.uni)
+          })
+          console.log(authors)
+          console.log(authorObjs)
+          project.authors = authorObjs
+          project.text.body = values[0]
+        })
+        .then(v => {
+          res.status(200).json(project);
+        })
+      // })
+    // } else {
+    //   res.status(200).json(project);
+    // }
   })
   objectsStream.on('error', function(e) {
     // console.log(e)

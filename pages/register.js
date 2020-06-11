@@ -1,26 +1,15 @@
-import React, {Component} from 'react';
-import Layout from '../layouts/Layout';
-import RegisterPanel from '../components/RegisterPanel';
+import React, {Component, useState, useEffect} from 'react'
+import LandingLayout from '../layouts/LandingLayout'
+import RegisterPanel from '../components/RegisterPanel'
 
-class Register extends Component {
-  constructor(props) {
-    super(props);
-    // this.handleChange = this.handleChange.bind(this);
-    // this.handleSubmit = this.handleSubmit.bind(this);
-    // this.state = {
-    //   name: '',
-    //   entrycode: ''
-    // }
-  };
-
-  render() {
-    return (
-      <RegisterPanel 
-        handleUpdate={this.props.handleUpdate}
-        currentUser={this.props.currentUser}
-      />
-    );
-  }
+function Register(props) {
+  return (
+    <div className="flex-grow gap-8 m-48 flex flex-col items-start">
+      <RegisterPanel setUser={props.setUser}/>
+    </div>
+  )
 }
+
+Register.Layout = LandingLayout
 
 export default Register;
