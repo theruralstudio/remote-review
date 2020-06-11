@@ -3,10 +3,10 @@ import * as Minio from 'minio';
 
 // lists all projects in the source repository
 export default (req, res) => {
-  const endPoint = process.env.bucketEndpoint
-  const bucketName = 'studio-herreros-content-test'
-  const publicKey = process.env.bucketPublicKey
-  const secretKey = process.env.bucketSecretKey
+  const endpoint = process.env.BUCKETENDPOINT
+  const bucketName = process.env.BUCKETNAME
+  const publicKey = process.env.BUCKETPUBLICKEY
+  const secretKey = process.env.BUCKETSECRETKEY
   const querytitle = req.query.title
 
   const minioClient = new Minio.Client({
