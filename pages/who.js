@@ -31,11 +31,15 @@ function Who() {
             Juan Herreros, Professor of Professional Practice
           </Link>
         </p>
-        <br></br>
-        <p>Jesse Liam McCormick, TA</p>
-        <p>Esteban Salcedo (eH), Collaborator</p>
-        <p>Site by Carsten Rodin</p>
+        <a href="https://jesse-mccormick.com/">Jesse Liam McCormick, TA</a>
+        <a href="https://database.dpa-etsam.com/1163-2">Esteban Salcedo (eH), Collaborator</a>
+        <a href="https://portfolio.carstenrod.in/">Carsten Rodin, Site Design & Development</a>
         </div>
+        <style jsx>{`
+          a {
+            display: block;
+          }
+        `}</style>
       </div>
   )
 }
